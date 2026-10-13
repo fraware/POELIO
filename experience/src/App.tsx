@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { minimumRepairs, repeatedEdges, type Person, type Schedule } from '../../src/model.js';
 import { authoredForSchedule, demoEpisode, evidence, type Realization } from './episode.js';
+import { PermutationExperience } from './PermutationExperience.js';
 
 type Stage = 'read' | 'question' | 'explore' | 'compare' | 'invent' | 'reflect';
 type Language = 'fr' | 'en';
@@ -66,6 +67,7 @@ function ScheduleView({ schedule, faultEdge, language }: {
 
 export function App(): ReactNode {
   const [language,setLanguage] = useState<Language>('fr');
+  const [activeExperience,setActiveExperience] = useState<'register'|'permutation'>('register');
   const [stage,setStage] = useState<Stage>('read');
   const [initial,setInitial] = useState('');
   const [revised,setRevised] = useState('');
@@ -109,6 +111,9 @@ export function App(): ReactNode {
         'Interprétation révisée / Revised interpretation:',revised
       ].join('\n'));
   }
+  if (activeExperience==='permutation') {
+    return <PermutationExperience onReturn={()=>setActiveExperience('register')}/>;
+  }
   return <div className={projector?'app projector':'app'}>
     <a href="#stage-main" className="skip-link">{tr('Aller au texte','Skip to the text')}</a>
     <header className="topbar">
@@ -118,6 +123,12 @@ export function App(): ReactNode {
       </div>
       <div className="header-actions">
         <span className="edition-flag">{tr('Démonstration publique originale','Original public demonstration')}</span>
+        <button className="text-button" type="button" onClick={()=>setActiveExperience('permutation')}>
+          {tr('Deuxième expérience : permutations →','Second experience: permutations →')}
+        </button>
+        <a className="text-button" href="/facilitator.html" target="_blank" rel="noopener noreferrer">
+          {tr('Guide d’atelier','Workshop guide')}
+        </a>
         <button type="button" className="text-button" onClick={()=>setLanguage(v=>v==='fr'?'en':'fr')}
           aria-label={tr('Switch to English','Passer en français')}>{language==='fr'?'EN':'FR'}</button>
         <button type="button" className="text-button" onClick={()=>setProjector(v=>!v)}

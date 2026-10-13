@@ -47,3 +47,12 @@ textarea{resize:vertical;line-height:1.7}.factline{display:flex;flex-wrap:wrap;g
 @media(max-width:520px){.topbar{flex-direction:column;align-items:stretch;padding:14px 20px}.steps{gap:0;padding:10px 12px;justify-content:start}.step{font-size:.69rem;padding:7px}.step-number{display:none}.manuscript{padding:20px}.manuscript p:not(.module-note){font-size:1.02rem}.main-content{padding:30px 18px 42px}.day-card{padding:10px 4px;min-height:77px}.day-card strong{font-size:.99rem}.journey-footer{padding:16px 18px;gap:6px}.position{font-size:.67rem}.edition-flag{font-size:.65rem}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 @media print{.topbar,.progress-shell,.journey-footer,.disclaimer,.header-actions,.outline-button,.primary-button{display:none!important}.main-content{padding:0}.manuscript{box-shadow:none}.app{background:white}}
+
+
+/* Second compositional mechanism: preserve authored fragments and identify position. */
+.fragment-index{font-family:ui-sans-serif,system-ui,sans-serif!important;letter-spacing:.075em;text-transform:uppercase;font-size:.73rem!important;font-weight:700;color:#617352!important;margin:15px 0 3px!important}
+.fragment-passage{margin:20px 0}
+.manuscript section.changed-passage{margin:18px -13px!important}
+.manuscript section.changed-passage p{margin-left:0;margin-right:0}
+.inline-checkbox{width:auto;max-width:none;margin:0 10px 0 0;accent-color:#374936;vertical-align:middle}
+.header-actions a.text-button{color:#3b4236;text-decoration:underline;text-decoration-color:#a4ae99;text-underline-offset:3px}

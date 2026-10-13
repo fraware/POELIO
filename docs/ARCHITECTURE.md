@@ -1,12 +1,14 @@
 # Architecture and publication boundaries
 
-## Scope of the initial public commit
+## Scope of the public architecture
 
-The repository contains a stand-alone, text-free mathematical explorer, exhaustive finite-model tests, and a static-site build. The accompanying *La Relève* literary edition is unpublished and is not distributed here. This open explorer is **not** the complete six-stage private literary experience.
+The root includes a text-free mathematical explorer and its deterministic tests. The React/Vite application in `experience/` implements two original six-stage literary demonstrations and a static facilitator guide. The unpublished *La Relève* edition is not distributed here and is not consumed by the public frontend. There are no accounts, prose-generating models or participant-data services.
 
 ## Model
 
 Eight positions and two abstract assignments define 256 binary schedules. Recurrence fixes the final assignment equal to the first. Strict alternation across seven transitions contradicts recurrence. Exactly one repeated transition minimizes violated alternations; independent enumeration returns fourteen assignments.
+
+The independent permutation engine in `experience/src/permutation.ts` enumerates all 24 permutations of four fixed literary fragments and its rule-restricted subset of 12. It reorders existing prose without modifying it. This differs from the scheduling model, which maps each of two demo schedules to an authored alternative text.
 
 The TypeScript module `src/model.ts` is deterministic. Its regression tests establish properties of this finite implementation; no Lean proof is rerun by CI. No result purports to prove semantic or aesthetic properties of literature.
 
@@ -26,6 +28,6 @@ The standalone Python importer in tools/private_content.py validates a strict ma
 
 ## Design intent
 
-A future episode will combine authored prose, interpretive questions, constraint exploration, passage comparison, original composition, and reflection. It must preserve provenance and distinguish executable findings from interpretation. The complete literary edition cannot be public until rights and study-integrity decisions are resolved.
+Each prototype episode combines authored prose, interpretive questions, constraint exploration, comparison, original composition, and reflection. A future fully editorialized episode will deepen these experiences. It must preserve provenance and distinguish executable findings from interpretation. The complete literary edition cannot be public until rights and study-integrity decisions are resolved.
 
 No official affiliation with Oulipo is claimed. No software license has yet been selected.

@@ -1,8 +1,10 @@
 # POELIO — Literature-first experience (public demonstration)
 
-This is a **publication-safe** six-stage React/TypeScript/Vite episode.
+This is a **publication-safe** React/TypeScript/Vite prototype containing two distinct, six-stage literary episodes.
 
-Its text, *Le Registre des clefs*, is an original, small teaching fixture. It is **not** an edition, excerpt, adaptation, or public release of the unpublished *La Relève*. Two curated passages are associated with specific canonical schedule configurations. The other twelve configurations have mathematical solutions but **no authored prose**; the interface says so.
+Its first text, *Le Registre des clefs*, is an original, small teaching fixture. It is **not** an edition, excerpt, adaptation, or public release of the unpublished *La Relève*. Two curated passages are associated with specific canonical schedule configurations. The other twelve configurations have mathematical solutions but **no authored prose**; the interface says so.
+
+The second text, *Les Quatre Témoins*, consists of **four unchanging, attributed original fragments**. The separate permutation engine enumerates all 24 possible orders, including 12 meeting a deliberately declared ordering rule. No passage is silently generated. This is a different literary mechanism, not a new realization of the original weekly-schedule model.
 
 ## Run
 
@@ -19,7 +21,7 @@ npm run preview
 
 Open the local URL printed by Vite. For browser regression tests, run \`npx playwright install chromium\` once and then \`npm run test:e2e\` after building.
 
-The six stages are Read, Question, Explore, Compare, Invent, and Reflect. The reader sees French prose with optional English interface translation. Drafts stay in React memory and are downloadable by explicit action. Refreshing or resetting clears them. No accounts, server state, API calls, AI inference, telemetry, or automated literary-quality scores are implemented.
+The six stages in each episode are Read, Question, Explore, Compare, Invent, and Reflect. Switch to the second episode with the dedicated button in the first episode header. The experience includes an independent, print-ready 60-minute facilitator guide at `/facilitator.html` and a pilot protocol in `../docs/WORKSHOP_PILOT.md`. The reader sees French prose with optional English interface translation. Drafts stay in React memory and are downloadable by explicit action. Refreshing or resetting clears them. No accounts, server state, API calls, AI inference, telemetry, or automated literary-quality scores are implemented.
 
 ## Evidence boundaries
 
@@ -27,6 +29,6 @@ The finite model is imported from the existing repository source. CI independent
 
 ## Release boundary
 
-The React build uses an original, in-repository public fixture only. Never replace that fixture with private literary materials or use a public web host to serve a private edition. Rights-controlled and SHA-checked content import, full accessibility audit, facilitator kit, and empirically tested learning outcomes are **not complete**.
+The React build uses an original, in-repository public fixture only. Never replace that fixture with private literary materials or use a public web host to serve a private edition. A separate private-only SHA-256 source importer exists in the repository, but the public React app never loads private catalogs. An independently reviewed editorial edition, complete accessibility audit, empirical workshop evaluation, and proven literary-learning outcomes are **not complete**.
 
 The initial standalone mathematical explorer at the repository root is retained for backwards compatibility; this experience is the next milestone toward the product specification.
