@@ -43,6 +43,12 @@ Private literary manuscripts are excluded from the public branch, test fixtures,
 
 The initial public build intentionally copies only \`index.html\`, \`style.css\`, \`explorer.js\` and \`model.js\`. An unlisted file cannot be deployed by the build script.
 
+## Editorial validation milestone
+
+The next validation path retains the existing two original public demonstration works and six-stage literary journey. Source-derived, unprimed reading packets (`/?review=register` and `/?review=permutation`) and substantial noninteractive companions (`/?companion=register` and `/?companion=permutation`) now exist as independent review instruments. They do not introduce a new literary mechanism or reinterpret the existing Lean proof record.
+
+The first-read materials prioritize actual prose before formal explanation, retain local control of notes, and disclose specific questions only on a subsequent editorial pass. The static companions make a legitimate alternative delivery possible without claiming that exposure time or educational outcomes are matched. Independent editorial reviews, physical workshops, and human-subject research approval have **not occurred**. Refer to `docs/EDITORIAL_REVIEW_PROTOCOL.md` and `docs/STATIC_COMPARISON_PROTOCOL.md` before using these materials.
+
 ## Quality gates for a future complete episode
 
 - Reviewed opening passage and coherent guided narrative.
