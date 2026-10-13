@@ -18,8 +18,9 @@ let mode: Mode = 'strict';
 let fault = 0;
 let person: Person = 'A';
 
-const root = document.querySelector<HTMLElement>('#app');
-if (!root) throw new Error('Missing application root');
+const app = document.querySelector<HTMLElement>('#app');
+if (!app) throw new Error('Missing application root');
+const root: HTMLElement = app;
 
 function choice(): Schedule {
   const item = repairs.find(r => r.faultEdge === fault && r.repeatedCaregiver === person);
