@@ -21,9 +21,11 @@ test('register stages: reading, formal exploration, comparison and invention', a
   await audit(page,'Register initial reading');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for (const [stage, label] of [
+    ['Questionner','Register first interpretation'],
     ['Explorer','Register finite-model exploration'],
     ['Comparer','Register authored comparison'],
-    ['Inventer','Register creative response']
+    ['Inventer','Register creative response'],
+    ['Revenir','Register reflection']
   ] as const) {
     await nav.getByRole('button',{name:new RegExp(stage)}).click();
     await audit(page,label);
@@ -35,11 +37,15 @@ test('permutation reading, alternate rule, comparison and reflection', async ({p
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   await audit(page,'Permutation initial reading');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
+  await nav.getByRole('button',{name:/Questionner/}).click();
+  await audit(page,'Permutation first interpretation');
   await nav.getByRole('button',{name:/Explorer/}).click();
   await page.locator('#order-filter').check();
   await audit(page,'Filtered permutation exploration');
   await nav.getByRole('button',{name:/Comparer/}).click();
   await audit(page,'Permutation comparison');
+  await nav.getByRole('button',{name:/Inventer/}).click();
+  await audit(page,'Permutation creative response');
   await nav.getByRole('button',{name:/Revenir/}).click();
   await audit(page,'Permutation reflection');
 });
