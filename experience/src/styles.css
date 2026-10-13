@@ -110,6 +110,7 @@ a:hover { text-decoration-thickness: 2px; }
   border-color: #557568;
 }
 .text-button[aria-pressed="true"] { background: #315347; border-color: #b4c5b3; }
+.mobile-label { display: none; }
 .danger-action { color: #ffe7d8; }
 .danger-action:hover { background: #65453e; border-color: #b98d7a; }
 .topbar :where(a,button):focus-visible { outline-color: #f2c88f; }
@@ -391,10 +392,12 @@ textarea:focus, input:focus, select:focus { background: #fff; }
   .brand-desc { font-size: .69rem; }
   .header-actions { width: 100%; gap: .25rem; align-items: stretch; }
   .header-experiences { display: grid; grid-template-columns: minmax(0,2fr) minmax(0,1fr); gap: .35rem; }
-  .header-tools { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .2rem; }
+  .header-tools { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .2rem; }
   .edition-flag { display: none; }
   .text-button { min-width: 0; padding: .32rem .25rem; font-size: .72rem; line-height: 1.25; text-align: center; overflow-wrap: break-word; }
-  .header-experiences .text-button { min-height: 52px; }
+  .header-experiences .text-button { min-height: 48px; }
+  .desktop-label { display: none; }
+  .mobile-label { display: inline; }
   .steps {
     display: flex;
     gap: .15rem;
