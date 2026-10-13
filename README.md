@@ -51,6 +51,17 @@ A schedule is a binary sequence `x[0..7]`. We require `x[0] = x[7]`; strict alte
 
 The code independently enumerates this finite space. **The executable tests are not a new Lean proof.** Archived formal evidence for the original research artifact, where applicable, is separate from this software's regression tests. Nothing here purports to verify literary meaning or quality.
 
+## Reviewer-ready literary validation
+
+The public prototype contains two **unprimed first-reading packets** and two complete static interpretive companions. They derive the text directly from the approved public source fixtures, with no alternate manuscript copy, server-side note collection, or unpublished La Relève material.
+
+After starting the React/Vite application, use the following URLs on its local host:
+
+- `/?review=register` and `/?review=permutation` — first reading, personal notes and later editorial critique
+- `/?companion=register` and `/?companion=permutation` — source-matched, fully written, noninteractive explanatory editions
+
+See [independent editorial review protocol](docs/EDITORIAL_REVIEW_PROTOCOL.md) and [static comparison and evaluation protocol](docs/STATIC_COMPARISON_PROTOCOL.md). These are **ready-to-use evaluation instruments**, not human review results. Do not distribute the companions to a first-reading reviewer before their unprimed response.
+
 ## Literary quality and accessibility
 
 The latest quality pass introduces automated axe-core accessibility checks and strict identity validation for shared authored source modules. The artistic meaning and quality of both public teaching episodes remain subject to independent editorial review. See [editorial quality gate](docs/EDITORIAL_QUALITY_GATE.md), [accessibility acceptance protocol](docs/ACCESSIBILITY_ACCEPTANCE.md), and the [workshop pilot](docs/WORKSHOP_PILOT.md).
