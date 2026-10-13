@@ -168,6 +168,10 @@ class CandidatePreflightTests(unittest.TestCase):
         self.assertNotIn("Œuvre synthétique",out.stdout)
         self.assertNotIn("Fragment synthétique",out.stdout)
 
+    def test_library_call_also_rejects_in_checkout_candidate_sources(self):
+        with self.assertRaisesRegex(ContentError,"inside the public repository"):
+            preflight_candidate(self.manifest,ROOT/"experience")
+
     def test_duplicate_json_keys_rejected_by_cli(self):
         manifest=self.folder/"dup.json"
         original=json.dumps(self.manifest,ensure_ascii=False)
