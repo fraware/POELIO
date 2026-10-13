@@ -17,7 +17,7 @@ test('writing is scoped to its literary work, to its tab, and not to another wor
   await expect(page.locator('#initial-answer')).toHaveValue('Texte initial du premier récit.');
 
   const independent=await context.newPage();
-  await independent.goto('/');
+  await independent.goto('/?work=register');
   await independent.getByRole('navigation',{name:'Étapes de l’expérience'})
     .getByRole('button',{name:/Questionner/}).click();
   await expect(independent.locator('#initial-answer')).toHaveValue('');
