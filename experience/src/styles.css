@@ -31,7 +31,7 @@ textarea{resize:vertical;line-height:1.7}.factline{display:flex;flex-wrap:wrap;g
 .comparison .manuscript{padding:27px 28px}.comparison .manuscript p:not(.module-note){font-size:1.01rem}
 .changed-passage{background:#edf1e5;padding:10px 13px;margin-inline:-13px!important}
 .module-note{border-top:1px solid #eee;padding-top:12px;color:#596352;font-size:.78rem}
-.editor-footer{max-width:760px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#747971;font-size:.8rem;margin-top:10px}
+.editor-footer{max-width:760px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#596151;font-size:.8rem;margin-top:10px}
 .reflection{display:grid;grid-template-columns:1fr 1fr;gap:24px}.reflection section{background:#fffdf9;border:1px solid #e1e0d7;padding:20px 25px}
 .reflection blockquote{margin:0;font:1.05rem/1.8 Georgia,serif;white-space:pre-wrap}.reflection .field-label{margin:0 0 10px}
 .history{border-top:1px solid #dcded5;margin:38px 0;padding-top:15px;max-width:800px}
@@ -50,7 +50,7 @@ textarea{resize:vertical;line-height:1.7}.factline{display:flex;flex-wrap:wrap;g
 
 
 /* Second compositional mechanism: preserve authored fragments and identify position. */
-.fragment-index{font-family:ui-sans-serif,system-ui,sans-serif!important;letter-spacing:.075em;text-transform:uppercase;font-size:.73rem!important;font-weight:700;color:#617352!important;margin:15px 0 3px!important}
+.fragment-index{font-family:ui-sans-serif,system-ui,sans-serif!important;letter-spacing:.075em;text-transform:uppercase;font-size:.73rem!important;font-weight:700;color:#475641!important;margin:15px 0 3px!important}
 .fragment-passage{margin:20px 0}
 .manuscript section.changed-passage{margin:18px -13px!important}
 .manuscript section.changed-passage p{margin-left:0;margin-right:0}
