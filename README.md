@@ -1,13 +1,5 @@
 # POELIO
 
-```text
-        P  O  E  L  I  O
-        ------------------------
-        01  READ       02  QUESTION
-        03  EXPLORE    04  COMPARE
-        05  INVENT     06  REFLECT
-```
-
 **A literary atelier for exploring the possibilities of writing.**
 
 POELIO brings together literature, creative constraints, and interactive reading. Each work begins as a text to encounter on its own terms. Readers then investigate a compositional rule, compare its effects, and write something of their own.
