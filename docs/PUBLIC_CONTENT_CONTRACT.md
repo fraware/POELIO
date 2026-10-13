@@ -57,3 +57,9 @@ The public build still enforces its exact static-asset allowlist and a hash-pinn
 7. Verify the static build and offline cache with real browser testing; perform manual accessibility evaluation before broader release.
 
 This is the platform's content architecture, not a pretext for accumulating more toy formal mechanisms.
+
+## Prior-publication and candidate staging distinction
+
+A private candidate that passes tools/preflight_candidate.py is never automatically eligible for the public contentCatalog.ts allowlist. The preflight always reports publicationAuthorized=false and publicCatalogEligible=false. It validates source bytes and a supported finite state family without exporting prose or a web-readable manifest. Any eventual public work addition still needs actual human rights and editorial decisions.
+
+Exact deployed output is additionally assessed with experience/scripts/audit_release.mjs in both root and repository-subpath forms. Its manifests contain only reviewed public-source and build hashes; they are outside the public web root. Technical-success status is categorically distinct from a publication authorization. See docs/RELEASE_AND_CANDIDATE_PREFLIGHT.md.
