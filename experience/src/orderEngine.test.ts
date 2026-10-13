@@ -34,7 +34,7 @@ describe('pure item-ordering transitions',()=>{
     expect(()=>createOrderState(IDS,['blue','red','yellow'] as never)).toThrow(/Initial order/);
     for(const limit of [-1,1.1,Infinity,257,NaN])
       expect(()=>createOrderState(IDS,IDS,limit)).toThrow(/history limit/);
-    expect(()=>createOrderState(IDS,IDS,0).historyLimit).toBe(0);
+    expect(createOrderState(IDS,IDS,0).historyLimit).toBe(0);
   });
 
   it('is immutable, detached from callers and free of content/persistence',()=>{
