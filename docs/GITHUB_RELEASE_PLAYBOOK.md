@@ -47,12 +47,12 @@ See [LICENSE](../LICENSE) and [LICENSE-CONTENT.md](../LICENSE-CONTENT.md). The G
 
 ## Prerelease decision
 
-**Proposed source tag:** \`v0.2.0-rc.1\`  
-**Display title:** \`POELIO v0.2.0-rc.1 · Literary research preview\`  
+**Current candidate source tag:** \`v0.2.0-rc.2\`  
+**Display title:** \`POELIO v0.2.0-rc.2 · Literary research preview\`  
 **GitHub classification:** **Pre-release**, not "latest stable" and not "production-ready".  
-**Release notes:** [RELEASE_NOTES_v0.2.0-rc.1.md](RELEASE_NOTES_v0.2.0-rc.1.md)
+**Release notes:** [RELEASE_NOTES_v0.2.0-rc.2.md](RELEASE_NOTES_v0.2.0-rc.2.md)
 
-The root and \`experience/\` package manifests intentionally use the same \`0.2.0-rc.1\` prerelease version and remain **private npm packages**. No npm publication is authorized.
+The root and \`experience/\` package manifests intentionally use the same \`0.2.0-rc.2\` prerelease version and remain **private npm packages**. No npm publication is authorized.
 
 Before creating a GitHub Release, verify the intended \`main\` SHA, the relevant successful root/subpath CI runs, the published license boundaries, and any issues with disclosure or prior publication. Release the **normal GitHub source archive only**; never attach a private edition, manuscript ZIP, generated \`catalog.json\`, or research record.
 
@@ -77,4 +77,4 @@ Independent editorial assessment of the prose, manual screen-reader/accessibilit
 
 ## Release automation
 
-The narrowly scoped `.github/workflows/research-preview-release.yml` watches successful push-to-main completion of `Public source CI`. It creates the single `v0.2.0-rc.1` **prerelease** only if the completed commit still equals the current `main` head and the code/license/source-boundary checks pass. It never attaches private manuscripts or compiled private editions, and refuses to rewrite an existing release. This job has `contents:write` solely for Git tag/release creation; the main CI stays read-only. Verify the actual GitHub Release after the workflow runs. Failed creation must be reported rather than assumed successful.
+The narrowly scoped `.github/workflows/research-preview-release.yml` watches successful push-to-main completion of `Public source CI`. It creates the single `v0.2.0-rc.2` **prerelease** only if the completed commit still equals the current `main` head and the code/license/source-boundary checks pass. It never attaches private manuscripts or compiled private editions, and refuses to rewrite an existing release. This job has `contents:write` solely for Git tag/release creation; the main CI stays read-only. Verify the actual GitHub Release after the workflow runs. Failed creation must be reported rather than assumed successful.

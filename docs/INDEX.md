@@ -9,6 +9,7 @@ The best starting point is the [main README](../README.md), followed by the **li
 | Document | Question |
 |---|---|
 | [Product contract](PRODUCT_SPEC.md) | What literary encounter is POELIO trying to create? |
+| [Editorial art direction](ART_DIRECTION.md) | How the literary interface is composed and tested |
 | [Editorial quality gate](EDITORIAL_QUALITY_GATE.md) | What justifies calling a text artistically successful? |
 | [Independent reading protocol](EDITORIAL_REVIEW_PROTOCOL.md) | How do we collect a reader's unprimed reaction? |
 | [Static-comparison protocol](STATIC_COMPARISON_PROTOCOL.md) | How does an interactive literary experience compare to a complete static explanation? |
@@ -30,7 +31,7 @@ The best starting point is the [main README](../README.md), followed by the **li
 |---|---|
 | [Accessibility acceptance](ACCESSIBILITY_ACCEPTANCE.md) | What automation checks, and what people still need to test |
 | [Security and privacy](SECURITY_PRIVACY_ACCEPTANCE.md) | What stays local, and residual threats |
-| [Release notes](RELEASE_NOTES_v0.2.0-rc.1.md) | A *proposed* research-preview release, not a production declaration |
+| [Release notes](RELEASE_NOTES_v0.2.0-rc.2.md) | Current research-preview candidate and explicit limitations |
 | [Repository settings and release checklist](GITHUB_RELEASE_PLAYBOOK.md) | GitHub description, topics, release governance and explicit pending settings |
 | [Changelog](../CHANGELOG.md) | Engineering milestones and their limits |
 | [Permissions for literature](../LICENSE-CONTENT.md) | The boundary between MIT software and separately reserved prose |

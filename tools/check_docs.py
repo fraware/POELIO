@@ -21,7 +21,7 @@ REQUIRED = (
     "README.md", "LICENSE", "LICENSE-CONTENT.md", "CITATION.cff",
     "CHANGELOG.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md",
     "docs/INDEX.md", "docs/GITHUB_RELEASE_PLAYBOOK.md",
-    "docs/RELEASE_NOTES_v0.2.0-rc.1.md", "docs/assets/poelio-masthead.svg"
+    "docs/RELEASE_NOTES_v0.2.0-rc.1.md", "docs/RELEASE_NOTES_v0.2.0-rc.2.md", "docs/assets/poelio-masthead.svg"
 )
 
 def local_target(document: Path, reference: str, root: Path = ROOT) -> Path | None:
@@ -63,7 +63,7 @@ def check_repository() -> list[str]:
             for field in ("version", "name"):
                 if pkg[field] != lock[field] or pkg[field] != lock["packages"][""][field]:
                     problems.append(f"{sub.name}: package and lockfile disagree on {field}")
-            if pkg.get("version") != "0.2.0-rc.1" or pkg.get("license") != "MIT":
+            if pkg.get("version") != "0.2.0-rc.2" or pkg.get("license") != "MIT":
                 problems.append(f"{sub.name}: prerelease version or software license metadata inconsistent")
             if pkg.get("private") is not True:
                 problems.append(f"{sub.name}: npm publication must remain disabled")

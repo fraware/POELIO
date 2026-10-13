@@ -44,7 +44,7 @@ export function JourneyFooter({language,index,title,onMove}:{
     <button type="button" className="outline-button" onClick={()=>onMove(-1)} disabled={index===0}>
       {language==='fr'?'← Retour':'← Back'}
     </button>
-    <span className="position">{String(index+1).padStart(2,'0')} / 06 · {title}</span>
+    <span className="position"><span className="position-count">{String(index+1).padStart(2,'0')} / 06</span><span className="position-title"> · {title}</span></span>
     <button type="button" className="primary-button" onClick={()=>onMove(1)} disabled={index===STAGES.length-1}>
       {language==='fr'?'Continuer →':'Continue →'}
     </button>

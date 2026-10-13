@@ -12,7 +12,7 @@
   &nbsp; <a href="LICENSE"><strong>MIT software</strong></a>
   &nbsp; · &nbsp; <a href="LICENSE-CONTENT.md">Literary rights</a>
   &nbsp; · &nbsp; <a href="docs/PRODUCT_SPEC.md">Product contract</a>
-  &nbsp; · &nbsp; <a href="docs/RELEASE_NOTES_v0.2.0-rc.1.md">Research-preview notes</a>
+  &nbsp; · &nbsp; <a href="docs/RELEASE_NOTES_v0.2.0-rc.2.md">Research-preview notes</a>
 </p>
 
 ---
@@ -135,6 +135,7 @@ The public build enforces an allowlist of five static files, source-identity che
 | Start here | Purpose |
 |---|---|
 | [Literary product contract](docs/PRODUCT_SPEC.md) | The North Star and non-negotiable six-stage encounter |
+| [Editorial visual system](docs/ART_DIRECTION.md) | Typographic direction, responsive design and acceptance boundaries |
 | [Architecture](docs/ARCHITECTURE.md) | Public/private boundaries and finite-model responsibilities |
 | [Content and provenance](docs/PUBLIC_CONTENT_CONTRACT.md) | Why only authored, approved source enters the reader |
 | [Editorial quality](docs/EDITORIAL_QUALITY_GATE.md) | What counts as literary critique, not mechanical validation |
@@ -163,7 +164,7 @@ To contribute, read [CONTRIBUTING.md](CONTRIBUTING.md); for a private vulnerabil
 
 ## Present status
 
-**Research preview · proposed v0.2.0-rc.1 release notes.** The local public teaching demo and automated verification pipeline are operational. The repository does **not** claim that a GitHub Release has been published unless one appears on the [Releases page](https://github.com/fraware/POELIO/releases).
+**Research preview · [versioned research releases](https://github.com/fraware/POELIO/releases).** The local public teaching demo and automated verification pipeline are operational. The prerelease is a source snapshot, not a publicly hosted POELIO website or a finished literary edition. Consult the [Releases page](https://github.com/fraware/POELIO/releases) for the verified version and date.
 
 Still outstanding: independent literary editorial evaluation, manual screen-reader/WCAG acceptance, original-work publication decisions, actual hosted HTTP-header verification, and properly designed empirical workshop evaluation. A green CI run does not confer these outcomes.
 
