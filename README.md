@@ -51,6 +51,12 @@ A schedule is a binary sequence `x[0..7]`. We require `x[0] = x[7]`; strict alte
 
 The code independently enumerates this finite space. **The executable tests are not a new Lean proof.** Archived formal evidence for the original research artifact, where applicable, is separate from this software's regression tests. Nothing here purports to verify literary meaning or quality.
 
+## Literary quality and accessibility
+
+The latest quality pass introduces automated axe-core accessibility checks and strict identity validation for shared authored source modules. The artistic meaning and quality of both public teaching episodes remain subject to independent editorial review. See [editorial quality gate](docs/EDITORIAL_QUALITY_GATE.md), [accessibility acceptance protocol](docs/ACCESSIBILITY_ACCEPTANCE.md), and the [workshop pilot](docs/WORKSHOP_PILOT.md).
+
+Passing CI does **not** establish WCAG 2.2 AA conformance, literary value, or causal learning benefits. Manual screen-reader evaluation, editorial judgment, and appropriately designed reader studies remain outstanding.
+
 ## Private literary content integrity
 
 The tested, private-only manuscript gate is documented in [docs/CONTENT_INTEGRITY.md](docs/CONTENT_INTEGRITY.md). It verifies source bytes, permissions assertions, supported schedules and module provenance, and never stages private catalogs inside the public checkout. A separate adapter validates the originally supplied La Relève master archive **locally** without bundling manuscripts into this repository. It does not grant publication rights or make the private edition available through the public website.
