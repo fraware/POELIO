@@ -104,7 +104,8 @@ export function App(): ReactNode {
       ].join('\n'));
   }
   if (activeExperience==='permutation') {
-    return <PermutationExperience onReturn={()=>setActiveExperience('register')}/>;
+    return <PermutationExperience onReturn={()=>setActiveExperience('register')}
+      language={language} onToggleLanguage={()=>setLanguage(v=>v==='fr'?'en':'fr')}/>;
   }
   return <div className={projector?'app projector':'app'}>
     <a href="#stage-main" className="skip-link">{tr('Aller au texte','Skip to the text')}</a>
