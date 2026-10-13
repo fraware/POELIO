@@ -37,3 +37,7 @@ No official affiliation with Oulipo is claimed. No software license has yet been
 `experience/src/contentCatalog.ts` is the only approved entry point for the reading components and independent reviewer packets. It validates each public work against explicitly pinned literary source identity, scoped publication metadata, the corresponding model validator and actual authored realizations or immutable fragments. The original sources live in `episode.ts` and `permutation.ts`; the registry does not copy the manuscript. The private Python content importer stays a separate command-line system and supplies no public browser material.
 
 Root and literary-app npm lockfiles are committed separately; both CI jobs install with `npm ci`. This improves build reproducibility, subject to the configured Node/runtime and dependency registry availability. The static release continues to fail closed when unexpected files appear.
+
+## Static deployment portability
+
+The existing strict public asset builder supports a second verified Vite base (`/POELIO/`) for repository-scoped static hosting. The browser interface constructs workshop-guide links from the configured base, and the service worker uses its registration scope to find approved cache entries. The independent root and subpath browser suites exercise reading, comparison, reviewer packets, guide navigation, and offline fallbacks. No deployment action or public GitHub Pages service is configured by the CI workflow.
