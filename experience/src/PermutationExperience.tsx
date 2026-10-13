@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from './JourneyControls.js';
-import { useSessionDraft } from './useSessionDraft.js';
+import { useSessionDraft, clearAllPublicDrafts } from './useSessionDraft.js';
 import {isFragmentOrder,orderKey,type FragmentOrder} from './permutation.js';
 import {publicWorks} from './contentCatalog.js';
 const {orders:ALL,originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
@@ -61,6 +61,14 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
       setSelected(orderKey(next));
     }
   }
+  function clearForNextReader():void {
+    if(!window.confirm(tr(
+      'Effacer les textes et les réponses des deux œuvres de cet onglet ? Exportez d’abord ce que vous souhaitez conserver.',
+      'Erase drafts and interpretations for BOTH works in this tab? Export any writing you want to keep first.'
+    )))return;
+    clearAllPublicDrafts();
+    window.location.reload();
+  }
   function reset():void {
     if(!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?')))return;
     setInitial('');setRevised('');setRule('');setWriting('');
@@ -92,6 +100,7 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
         <button type="button" className="text-button" aria-pressed={projector}
           onClick={()=>setProjector(v=>!v)}>{projector?tr('Normal','Normal'):tr('Projection','Projector')}</button>
         <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
+        <button type="button" className="text-button" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
       </div>
     </header>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
