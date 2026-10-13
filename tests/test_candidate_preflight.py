@@ -132,6 +132,19 @@ class CandidatePreflightTests(unittest.TestCase):
             with self.assertRaisesRegex(ContentError,"permutation"):
                 self.run_gate(bad)
 
+    def test_four_fragment_model_rejects_a_changing_source_inventory(self):
+        extra=deepcopy(self.manifest)
+        payload=b"Another synthetic text only.\n"
+        (self.source_dir/"synthetic_4.txt").write_bytes(payload)
+        extra["sources"].append({
+            "id":"s4","sourceModule":"synthetic-module-4",
+            "file":"synthetic_4.txt","sha256":hashlib.sha256(payload).hexdigest()
+        })
+        extra["arrangements"][1]["state"]=["s0","s1","s2","s4"]
+        extra["arrangements"][1]["sourceIds"]=["s0","s1","s2","s4"]
+        with self.assertRaisesRegex(ContentError,"exactly four fixed sources"):
+            self.run_gate(extra)
+
     def test_module_collisions_duplicate_states_and_extra_manifest_fields_rejected(self):
         for change,error in [
             (lambda m:m["sources"][1].update(sourceModule="synthetic-module-0"),"module identity"),
