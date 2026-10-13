@@ -1,0 +1,32 @@
+name: Temporary security lockfile regeneration
+on:
+  push:
+    branches:
+      - security/full-tree-audit-and-host-contract
+    paths:
+      - .github/workflows/temporary-security-lock.yml
+permissions:
+  contents: write
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22'
+      - name: Regenerate ONLY reviewed application lockfile
+        run: npm install --prefix experience --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Verify npm v3 lockfile format
+        run: node -e "const x=require('./experience/package-lock.json');if(x.lockfileVersion!==3)process.exit(1)"
+      - name: Commit to isolated branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- experience/package-lock.json
+          git diff --cached --quiet && exit 0
+          git commit -m "security: resolve patched full development dependency lockfile"
+          git push origin HEAD:security/full-tree-audit-and-host-contract
