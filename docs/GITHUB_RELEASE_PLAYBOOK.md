@@ -74,3 +74,7 @@ A Release or tag cannot turn a research preview into an editorially approved pub
 ## What is not ready for a final release
 
 Independent editorial assessment of the prose, manual screen-reader/accessibility evaluation, a real-host HTTPS security audit, publication and research-venue decisions for unpublished work, and empirical workshop evidence. The GitHub prerelease is a **software research-preview artifact only**.
+
+## Release automation
+
+The narrowly scoped `.github/workflows/research-preview-release.yml` watches successful push-to-main completion of `Public source CI`. It creates the single `v0.2.0-rc.1` **prerelease** only if the completed commit still equals the current `main` head and the code/license/source-boundary checks pass. It never attaches private manuscripts or compiled private editions, and refuses to rewrite an existing release. This job has `contents:write` solely for Git tag/release creation; the main CI stays read-only. Verify the actual GitHub Release after the workflow runs. Failed creation must be reported rather than assumed successful.
