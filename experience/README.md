@@ -32,3 +32,12 @@ The finite model is imported from the existing repository source. CI independent
 The React build uses an original, in-repository public fixture only. Never replace that fixture with private literary materials or use a public web host to serve a private edition. A separate private-only SHA-256 source importer exists in the repository, but the public React app never loads private catalogs. An independently reviewed editorial edition, complete accessibility audit, empirical workshop evaluation, and proven literary-learning outcomes are **not complete**.
 
 The initial standalone mathematical explorer at the repository root is retained for backwards compatibility; this experience is the next milestone toward the product specification.
+
+## Quality verification
+
+The browser suite now includes axe-core checks of multiple stages in both episodes, the printable facilitator guide, keyboard focus after stage changes, and HTML language reconciliation across episode transitions. Run it after building:
+
+    npx playwright install chromium
+    npm run test:e2e
+
+See ../docs/ACCESSIBILITY_ACCEPTANCE.md for the manual tests still needed and ../docs/EDITORIAL_QUALITY_GATE.md for the independent literary review criteria. Automated checking is not a claim of WCAG certification or artistic quality.
