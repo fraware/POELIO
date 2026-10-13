@@ -61,3 +61,9 @@ After a production build, the generated service worker caches the two permitted 
 Open the app once over HTTPS or localhost while connected. Subsequent visits to the main site, first-reading packets, static literary companions and /facilitator.html can work offline in compatible browsers. First-time offline visitors have no cache. Public-episode drafts remain in per-tab sessionStorage across refreshes; Reset clears them. Private reviewer notes remain memory-only. Explicitly export any work you wish to keep before closing the tab. Neither storage path sends data to a server or the offline cache.
 
 The release build produces five permitted public assets, including sw.js. Run npm run test:offline for fail-closed build tests and npm run test:e2e for desktop/mobile disconnection tests. GitHub Actions attaches the approved PUBLIC static site as a reproducibility artifact. This is not a live website, a private distribution mechanism or real-time collaboration.
+
+## Reproducible dependencies and reviewed literary catalog
+
+The root and `experience/` dependencies now have committed npm v3 lockfiles. Use `npm ci` at the root and `npm ci --prefix experience` for the literary application; CI fails if either lock diverges from its declared package manifest. Dependency installation runs with `--ignore-scripts` to avoid executing lifecycle scripts. Public-release source files remain pinned by `approved-*.blobsha` and the strict output allowlist.
+
+The reading journey, its reviewer packets and static companions resolve work content through `src/contentCatalog.ts`. The registry only accepts the two pinned original public fixtures, validates their distinct finite models and rejects self-declared rights metadata from foreign sources. It cannot import or publish `La Relève`. See [the public content contract](../docs/PUBLIC_CONTENT_CONTRACT.md) for the entry procedure and limitations.
