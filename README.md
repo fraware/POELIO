@@ -11,7 +11,7 @@ This repository is **an early-stage public codebase**, not a finished literary e
 
 - A deterministic, exhaustive finite-model engine for the eight-position, two-person scheduling construction.
 - Regression tests for all 256 configurations, the impossibility of strict alternation plus recurrence, and the 14 labelled minimum repairs.
-- A product-design specification and a record of explicit verification boundaries.
+- A scoped product specification in [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md) and explicit verification boundaries in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - Private-edition code and complete unpublished literary realizations **are not included** in this initial public repository.
 
 ## Get started
@@ -21,7 +21,11 @@ Requirements: Node.js 22+ and npm.
 ```sh
 npm install
 npm test
+npm run build:public
+python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
+
+Visit http://127.0.0.1:8765/ to use the publication-safe mathematical explorer.
 
 The commands type-check the public TypeScript model, compile it, and exercise its mathematical invariants using Node's built-in test runner.
 
