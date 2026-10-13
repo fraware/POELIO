@@ -58,6 +58,8 @@ jobs:
           ! grep -R -E 'Mardi, une clé en soulevait|Lundi, l.enveloppe reposait' experience/dist
       - name: Strict offline build allowlist tests
         run: npm --prefix experience run test:offline
+      - name: Test hardened hosted HTTP response contract (synthetic only)
+        run: npm --prefix experience run test:host-headers
       - name: Test fail-closed release evidence auditor
         run: npm --prefix experience run test:release
       - name: Audit exact approved root-build bytes and source pins
