@@ -13,7 +13,7 @@ This file makes the repository's GitHub metadata and release decisions explicit.
 
 **Website**
 
-Keep empty until there is an actually deployed and reviewed website. The repository README is the canonical starting point in the meantime.
+Set **https://fraware.github.io/POELIO/** only once GitHub Pages serves the verified public reading preview. The [GitHub Pages publishing guide](GITHUB_PAGES.md) documents CI-gated deployment and the necessary administrator activation. Until the URL is live, keep the About website empty and use the repository README as the starting point.
 
 **Topics** (GitHub's lowercase, hyphenated repository topics)
 
@@ -69,7 +69,7 @@ A Release or tag cannot turn a research preview into an editorially approved pub
 - [ ] Privacy, offline reading, keyboard, reflow, and security regression tests pass.
 - [ ] No private material is added to source archives or attachments.
 - [ ] Proposed \`rc\` release clearly discloses unverified human and legal acceptance gates.
-- [ ] A real deployment and its HTTP header audit are tracked as separate, later decisions.
+- [ ] The GitHub Pages website is actually enabled and deployed, with its hosting-security limitations recorded separately from the strict HTTP-header acceptance contract.
 
 ## What is not ready for a final release
 
