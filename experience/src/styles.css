@@ -164,7 +164,7 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
 }
 .day-card:last-child {border-right:0}
 .day-card.repeated {background:#e7eee6}
-.day-name {font-size:.72rem;color:var(--soft)}
+.day-name {font-size:.72rem;color:#46564b}
 .day-card strong {font:400 1.16rem var(--serif)}
 .day-card small {font-size:.61rem;color:var(--green);line-height:1.3}
 .model-result {padding:1rem 0;border-top:1px solid var(--line);color:#405247;line-height:1.65;font-size:.88rem}
