@@ -117,8 +117,10 @@ export function App(): ReactNode {
       <div className="header-actions">
         <div className="header-experiences">
         <span className="edition-flag">{tr('Démonstration publique originale','Original public demonstration')}</span>
-        <button className="text-button" type="button" onClick={()=>setActiveExperience('permutation')}>
-          {tr('Deuxième expérience : permutations →','Second experience: permutations →')}
+        <button className="text-button" type="button" onClick={()=>setActiveExperience('permutation')}
+          aria-label={tr('Deuxième expérience : permutations →','Second experience: permutations →')}>
+          <span className="desktop-label">{tr('Deuxième expérience : permutations →','Second experience: permutations →')}</span>
+          <span className="mobile-label" aria-hidden="true">{tr('Les Quatre Témoins →','Four Witnesses →')}</span>
         </button>
         <a className="text-button" href={import.meta.env.BASE_URL + 'facilitator.html'} target="_blank" rel="noopener noreferrer">
           {tr('Guide d’atelier','Workshop guide')}
