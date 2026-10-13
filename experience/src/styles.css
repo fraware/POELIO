@@ -71,6 +71,7 @@ a {color:var(--green);text-underline-offset:.2em}
   box-shadow:0 12px 28px rgba(32,41,34,.09);
   min-width:232px;padding:.35rem
 }
+.menu-guide {display:none}
 .options-panel button {
   border:0;background:transparent;text-align:left;color:var(--ink);
   padding:.65rem .75rem;font-size:.8rem;min-height:44px
@@ -258,6 +259,7 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
   .brand-desc {font-size:.65rem}
   .header-actions {gap:.55rem}
   .header-link {display:none}
+  .menu-guide {display:flex;align-items:center;min-height:44px;padding:.65rem .75rem;font-size:.8rem;text-decoration:none}
   .work-nav {gap:1.2rem;min-height:45px}
   .work-nav span[aria-current="page"],.work-nav button {min-height:45px;padding:.5rem .02rem;font-size:.76rem;white-space:normal;text-align:left}
   .options-panel {min-width:212px}
