@@ -50,7 +50,7 @@ test('language switching, comparison identity, and mobile dimensions work', asyn
   const steps = page.getByRole('navigation', {name:'Experience stages'});
   await steps.getByRole('button', {name:/Compare/}).click();
   await page.getByLabel('Second realization').selectOption('demo-a');
-  await expect(page.getByText('You selected the same realization twice: no source difference.')).toBeVisible();
+  await expect(page.getByText('You selected the same text twice.')).toBeVisible();
   const width = await page.evaluate(()=>({
     scroll: document.documentElement.scrollWidth,
     viewport: document.documentElement.clientWidth
