@@ -41,3 +41,14 @@ The browser suite now includes axe-core checks of multiple stages in both episod
     npm run test:e2e
 
 See ../docs/ACCESSIBILITY_ACCEPTANCE.md for the manual tests still needed and ../docs/EDITORIAL_QUALITY_GATE.md for the independent literary review criteria. Automated checking is not a claim of WCAG certification or artistic quality.
+
+## First-reading reviewer packets and static companions
+
+Only the already approved **public original teaching fixtures** are exposed through these direct URLs, relative to the local Vite preview address:
+
+- `/?review=register` — pre-explanation first reading of Le Registre des clefs, followed by an optional private editorial critique and explicit local export.
+- `/?review=permutation` — pre-explanation reading of Les Quatre Témoins using its reviewed original fragment order.
+- `/?companion=register` — complete, written, static explanation of the minimum-repair mechanism and its second authored realization.
+- `/?companion=permutation` — complete, written, static explanation of fragment permutations with a different fixed reading order.
+
+Do **not** send a static companion before obtaining a first-reading response. These are source-derived editorial instruments, not a finished controlled experiment, publisher-approved prose, or a way to distribute the unpublished La Relève. The review pages record no server-side notes. Direct responses and exported files stay under the participant's control. See `../docs/EDITORIAL_REVIEW_PROTOCOL.md` and `../docs/STATIC_COMPARISON_PROTOCOL.md`.
