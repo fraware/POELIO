@@ -58,8 +58,12 @@ describe('reusable ordering core compatibility', () => {
       expect(actual).toEqual(target);
       expect(passagesForOrder(actual).map(piece=>piece.text))
         .toEqual(target.map(id=>authoredFragments[id].text));
-      expect(satisfiesOrderRule(result.state,questionBeforeLetter))
-        .toBe(questionBeforeLetter(target));
+      // Bridge the generic ID-sequence rule to the fixed-four domain contract.
+      // The original model retains its tuple precondition.
+      expect(satisfiesOrderRule(result.state,candidate=>{
+        if (!isFragmentOrder(candidate)) throw new Error('Invalid four-fragment order');
+        return questionBeforeLetter(candidate);
+      })).toBe(questionBeforeLetter(target));
     }
     expect(seen.size).toBe(24);
     expect(allFragmentOrders().filter(questionBeforeLetter).length).toBe(12);
