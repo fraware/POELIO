@@ -25,4 +25,4 @@ test('capture desktop and mobile literary reading, structure and writing',async(
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   await capture('permutation-reading-desktop',1440,900);
   await capture('permutation-reading-mobile',375,812);
-}
+});
