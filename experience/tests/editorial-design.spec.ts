@@ -1,71 +1,75 @@
-import {test, expect} from '@playwright/test';
+import {test,expect} from '@playwright/test';
 
 /**
- * Structural and responsive design regressions for the editorial interface.
- *
- * Computed-style checks are not substitutes for visual review, screen-reader
- * testing, contrast measurements, or independent literary editorial judgment.
+ * Editorial interaction regressions, not aesthetic certification.
+ * Retain human review of typography, reading rhythm, and assistive technology.
  */
-test('both public works use the same literary masthead and readable paper', async ({page}) => {
+test('both works use a restrained book-like layout and correct literary titles',async({page})=>{
   await page.goto('/');
-  const masthead = page.locator('.topbar');
-  await expect(masthead).toBeVisible();
-  await expect(page.locator('.brand')).toContainText('POELIO');
+  await expect(page.locator('.brand')).toHaveText('POELIO');
+  await expect(page.getByRole('heading',{level:1,name:'Le Registre des clefs'})).toBeVisible();
   await expect(page.locator('.manuscript')).toHaveCount(1);
+  const style=await page.evaluate(()=>{
+    const manuscript=document.querySelector('.manuscript')!;
+    const title=document.querySelector('h1')!;
+    const header=document.querySelector('.topbar')!;
+    return {
+      header:getComputedStyle(header).backgroundColor,
+      manuscript:getComputedStyle(manuscript).backgroundColor,
+      serif:getComputedStyle(title).fontFamily,
+      imageCount:document.querySelectorAll('main img').length,
+      privateReference:document.body.textContent?.includes('La Relève')
+    };
+  });
+  expect(style.header).toBe('rgb(255, 254, 250)');
+  expect(style.manuscript).toBe('rgb(255, 254, 250)');
+  expect(style.serif).toMatch(/Baskerville|Palatino|Georgia/);
+  expect(style.imageCount).toBe(0);
+  expect(style.privateReference).toBe(false);
 
-  const tokens = await page.evaluate(() => ({
-    masthead: getComputedStyle(document.querySelector('.topbar')!).backgroundColor,
-    heading: getComputedStyle(document.querySelector('h1')!).fontFamily,
-    manuscript: getComputedStyle(document.querySelector('.manuscript')!).backgroundColor,
-    meta: document.querySelector('meta[name="theme-color"]')?.getAttribute('content')
-  }));
-  expect(tokens.masthead).toBe('rgb(25, 58, 49)');
-  expect(tokens.heading).toMatch(/Georgia/i);
-  expect(tokens.manuscript).toBe('rgb(255, 253, 250)');
-  expect(tokens.meta).toBe('#193a31');
-
-  await page.getByRole('button', {name:/Deuxième expérience/}).click();
-  await expect(page.locator('.brand')).toContainText('POELIO');
-  await expect(page.locator('.edition-flag')).toContainText('Démonstration publique originale');
+  await page.getByRole('button',{name:/Deuxième expérience/}).click();
+  await expect(page.getByRole('heading',{level:1,name:'Les Quatre Témoins'})).toBeVisible();
+  await expect(page.locator('.brand')).toHaveText('POELIO');
   await expect(page.locator('.manuscript')).toHaveCount(1);
+  await expect(page.getByRole('navigation',{name:'Choisir une œuvre'})).toBeVisible();
 });
 
-test('mobile navigation, reading and writing affordances remain usable at 320 pixels', async ({page}) => {
+test('mobile reader keeps its content and controls legible at 320px',async({page})=>{
   await page.setViewportSize({width:320,height:640});
   await page.goto('/');
-  const steps=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await expect(steps.getByRole('button',{name:/Lire/})).toBeVisible();
-
-  for(const target of ['Questionner','Explorer','Comparer','Inventer','Revenir']){
-    await steps.getByRole('button',{name:new RegExp(target)}).click();
-    await expect(steps.getByRole('button',{name:new RegExp(target)})).toHaveAttribute('aria-current','step');
-    const {viewport,scroll}=await page.evaluate(()=>({
+  const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
+  for(const name of ['Lire','Questionner','Explorer','Comparer','Inventer','Revenir']){
+    await nav.getByRole('button',{name:new RegExp(name)}).click();
+    const values=await page.evaluate(()=>({
       viewport:document.documentElement.clientWidth,
-      scroll:document.documentElement.scrollWidth
+      scroll:document.documentElement.scrollWidth,
+      body:document.body.scrollWidth
     }));
-    expect(scroll,target+' overflow').toBeLessThanOrEqual(viewport+1);
+    expect(values.scroll,'document overflow on '+name).toBeLessThanOrEqual(values.viewport+1);
+    expect(values.body,'body overflow on '+name).toBeLessThanOrEqual(values.viewport+1);
   }
-  await steps.getByRole('button',{name:/Inventer/}).click();
-  const input=page.locator('#writing');
-  await expect(input).toBeVisible();
-  await input.fill('Une réponse que je conserve moi-même.');
+  await nav.getByRole('button',{name:/Inventer/}).click();
+  await page.locator('#writing').fill('Une lecture engage une autre phrase.');
 
-  const smallTargets=await page.locator('.topbar button, .topbar a.text-button, .journey-footer button')
-    .evaluateAll(elements=>elements.filter(el=>getComputedStyle(el).display!=='none')
-      .map(el=>({name:el.textContent?.trim(),height:el.getBoundingClientRect().height})));
-  for(const target of smallTargets){
-    expect(target.height, 'Tap target: '+target.name).toBeGreaterThanOrEqual(44);
-  }
+  const taps=await page.locator('.topbar button, .topbar summary, .journey-footer button')
+    .evaluateAll(els=>els.filter(el=>el.getClientRects().length>0)
+      .map(el=>({text:el.textContent?.trim(),height:el.getBoundingClientRect().height})));
+  for(const target of taps) expect(target.height,target.text).toBeGreaterThanOrEqual(44);
+
+  await page.locator('details.reader-options > summary').click();
+  await expect(page.getByRole('link',{name:'Guide d’atelier'})).toBeVisible();
+  await expect(page.getByRole('button',{name:'Recommencer'})).toBeVisible();
+  await expect(page.getByRole('button',{name:'Effacer toutes mes réponses'})).toBeVisible();
 });
 
-test('editorial reading packets retain first-reading separation and narrow reflow', async ({page}) => {
+test('first-reading packets still separate literature from later explanation',async({page})=>{
   await page.setViewportSize({width:320,height:640});
   await page.goto('/?review=register');
-  await expect(page.locator('.review-text')).toBeVisible();
   await expect(page.getByRole('heading',{name:'Une lecture, avant tout commentaire'})).toBeVisible();
-  const dimensions=await page.evaluate(()=>({
+  await expect(page.locator('.review-text')).toBeVisible();
+  const values=await page.evaluate(()=>({
     viewport:document.documentElement.clientWidth,
-    page:document.documentElement.scrollWidth
+    scroll:document.documentElement.scrollWidth
   }));
-  expect(dimensions.page).toBeLessThanOrEqual(dimensions.viewport+1);
+  expect(values.scroll).toBeLessThanOrEqual(values.viewport+1);
 });
