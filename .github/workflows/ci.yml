@@ -13,8 +13,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install pinned TypeScript
-        run: npm install --ignore-scripts --no-audit --no-fund --no-save
+      - name: Install exactly locked root dependencies
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Typecheck, compile and exhaustive model tests
         run: npm test
       - name: Verify private importer with synthetic literary fixtures only
@@ -35,8 +35,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install experience dependencies
-        run: npm install --prefix experience --ignore-scripts --no-audit --no-fund
+      - name: Install exactly locked experience dependencies
+        run: npm ci --prefix experience --ignore-scripts --no-audit --no-fund
       - name: Typecheck, model/content contract tests and Vite build
         run: |
           npm --prefix experience run typecheck
