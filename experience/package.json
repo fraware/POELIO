@@ -11,7 +11,9 @@
     "preview": "vite preview --host 127.0.0.1",
     "test:e2e": "playwright test",
     "verify:fixture": "node scripts/verify_approved_demo.mjs",
-    "test:offline": "node --test scripts/offline_shell.test.mjs"
+    "test:offline": "node --test scripts/offline_shell.test.mjs",
+    "build:subpath": "npm run verify:fixture && npm run typecheck && vite build --base /POELIO/ && node scripts/create_offline_shell.mjs",
+    "test:subpath": "playwright test -c playwright.subpath.config.ts"
   },
   "dependencies": {
     "react": "19.0.0",
