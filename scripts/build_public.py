@@ -17,7 +17,8 @@ APPROVED = {
 }
 
 def main() -> None:
-    subprocess.run(["tsc", "-p", "tsconfig.json"], cwd=ROOT, check=True)
+    # npm resolves the project-pinned TypeScript compiler in node_modules/.bin.
+    subprocess.run(["npm", "run", "compile"], cwd=ROOT, check=True)
     if DIST.exists():
         shutil.rmtree(DIST)
     DIST.mkdir()
