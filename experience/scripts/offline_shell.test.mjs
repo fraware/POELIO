@@ -25,6 +25,11 @@ test('only the approved public shell is accepted',()=>{
     assert.match(result.cache,/^poelio-approved-public-v1-[0-9a-f]{24}$/);
     assert.match(result.worker,/caches\.open\(CACHE\)/);
     assert.match(result.worker,/request\.mode === 'navigate'/);
+    assert.match(result.worker,/cache\.match\(isGuide \? GUIDE : INDEX\)/);
+    assert.match(result.worker,/return approved \|\| fetch\(request\)/);
+    assert.match(result.worker,/cache\.match\(url\.href, \{ignoreVary:true\}\)/);
+    assert.match(result.worker,/URLS\.has\(url\.href\)/);
+    assert.doesNotMatch(result.worker,/fetch\(request\)\.catch/);
     assert.equal(result.inventory.filter(x=>x.endsWith('.js')).length,1);
   }finally{rmSync(dir,{recursive:true,force:true})}
 });

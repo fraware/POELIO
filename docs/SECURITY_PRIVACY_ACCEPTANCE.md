@@ -14,7 +14,7 @@ The public application exposes exactly two original literary demonstrations. Unp
 | Voluntary TXT export | Local browser download | Controlled by reader and operating system |
 | Public release evidence | CI technical artifact, outside the website | Artifact retention policy |
 
-**Browser sessionStorage is neither encryption nor guaranteed secure erasure.** Browser session restore, extensions, a shared device profile, malicious same-origin code and downloaded TXT files remain relevant threats. Reset clears the selected episode only. When using shared devices, use Reset, remove exported files where appropriate and prefer a separate browsing profile. Same-origin code has technical access to session-scoped data; this must not be portrayed as an encrypted secret vault.
+**Browser sessionStorage is neither encryption nor guaranteed secure erasure.** Browser session restore, extensions, a shared device profile, malicious same-origin code and downloaded TXT files remain relevant threats. Reset clears the selected episode only. The separate “Effacer toutes mes réponses” / “Erase all my drafts” command confirms and removes all eight recognized draft fields across both public works in the current tab, then reloads to discard in-memory state. This is a shared-device handoff convenience, not secure deletion of exported files, other tabs, browser backups or restored sessions. When using shared devices, use Reset, remove exported files where appropriate and prefer a separate browsing profile. Same-origin code has technical access to session-scoped data; this must not be portrayed as an encrypted secret vault.
 
 The app itself has no accounts, analytics or participant-submission API. Requests for the static site still reach its hosting provider, which can observe normal request metadata such as IP addresses. External literary/scholarly links are opened only by deliberate user action and use referrer-suppressing link attributes.
 
@@ -34,10 +34,14 @@ The existing browser checks cover root and /POELIO/ paths, offline caching, bili
 
 GitHub Actions uses exact upstream v5 commit SHAs for checkout, setup-node and upload-artifact, verified against their GitHub tag references. The actions use a Node 24 runtime; the project's locked build remains on Node 22. Both npm projects have committed lockfiles and use npm ci with lifecycle scripts disabled. A CI advisory check rejects high-severity and critical known advisories in the literary application's production/runtime dependency set.
 
-The runtime advisory check does not assess every development, build or test dependency, detect unpublished vulnerabilities, or eliminate the need for independent code/security review. Pinning improves repeatability, not absolute security. A separate full dependency-tree security review and controlled upgrades remain before a production security claim.
+CI now performs a second advisory gate on the **entire** locked root and literary-app npm dependency trees, including build/test tooling, rejecting high and critical advisories. This led to patched upgrades of Vite, Vitest and Playwright. These advisory scans cannot detect unpublished vulnerabilities or replace independent security review. Pinning improves repeatability, not absolute security. A separate full dependency-tree security review and controlled upgrades remain before a production security claim.
 
 ## Explicitly open decisions
 
 Human editorial acceptance, manual screen-reader accessibility checks, rights-holder approval and prior-publication assessment for any real work, participant-consent procedure for human research, hosted-site security headers and data-retention policy are **not complete**.
 
 The current security gates support a narrowly scoped public teaching prototype. They do not enable public deployment, private manuscript release, user accounts or research-data collection. Read the release and candidate preflight and public content-contract documents before adding any literary material.
+
+## Prospective host HTTP requirements
+
+The separate `docs/HOSTING_RESPONSE_HEADERS.md` and `experience/scripts/audit_host_headers.mjs` define and synthetically test a strict HTTPS-response contract, including response-level CSP with `frame-ancestors`, HSTS, permissions, MIME and exact approved asset hashes. These checks have **not** yet been run against a deployed POELIO site. HTML meta CSP by itself does not establish production HTTP security headers.

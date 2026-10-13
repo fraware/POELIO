@@ -29,3 +29,21 @@ export function useSessionDraft(
   },[key,value]);
   return [value,setValue] as const;
 }
+
+
+/**
+ * Shared-device handoff: remove only POELIO's known public-episode keys.
+ * Other same-origin storage belongs to other apps and must not be cleared.
+ * Follow with a page reload so any in-memory fallback state is also cleared.
+ */
+export function clearAllPublicDrafts():void {
+  const works:readonly WorkScope[]=['register','permutation'];
+  const fields:readonly DraftField[]=['initial','revised','rule','writing'];
+  try {
+    for(const work of works)for(const field of fields){
+      window.sessionStorage.removeItem(DRAFT_PREFIX+work+':'+field);
+    }
+  }catch{
+    // Reload still erases memory-only drafts if Storage is unavailable.
+  }
+}

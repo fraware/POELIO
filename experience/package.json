@@ -16,7 +16,8 @@
     "test:subpath": "playwright test -c playwright.subpath.config.ts",
     "audit:root": "node scripts/audit_release.mjs root",
     "audit:subpath": "node scripts/audit_release.mjs subpath",
-    "test:release": "node --test scripts/audit_release.test.mjs"
+    "test:release": "node --test scripts/audit_release.test.mjs",
+    "test:host-headers": "node --test scripts/audit_host_headers.test.mjs"
   },
   "dependencies": {
     "react": "19.0.0",
@@ -26,9 +27,9 @@
     "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
     "typescript": "5.8.3",
-    "vite": "7.0.0",
-    "vitest": "3.2.0",
-    "@playwright/test": "1.54.2",
+    "vite": "7.3.7",
+    "vitest": "5.0.4",
+    "@playwright/test": "1.64.0",
     "@axe-core/playwright": "4.13.0"
   }
 }

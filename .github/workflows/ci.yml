@@ -15,6 +15,8 @@ jobs:
           node-version: '22'
       - name: Install exactly locked root dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Audit full locked root dependency tree
+        run: npm audit --audit-level=high --no-fund
       - name: Typecheck, compile and exhaustive model tests
         run: npm test
       - name: Verify private importer with synthetic literary fixtures only
@@ -39,6 +41,8 @@ jobs:
         run: npm ci --prefix experience --ignore-scripts --no-audit --no-fund
       - name: Audit installed public-runtime dependencies for high-severity advisories
         run: npm audit --prefix experience --omit=dev --audit-level=high --no-fund
+      - name: Audit full locked literary-app dependency tree
+        run: npm audit --prefix experience --audit-level=high --no-fund
       - name: Typecheck, model/content contract tests and Vite build
         run: |
           npm --prefix experience run typecheck
@@ -54,6 +58,8 @@ jobs:
           ! grep -R -E 'Mardi, une clé en soulevait|Lundi, l.enveloppe reposait' experience/dist
       - name: Strict offline build allowlist tests
         run: npm --prefix experience run test:offline
+      - name: Test hardened hosted HTTP response contract (synthetic only)
+        run: npm --prefix experience run test:host-headers
       - name: Test fail-closed release evidence auditor
         run: npm --prefix experience run test:release
       - name: Audit exact approved root-build bytes and source pins
