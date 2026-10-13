@@ -1,0 +1,36 @@
+name: Bug report
+description: Report a reproducible issue in the public literary experience or its technical tooling.
+title: "[Bug] "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: "Please use only synthetic example text. Do not upload private manuscripts, participant responses, tokens or exploitable security details. See SECURITY.md for private vulnerability reports."
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: What happened? Which of the two public works or development commands was involved?
+      placeholder: "During the Compare stage..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include an OS, browser and public commit SHA if relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Literary, privacy or accessibility impact
+      description: Explain which reader interaction or trust boundary is affected.
+    validations:
+      required: false

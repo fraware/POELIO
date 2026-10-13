@@ -30,7 +30,7 @@ The standalone Python importer in tools/private_content.py validates a strict ma
 
 Each prototype episode combines authored prose, interpretive questions, constraint exploration, comparison, original composition, and reflection. A future fully editorialized episode will deepen these experiences. It must preserve provenance and distinguish executable findings from interpretation. The complete literary edition cannot be public until rights and study-integrity decisions are resolved.
 
-No official affiliation with Oulipo is claimed. No software license has yet been selected.
+No official affiliation with Oulipo is claimed. The reusable software has an MIT license; existing literary demonstration prose retains separate rights under LICENSE-CONTENT.md. No license is granted for unpublished La Relève material.
 
 ## Single public literary work registry
 

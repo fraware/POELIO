@@ -12,7 +12,7 @@ Requires Node.js 22.12+ and npm.
 
 \`\`\`bash
 cd experience
-npm install
+npm ci
 npm run typecheck
 npm test
 npm run build
@@ -21,7 +21,7 @@ npm run preview
 
 Open the local URL printed by Vite. For browser regression tests, run \`npx playwright install chromium\` once and then \`npm run test:e2e\` after building.
 
-The six stages in each episode are Read, Question, Explore, Compare, Invent, and Reflect. Switch to the second episode with the dedicated button in the first episode header. The experience includes an independent, print-ready 60-minute facilitator guide at `/facilitator.html` and a pilot protocol in `../docs/WORKSHOP_PILOT.md`. The reader sees French prose with optional English interface translation. Public-episode drafts stay in per-tab sessionStorage and are downloadable by explicit action. Refreshing the same tab preserves them; Reset or closing the tab clears session notes in ordinary browser behavior. Private reviewer notes remain memory-only and clear on refresh. No accounts, server state, API calls, AI inference, telemetry, or automated literary-quality scores are implemented.
+The six stages in each episode are Read, Question, Explore, Compare, Invent, and Reflect. Switch to the second episode with the dedicated button in the first episode header. The experience includes an independent, print-ready 60-minute facilitator guide at `/facilitator.html` and a pilot protocol in `../docs/WORKSHOP_PILOT.md`. The reader sees French prose with optional English interface translation. Public-episode drafts stay in per-tab sessionStorage and are downloadable by explicit action. Refreshing the same tab preserves them; individual Reset or a confirmed shared-device handoff clears the relevant fields. Browser restoration can preserve sessions, so closing a tab is not a guaranteed secure erasure. Private reviewer notes remain memory-only and clear on refresh. No accounts, server state, API calls, AI inference, telemetry, or automated literary-quality scores are implemented.
 
 ## Evidence boundaries
 
@@ -108,3 +108,7 @@ See `../docs/HOSTING_RESPONSE_HEADERS.md` for explicit requirements and release 
 Run `npm run test:compare` for synthetic fail-closed comparison cases. After both approved root and `/POELIO/` build audits, `npm run compare:variants` checks that the two deployment variants retain identical original public-source hashes and locked dependencies, while permitting base-specific HTML/JS/CSS and service-worker hashes. To compare a previous root (or subpath) release manifest against a new build of the **same** variant, run `node scripts/compare_release.mjs candidate <baseline.json> <candidate.json>`. A changed source, dependency, asset or cache identity returns a nonzero status and demands review. Nothing is auto-published. Manifest comparison is technical bookkeeping, not a signed attestation or editorial rights approval.
 
 The desktop/mobile browser suite now checks 320 CSS-pixel reflow on both works and the static readers, keyboard-only skip-link and stage navigation, and focus indication under forced-colors and reduced-motion preferences. These tests complement axe scans but **do not constitute manual screen-reader, browser-zoom, or WCAG certification**.
+
+## Attribution and release identity
+
+This folder belongs to the **POELIO v0.2.0-rc.1 research-preview candidate**. It is not published to npm (`private: true`), and no GitHub Release is implied by the version alone. Software is [MIT-licensed](../LICENSE), while the original literary passages have [separate conditions](../LICENSE-CONTENT.md). Begin with the [editorial README](../README.md), and consult the [documentation index](../docs/INDEX.md) for evidence and scope.

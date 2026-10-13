@@ -1,95 +1,170 @@
-# POELIO
+<p align="center">
+  <img src="docs/assets/poelio-masthead.svg" width="100%" alt="POELIO. Lire les formes. Habiter les possibles. An explorable literary atelier." />
+</p>
 
-**A laboratory for explorable literature.**  
-*Plateforme Ouverte d’Exploration Littéraire et d’Interprétation des Œuvres.*
+<p align="center">
+  <strong>Une littérature à éprouver, et non à résoudre.</strong><br />
+  <em>An open literary laboratory for reading, questioning, exploring, comparing, inventing, and reflecting.</em>
+</p>
 
-POELIO is an experimental environment for encountering literary works, investigating their compositional constraints, comparing formally admissible possibilities, and inventing new procedures. Its long-term ambition is to connect literary research, readers, writers, and physical workshops across generations and languages.
+<p align="center">
+  <a href="https://github.com/fraware/POELIO/actions/workflows/ci.yml"><img src="https://github.com/fraware/POELIO/actions/workflows/ci.yml/badge.svg" alt="Continuous integration status" /></a>
+  &nbsp; <a href="LICENSE"><strong>MIT software</strong></a>
+  &nbsp; · &nbsp; <a href="LICENSE-CONTENT.md">Literary rights</a>
+  &nbsp; · &nbsp; <a href="docs/PRODUCT_SPEC.md">Product contract</a>
+  &nbsp; · &nbsp; <a href="docs/RELEASE_NOTES_v0.2.0-rc.1.md">Research-preview notes</a>
+</p>
 
-This repository is **an early-stage public codebase**, not a finished literary edition. Its first reference study is *La Relève*, an unpublished work with a finite constraint model. Only publication-safe code and documentation are held here.
+---
 
-## Current implementation
+## The page comes first
 
-- Two original bilingual-interface **six-stage literary experiences** in [`experience/`](experience/): *Le Registre des clefs* explores an inconsistent scheduling rule; *Les Quatre Témoins* explores permutations of four fixed, authored fragments. Neither uses the unpublished *La Relève* prose.
-- A deterministic, exhaustive finite-model engine for the eight-position, two-person scheduling construction.
-- Regression tests for all 256 configurations, the impossibility of strict alternation plus recurrence, and the 14 labelled minimum repairs.
-- A scoped product specification in [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md) and explicit verification boundaries in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-- The scheduling episode has two authored alternatives and leaves twelve valid schedules without fictional prose. The permutation episode recombines four unchanged, prewritten fragments across 24 orders; it does not invent transitions.
-- An accessible, printable **60-minute workshop guide** is included at `/facilitator.html` in the built experience, with an independent [pilot protocol](docs/WORKSHOP_PILOT.md).
-- The unpublished literary realizations, original private catalog and blinded study material **are not included**.
+**POELIO** (*Plateforme Ouverte d’Exploration Littéraire et d’Interprétation des Œuvres*) is an independent, literature-first research project. It treats a work as something to be **read before being explained**, investigated without collapsing its meaning into a model, and answered through the reader's own writing.
 
-## Get started
+The formal construction is an instrument of attention. It is never a substitute for the author or for literary judgment.
 
-Requirements: Node.js 22+ and npm.
+The long-term vision is an accessible, multilingual atelier connecting readers, writers, educators, digital-humanities researchers, and in-person workshops. The repository currently implements **two original public teaching works**, a reusable six-stage interface, and a separate finite-model explorer. This is a **research preview**, not a finished literary edition or a publicly deployed service.
 
-```sh
-npm install
+### Six movements through a work
+
+|  | Stage | What the reader encounters |
+|:--:|---|---|
+| **01** | **Read · Lire** | The authored prose, uninterrupted by its mechanism. |
+| **02** | **Question · Questionner** | An initial interpretation, before explanatory context. |
+| **03** | **Explore · Explorer** | A finite, explicit compositional rule and its alternatives. |
+| **04** | **Compare · Comparer** | Actual authored passages, never fabricated realizations. |
+| **05** | **Invent · Inventer** | A new rule or an original text, composed by the reader. |
+| **06** | **Reflect · Revenir** | A return to the first reading with new distinctions. |
+
+There is no AI prose generation, literary-score oracle, account system, or server collection of participant writing.
+
+## Two works, two ways of reading
+
+| *Le Registre des clefs* | *Les Quatre Témoins* |
+|---|---|
+| An original short fiction structured around an eight-position relay. | Four original literary fragments viewed in different orders. |
+| Its recurrence and perfect alternation rules conflict. | Exactly 24 permutations preserve every word of the four fragments. |
+| Fourteen minimum-repair schedules are mathematically admissible. **Only two have authored realizations** in this demo. | Twelve of the 24 orders satisfy a stated precedence relation. **An order is not a new text authored by the program.** |
+
+Both experiences preserve passage provenance and distinguish what a model establishes from what a reader interprets. The original French prose sits within a French/English interface. The unpublished *La Relève* manuscript and its private research materials **are not in this repository**.
+
+## Enter the atelier
+
+<details open>
+<summary><strong>Literary experience · recommended starting point</strong></summary>
+
+Requires **Node.js 22.12+**, npm and a modern browser.
+
+\`\`\`bash
+git clone https://github.com/fraware/POELIO.git
+cd POELIO/experience
+npm ci
+npm run build
+npm run preview
+\`\`\`
+
+Open the **local address printed by Vite**. The first visit initializes the approved public-only offline shell in compatible browsers on localhost or HTTPS. No public POELIO website is deployed by these commands.
+
+To run the development server, use \`npm run dev\`. To run unit and browser checks:
+
+\`\`\`bash
+npm run typecheck
+npm test
+npx playwright install chromium
+npm run test:e2e
+\`\`\`
+
+</details>
+
+<details>
+<summary><strong>Standalone finite-model explorer · technical companion</strong></summary>
+
+The earlier, deliberately separate mathematical explorer is retained at the repository root.
+
+\`\`\`bash
+cd POELIO
+npm ci
 npm test
 npm run build:public
 python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
-```
+\`\`\`
 
-Visit http://127.0.0.1:8765/ to use the publication-safe mathematical explorer.
+Visit \`http://127.0.0.1:8765/\`. This is a finite-model explorer, **not** the literary six-stage interface.
 
-To run the **literature-first six-stage experience**:
+</details>
 
-```sh
-cd experience
-npm install
-npm run typecheck
-npm test
-npm run build
-npm run preview
-```
+### Read without the explanation
 
-See [experience/README.md](experience/README.md) for the browser test procedure and content-rights limitations.
+Two source-faithful first-reading routes support an unprimed encounter. Open them on your **local preview host**:
 
-The commands type-check the public TypeScript model, compile it, and exercise its mathematical invariants using Node's built-in test runner.
+- \`/?review=register\` and \`/?review=permutation\` for the initial literary reading and optional private notes.
+- \`/?companion=register\` and \`/?companion=permutation\` for complete, static explanatory companions.
+- \`/facilitator.html\` for a printable **60-minute workshop guide**.
 
-## Mathematical scope
+Keep the companion separate from the first reading until the initial response has been recorded. These are instruments for future editorial assessment, **not evidence that an independent study has taken place**.
 
-A schedule is a binary sequence `x[0..7]`. We require `x[0] = x[7]`; strict alternation would also require `x[i] != x[i+1]` for every `i=0..6`. Those requirements conflict. Minimizing the number of repeated transitions subject to recurrence yields 14 labelled schedules.
+## A small architecture with deliberate boundaries
 
-The code independently enumerates this finite space. **The executable tests are not a new Lean proof.** Archived formal evidence for the original research artifact, where applicable, is separate from this software's regression tests. Nothing here purports to verify literary meaning or quality.
+\`\`\`text
+       AUTHORED PUBLIC TEXT                    FORMAL MODEL
+        (exact source pins)                 (finite, tested scope)
+                │                                  │
+                └───────────┬──────────────────────┘
+                            │
+                  APPROVED WORK CATALOG
+               provenance + rights gate
+                            │
+              READ → QUESTION → EXPLORE
+                → COMPARE → INVENT → REFLECT
+                            │
+                  BROWSER-LOCAL WRITING
+               session-scoped / TXT export
+                            │
+                   PUBLIC-ONLY BUILD
+                exact bytes + offline shell
 
-## Reviewer-ready literary validation
+      PRIVATE MANUSCRIPTS  ║  NO PUBLIC IMPORT ROUTE
+\`\`\`
 
-The public prototype contains two **unprimed first-reading packets** and two complete static interpretive companions. They derive the text directly from the approved public source fixtures, with no alternate manuscript copy, server-side note collection, or unpublished La Relève material.
+A model may enumerate possibilities; **it cannot establish literary merit, the meaning of a sentence, or the existence of a passage that was never written**.
 
-After starting the React/Vite application, use the following URLs on its local host:
+The public build enforces an allowlist of five static files, source-identity checks, dependency audits, and exact-byte release evidence. Browser tests cover privacy, offline reading, keyboard focus, automated accessibility rules, and root/subpath hosting. Formal Lean research evidence is separate from these executable checks.
 
-- `/?review=register` and `/?review=permutation` — first reading, personal notes and later editorial critique
-- `/?companion=register` and `/?companion=permutation` — source-matched, fully written, noninteractive explanatory editions
+## The documentation library
 
-See [independent editorial review protocol](docs/EDITORIAL_REVIEW_PROTOCOL.md) and [static comparison and evaluation protocol](docs/STATIC_COMPARISON_PROTOCOL.md). These are **ready-to-use evaluation instruments**, not human review results. Do not distribute the companions to a first-reading reviewer before their unprimed response.
+| Start here | Purpose |
+|---|---|
+| [Literary product contract](docs/PRODUCT_SPEC.md) | The North Star and non-negotiable six-stage encounter |
+| [Architecture](docs/ARCHITECTURE.md) | Public/private boundaries and finite-model responsibilities |
+| [Content and provenance](docs/PUBLIC_CONTENT_CONTRACT.md) | Why only authored, approved source enters the reader |
+| [Editorial quality](docs/EDITORIAL_QUALITY_GATE.md) | What counts as literary critique, not mechanical validation |
+| [Independent reading protocol](docs/EDITORIAL_REVIEW_PROTOCOL.md) | Unprimed reading and later discussion |
+| [Workshop protocol](docs/WORKSHOP_PILOT.md) | A future physical-session plan |
+| [Accessibility acceptance](docs/ACCESSIBILITY_ACCEPTANCE.md) | Tested behaviors and outstanding human checks |
+| [Security and privacy](docs/SECURITY_PRIVACY_ACCEPTANCE.md) | Local drafts, network behavior and residual risks |
+| [Releases and private preflight](docs/RELEASE_AND_CANDIDATE_PREFLIGHT.md) | Exact-byte builds and quarantined candidate sources |
+| [Complete documentation map](docs/INDEX.md) | All specifications, protocols and engineering evidence |
 
-## Literary quality and accessibility
+## Reader privacy and authorial integrity
 
-The latest quality pass introduces automated axe-core accessibility checks and strict identity validation for shared authored source modules. The artistic meaning and quality of both public teaching episodes remain subject to independent editorial review. See [editorial quality gate](docs/EDITORIAL_QUALITY_GATE.md), [accessibility acceptance protocol](docs/ACCESSIBILITY_ACCEPTANCE.md), and the [workshop pilot](docs/WORKSHOP_PILOT.md).
+POELIO does not submit a participant's writing to an application server. The public creative stages use **per-tab browser session storage** with an in-memory fallback; editorial first-reading notes stay in memory only. Readers explicitly export their work as a local text file. A shared-device control clears this tab's draft fields for both public works.
 
-Passing CI does **not** establish WCAG 2.2 AA conformance, literary value, or causal learning benefits. Manual screen-reader evaluation, editorial judgment, and appropriately designed reader studies remain outstanding.
+**Browser session storage is not encrypted**, and its retention depends on browser lifecycle and session restoration. A static hosting provider still receives ordinary HTTP access metadata. The code has no user analytics, cloud poem storage or AI inference endpoint.
 
-## Private literary content integrity
+No private manuscript, unreleased research archive, blind-study source, or participant record belongs in this repository or its build output. Removing such data in a later commit does not undo exposure through Git history.
 
-The tested, private-only manuscript gate is documented in [docs/CONTENT_INTEGRITY.md](docs/CONTENT_INTEGRITY.md). It verifies source bytes, permissions assertions, supported schedules and module provenance, and never stages private catalogs inside the public checkout. A separate adapter validates the originally supplied La Relève master archive **locally** without bundling manuscripts into this repository. It does not grant publication rights or make the private edition available through the public website.
+## License and attribution
 
-## Browser privacy and supply-chain regression gates
+**Software: [MIT](LICENSE). Literary texts: [separate permissions](LICENSE-CONTENT.md).**
 
-The public literary interface is tested for accidental network transmission of participant prose, absence of unexpected persistent browser stores, memory-only editorial notes, work-specific Reset, and in-memory composition when session storage is unavailable. The release workflow uses commit-pinned GitHub Actions and blocks known high-severity production dependency advisories. See [Security and privacy acceptance](docs/SECURITY_PRIVACY_ACCEPTANCE.md) for the precise test scope, residual risks and safeguards for shared workshop devices. This is not a claim of independent security certification.
+The MIT license covers the reusable software, tests, tooling and software documentation. The public teaching prose has distinct literary rights, with limited permission to reproduce it unaltered as part of the noncommercial research/teaching demonstration. **MIT does not license unpublished *La Relève*** or grant general republication rights to any manuscript.
 
-## Publication and confidentiality
+To contribute, read [CONTRIBUTING.md](CONTRIBUTING.md); for a private vulnerability disclosure, read [SECURITY.md](SECURITY.md). Researchers may use [CITATION.cff](CITATION.cff), identifying the commit actually used.
 
-The repository is public. Do **not** commit or deploy `catalog.json`, manuscript archives, private build directories, reading manuscripts, blinded-study materials, participant responses, or any other unreleased literary content.
+## Present status
 
-A local/private edition built from separately authorized materials is a different distribution artifact and **must never be served on a publicly accessible host**. Git history is persistent: removing a sensitive file in a later commit does not make the original disclosure private.
+**Research preview · proposed v0.2.0-rc.1 release notes.** The local public teaching demo and automated verification pipeline are operational. The repository does **not** claim that a GitHub Release has been published unless one appears on the [Releases page](https://github.com/fraware/POELIO/releases).
 
-We do not imply affiliation with, sponsorship by, or endorsement from the Oulipo.
+Still outstanding: independent literary editorial evaluation, manual screen-reader/WCAG acceptance, original-work publication decisions, actual hosted HTTP-header verification, and properly designed empirical workshop evaluation. A green CI run does not confer these outcomes.
 
-## Design principles
-
-Literature first; computational structure on demand. Verified finite facts, executable checks, editorial interpretation, and reader interpretation are different kinds of claims. Experimental constraint-breaking is a valid artistic choice. Authors control rights and release decisions for their work.
-
-## Status
-
-**Research prototype — not production-ready.** A synthetic, release-safe literary experience exists alongside the original mathematical explorer. The complete *La Relève* edition, a reusable rights/SHA importer, full accessibility conformance, independent editorial approval, a full facilitator usability pilot, and evaluation of literary outcomes remain pending. Full literary publication rights are not established.
-
-No license grant is asserted until a license is selected and added explicitly.
+*POELIO is independent. No affiliation with, sponsorship by, or endorsement from Oulipo is claimed.*

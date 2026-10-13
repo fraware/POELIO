@@ -1,0 +1,26 @@
+name: Literary or accessibility proposal
+description: Propose a focused improvement tied to the literature-first product contract.
+title: "[Proposal] "
+labels: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Reader or author need
+      description: What specific experience is missing or impaired?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed intervention
+      description: Describe the smallest meaningful change, without inventing literary material.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and possible tradeoffs
+      description: What would demonstrate improvement and which publication/privacy/accessibility risks matter?
+    validations:
+      required: false

@@ -1,0 +1,58 @@
+name: Research preview release
+on:
+  workflow_run:
+    workflows:
+      - Public source CI
+    types:
+      - completed
+    branches:
+      - main
+permissions:
+  contents: write
+concurrency:
+  group: poelio-research-preview-v0.2.0-rc.1
+  cancel-in-progress: false
+jobs:
+  prerelease:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - name: Verify exact checked commit and license boundaries
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXPECTED_COMMIT: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          CURRENT="$(gh api "repos/${GITHUB_REPOSITORY}/commits/main" --jq '.sha')"
+          test "${CURRENT}" = "${EXPECTED_COMMIT}"
+          test "$(node -p "require('./package.json').version")" = "0.2.0-rc.1"
+          test "$(node -p "require('./experience/package.json').version")" = "0.2.0-rc.1"
+          test -f LICENSE
+          test -f LICENSE-CONTENT.md
+          test -f docs/RELEASE_NOTES_v0.2.0-rc.1.md
+          test ! -e catalog.json
+          test ! -e experience/catalog.json
+          ! git ls-files | grep -Ei '(^|/)(private-runtime|private-dist|catalog\.json|La_Releve.*\.zip)(/|$)'
+      - name: Publish research prerelease exactly once
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXPECTED_COMMIT: ${{ github.event.workflow_run.head_sha }}
+          TAG: v0.2.0-rc.1
+        run: |
+          set -euo pipefail
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            echo "Retain existing release; never silently rewrite a tag."
+            exit 0
+          fi
+          gh release create "${TAG}" \
+            --target "${EXPECTED_COMMIT}" \
+            --prerelease \
+            --title "POELIO v0.2.0-rc.1 | Literary research preview" \
+            --notes-file docs/RELEASE_NOTES_v0.2.0-rc.1.md
+          gh release view "${TAG}" --json isPrerelease,isDraft,tagName,url \
+            --jq '{tag:.tagName,prerelease:.isPrerelease,draft:.isDraft,url:.url}'

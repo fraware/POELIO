@@ -21,6 +21,8 @@ jobs:
         run: npm test
       - name: Verify private importer with synthetic literary fixtures only
         run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Verify editorial documentation, licensing and links
+        run: python3 tools/check_docs.py
       - name: Verify repository filename embargo
         run: python3 scripts/check_public.py
       - name: Build publication-safe mathematical demo
