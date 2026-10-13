@@ -32,7 +32,7 @@ The existing browser checks cover root and /POELIO/ paths, offline caching, bili
 
 ## Supply-chain checks
 
-GitHub Actions uses exact upstream commit SHAs for checkout, setup-node and upload-artifact. Both npm projects have committed lockfiles and use npm ci with lifecycle scripts disabled. A CI advisory check rejects high-severity and critical known advisories in the literary application's production/runtime dependency set.
+GitHub Actions uses exact upstream v5 commit SHAs for checkout, setup-node and upload-artifact, verified against their GitHub tag references. The actions use a Node 24 runtime; the project's locked build remains on Node 22. Both npm projects have committed lockfiles and use npm ci with lifecycle scripts disabled. A CI advisory check rejects high-severity and critical known advisories in the literary application's production/runtime dependency set.
 
 The runtime advisory check does not assess every development, build or test dependency, detect unpublished vulnerabilities, or eliminate the need for independent code/security review. Pinning improves repeatability, not absolute security. A separate full dependency-tree security review and controlled upgrades remain before a production security claim.
 
