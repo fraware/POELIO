@@ -1,6 +1,6 @@
 # POELIO — Product contract v0.1
 
-**Status:** proposed product direction; public mathematical foundation implemented.
+**Status:** governing product contract. Public prototypes of two distinct mechanisms and a facilitator handout exist; no full artistic or research acceptance is claimed.
 **Cultural working title:** L'Atelier des possibles.
 **Institutional status:** independent, not affiliated with or endorsed by Oulipo.
 
@@ -23,13 +23,15 @@ A typical guided experience is targeted at 12–18 minutes, with optional longer
 
 ## Present repository milestone
 
-The published **model explorer** deliberately demonstrates only stage 3: an eight-position binary schedule with incompatible alternation and recurrence rules, and its fourteen labelled minimum-repair configurations. It has no literary manuscript, authorial comparison, workshop accounts, or AI generation.
+The repository now includes a separately runnable mathematical explorer and a six-stage public reading application with two original teaching episodes. *Le Registre des clefs* has two authored realizations tied to the fourteen-solution scheduling model; twelve mathematical schedules remain without authored prose. *Les Quatre Témoins* uses a separate 4! permutation model, combining the same four immutable authored fragments in different orders. Those computational arrangements are expressly distinguished from complete alternative texts composed by the author.
 
-This is not presented as completion of the full six-stage product.
+A print-ready facilitator guide is included, along with a prospective privacy-preserving workshop protocol. Neither episode has undergone independent literary editorial approval or empirical user evaluation. The unpublished *La Relève* material is not bundled.
+
+The six-stage sequence, literary primacy, human authorship, and strict distinction between formal facts and interpretive claims remain mandatory; these prototypes do not complete the full product.
 
 ## Formal and interpretive evidence
 
-- Exact finite-model enumeration is checked through executable tests over 256 schedules.
+- Exact finite-model enumeration is checked through executable tests over 256 schedules; the second mechanism exhaustively checks 24 unique permutations and its 12-rule subset.
 - A machine-checked theorem belongs to a pinned proof source and toolchain; no Lean theorem is constructed or replayed by the public explorer.
 - A reading of a passage is an interpretation, not a formal guarantee.
 - Literary quality is never assigned an automated proof status.
