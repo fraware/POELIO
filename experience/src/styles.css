@@ -80,7 +80,8 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .brand-mark { color: #deb982; padding-left: .35rem; font-size: .92em; }
 .brand-desc { font-size: .72rem; letter-spacing: .05em; color: #d4e0d4; }
-.header-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .3rem .4rem; }
+.header-actions { display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; }
+.header-experiences, .header-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .2rem .35rem; }
 .edition-flag {
   color: #f0d7ad;
   border: 1px solid #537566;
@@ -324,6 +325,7 @@ textarea:focus, input:focus, select:focus { background: #fff; }
 .outline-button { background: transparent; color: var(--forest); border-color: #9aab9b; }
 .outline-button:hover:not(:disabled) { background: #e9efe6; }
 .position { color: #516257; font-size: .76rem; text-align: center; }
+.journey-footer button { white-space: nowrap; }
 .disclaimer { max-width: 1120px; padding: 1.1rem 1.5rem 2rem; margin: auto; color: #586a60; text-align: center; font-size: .73rem; line-height: 1.7; }
 .projector { font-size: 1.18rem; }
 .projector .main-content { max-width: 1400px; }
@@ -377,7 +379,8 @@ textarea:focus, input:focus, select:focus { background: #fff; }
 @media (max-width: 860px) {
   .topbar { flex-direction: column; align-items: stretch; }
   .brand-block { flex-direction: row; align-items: baseline; gap: 1.1rem; flex-wrap: wrap; }
-  .header-actions { max-width: none; justify-content: flex-start; }
+  .header-actions { max-width: none; align-items: flex-start; }
+  .header-experiences, .header-tools { justify-content: flex-start; }
   .comparison, .reflection { grid-template-columns: 1fr; }
   .days { grid-template-columns: repeat(4,minmax(0,1fr)); }
   .main-content { padding-top: 3.25rem; }
@@ -386,9 +389,12 @@ textarea:focus, input:focus, select:focus { background: #fff; }
   .topbar { padding: .9rem 1rem; gap: .55rem; }
   .brand { font-size: 1.5rem; }
   .brand-desc { font-size: .69rem; }
-  .header-actions { gap: .15rem; }
-  .edition-flag { width: 100%; border: 0; padding: .3rem .45rem; }
-  .text-button { padding: .45rem .55rem; font-size: .76rem; }
+  .header-actions { width: 100%; gap: .25rem; align-items: stretch; }
+  .header-experiences { display: grid; grid-template-columns: minmax(0,2fr) minmax(0,1fr); gap: .35rem; }
+  .header-tools { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: .2rem; }
+  .edition-flag { display: none; }
+  .text-button { min-width: 0; padding: .32rem .25rem; font-size: .72rem; line-height: 1.25; text-align: center; overflow-wrap: break-word; }
+  .header-experiences .text-button { min-height: 52px; }
   .steps {
     display: flex;
     gap: .15rem;
@@ -413,7 +419,8 @@ textarea:focus, input:focus, select:focus { background: #fff; }
   .day-name { font-size: .67rem; }
   .journey-footer { padding: 1rem 1.1rem; gap: .5rem; }
   .journey-footer button { padding: .65rem .8rem; }
-  .position { font-size: .68rem; }
+  .position { font-size: .72rem; white-space: nowrap; }
+  .position-title { display: none; }
   .review-main { padding: 1.55rem 1rem 3rem; }
   .review-text { padding: 1.25rem; }
   .review-text p { font-size: 1.08rem; line-height: 1.82; }
@@ -422,7 +429,7 @@ textarea:focus, input:focus, select:focus { background: #fff; }
 @media (max-width: 340px) {
   .brand-desc { display: none; }
   .step-number { display: none; }
-  .position { max-width: 84px; overflow-wrap: anywhere; }
+  .position { max-width: none; }
   .factline span { font-size: .74rem; }
 }
 @media (prefers-reduced-motion: reduce) {
