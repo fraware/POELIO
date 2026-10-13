@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from './JourneyControls.js';
-import { useSessionDraft } from './useSessionDraft.js';
+import { useSessionDraft, clearAllPublicDrafts } from './useSessionDraft.js';
 import { repeatedEdges, type Person, type Schedule } from '../../src/model.js';
 import {publicWorks} from './contentCatalog.js';
 import {type Realization} from './episode.js';
@@ -81,6 +81,14 @@ export function App(): ReactNode {
   useEffect(() => {
     if (activeExperience === 'register') document.documentElement.lang = language;
   }, [language, activeExperience]);
+  function clearForNextReader():void {
+    if(!window.confirm(tr(
+      'Effacer les textes et les réponses des deux œuvres de cet onglet ? Exportez d’abord ce que vous souhaitez conserver.',
+      'Erase drafts and interpretations for BOTH works in this tab? Export any writing you want to keep first.'
+    )))return;
+    clearAllPublicDrafts();
+    window.location.reload();
+  }
   function reset(): void {
     if (!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?'))) return;
     setInitial(''); setRevised(''); setWriting(''); setRule('');
@@ -119,6 +127,7 @@ export function App(): ReactNode {
         <button type="button" className="text-button" onClick={()=>setProjector(v=>!v)}
           aria-pressed={projector}>{projector?tr('Normal','Normal'):tr('Projection','Projector')}</button>
         <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
+        <button type="button" className="text-button" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
       </div>
     </header>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
