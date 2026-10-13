@@ -1,4 +1,4 @@
-import {type ReactNode} from 'react';
+import {useEffect,useRef,type ReactNode} from 'react';
 import {type Language} from './JourneyControls.js';
 
 type Work = 'register'|'permutation';
@@ -14,6 +14,15 @@ export function ReaderHeader({language,work,onSwitch,onLanguage,projector,onProj
   onClear:()=>void;
 }):ReactNode{
   const fr=language==='fr';
+  const menuRef=useRef<HTMLDetailsElement>(null);
+  useEffect(()=>{
+    const dismiss=(event:PointerEvent)=>{
+      if(event.target instanceof Node && !menuRef.current?.contains(event.target))
+        menuRef.current?.removeAttribute('open');
+    };
+    document.addEventListener('pointerdown',dismiss);
+    return ()=>document.removeEventListener('pointerdown',dismiss);
+  },[]);
   return <header className="topbar">
     <div className="topbar-inner">
       <div className="topline">
@@ -27,7 +36,13 @@ export function ReaderHeader({language,work,onSwitch,onLanguage,projector,onProj
           </a>
           <button type="button" className="language-button" onClick={onLanguage}
             aria-label={fr?'Switch to English':'Passer en français'}>{fr?'EN':'FR'}</button>
-          <details className="reader-options">
+          <details className="reader-options" ref={menuRef} onKeyDown={event=>{
+            if(event.key==='Escape'){
+              event.currentTarget.removeAttribute('open');
+              event.currentTarget.querySelector('summary')?.focus();
+              event.stopPropagation();
+            }
+          }}>
             <summary>{fr?'Options':'Options'}</summary>
             <div className="options-panel">
               <a className="menu-guide" href={import.meta.env.BASE_URL+'facilitator.html'} target="_blank" rel="noopener noreferrer">{fr?'Guide d’atelier':'Workshop guide'}</a>
