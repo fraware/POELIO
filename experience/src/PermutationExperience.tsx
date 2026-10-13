@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from './JourneyControls.js';
 import { useSessionDraft } from './useSessionDraft.js';
-import {
-  ORIGINAL_ORDER, COUNTER_ORDER, allFragmentOrders, authoredFragments, isFragmentOrder,
-  orderKey, passagesForOrder, questionBeforeLetter, type FragmentOrder
-} from './permutation.js';
+import {isFragmentOrder,orderKey,type FragmentOrder} from './permutation.js';
+import {publicWorks} from './contentCatalog.js';
+const {orders:ALL,originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
+  fragments:authoredFragments}=publicWorks.permutation;
+const passagesForOrder=publicWorks.permutation.passages;
+const questionBeforeLetter=publicWorks.permutation.condition;
 
-const ALL = allFragmentOrders();
 const BY_KEY = new Map(ALL.map(order=>[orderKey(order), order]));
 if (BY_KEY.size !== 24) throw new Error('Invalid permutation catalogue');
 
