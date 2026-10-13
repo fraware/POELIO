@@ -25,3 +25,29 @@ jobs:
         run: |
           test "$(find dist -type f | wc -l)" -eq 4
           test ! -e dist/catalog.json
+  literary-experience:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install experience dependencies
+        run: npm install --prefix experience --ignore-scripts --no-audit --no-fund
+      - name: Typecheck, model/content contract tests and Vite build
+        run: |
+          npm --prefix experience run typecheck
+          npm --prefix experience test
+          npm --prefix experience run build
+      - name: Reject unexpected output files
+        run: |
+          find experience/dist -type f | sort
+          test ! -e experience/dist/catalog.json
+          test ! -e experience/dist/private-runtime
+          test "$(find experience/dist -type f | wc -l)" -le 6
+          ! grep -R -E 'Mardi, une clé en soulevait|Lundi, l.enveloppe reposait' experience/dist
+      - name: Install headless Chromium
+        run: npx --prefix experience playwright install chromium --with-deps
+      - name: Desktop and mobile browser journey
+        run: npm --prefix experience run test:e2e
