@@ -72,10 +72,10 @@ test('document language tracks the currently mounted reading experience', async 
   await page.getByRole('button',{name:'Switch to English'}).click();
   await expect(page.locator('html')).toHaveAttribute('lang','en');
   await page.getByRole('button',{name:/Second experience/}).click();
+  await expect(page.locator('html')).toHaveAttribute('lang','en');
+  await page.getByRole('button',{name:'Passer en français'}).click();
   await expect(page.locator('html')).toHaveAttribute('lang','fr');
-  await page.getByRole('button',{name:'Switch to English'}).click();
-  await expect(page.locator('html')).toHaveAttribute('lang','en');
-  await page.getByRole('button',{name:/Register of Keys/}).click();
-  await expect(page.locator('html')).toHaveAttribute('lang','en');
+  await page.getByRole('button',{name:/Registre des clefs/}).click();
+  await expect(page.locator('html')).toHaveAttribute('lang','fr');
   await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
 });
