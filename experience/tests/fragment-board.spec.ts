@@ -51,6 +51,7 @@ test('turning on a rule does not silently replace an existing nonconforming arra
 
 test('pointer reordering follows the same validated operations as arrow controls',async({page})=>{
   await openBoard(page);
+  await page.locator('.fragment-board').scrollIntoViewIfNeeded();
   const start=await page.locator('[data-fragment-id="question"] .fragment-grip').boundingBox();
   const destination=await page.locator('[data-fragment-id="bell"] .fragment-title').boundingBox();
   expect(start).toBeTruthy();expect(destination).toBeTruthy();
@@ -66,16 +67,21 @@ test('touch gesture and 320px reflow keep the board usable',async({page,isMobile
   test.skip(!isMobile,'Touch gesture needs a mobile touch-enabled project');
   await page.setViewportSize({width:320,height:720});
   await openBoard(page);
+  await page.locator('.fragment-board').scrollIntoViewIfNeeded();
   const start=await page.locator('[data-fragment-id="question"] .fragment-grip').boundingBox();
   const dest=await page.locator('[data-fragment-id="bell"] .fragment-title').boundingBox();
   expect(start).toBeTruthy();expect(dest).toBeTruthy();
   if(!start||!dest)return;
+  const height=await page.evaluate(()=>document.documentElement.clientHeight);
+  expect(start.y).toBeGreaterThanOrEqual(0);
+  expect(dest.y+dest.height/2).toBeLessThan(height);
   const cdp=await page.context().newCDPSession(page);
   const a={x:Math.round(start.x+start.width/2),y:Math.round(start.y+start.height/2)};
   const b={x:Math.round(dest.x+dest.width/2),y:Math.round(dest.y+dest.height/2)};
   await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[a]});
   await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[b]});
   await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+  await expect(page.locator('.fragment-card').first()).toHaveAttribute('data-fragment-id','bell');
   expect(await ids(page)).toEqual(['bell','question','door','letter']);
   const width=await page.evaluate(()=>({body:document.body.scrollWidth,viewport:document.documentElement.clientWidth}));
   expect(width.body).toBeLessThanOrEqual(width.viewport+1);
