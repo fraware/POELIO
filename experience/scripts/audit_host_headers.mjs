@@ -76,6 +76,10 @@ function mime(path,value){
     if(mimeType!=='text/html')fail('invalid HTML Content-Type for '+path);
   }else if(path.endsWith('.css')){
     if(mimeType!=='text/css')fail('invalid CSS Content-Type for '+path);
+  }else if(path.endsWith('.woff2')){
+    if(mimeType!=='font/woff2')fail('invalid WOFF2 Content-Type for '+path);
+  }else if(path.endsWith('.txt')){
+    if(mimeType!=='text/plain')fail('invalid text license Content-Type for '+path);
   }else if(path.endsWith('.js')){
     if(!['text/javascript','application/javascript'].includes(mimeType))
       fail('invalid JS Content-Type for '+path);
@@ -94,16 +98,18 @@ export async function auditHostedRelease({baseUrl,release,fetchImpl=fetch}){
     fail('unsupported base');
   if(base.pathname!==release.base)fail('URL base mismatches release manifest');
   const files=release.artifacts;
-  if(!Array.isArray(files)||files.length!==5)fail('release must enumerate five public files');
+  if(!Array.isArray(files)||files.length!==8)fail('release must enumerate eight public files');
   const paths=files.map(f=>f.path);
-  if(new Set(paths).size!==5 ||
+  if(new Set(paths).size!==8 ||
     !paths.includes('index.html')||!paths.includes('facilitator.html')||
-    !paths.includes('sw.js')||paths.filter(x=>x.endsWith('.js')&&x!=='sw.js').length!==1||
+    !paths.includes('sw.js')||
+    !paths.includes('source-sans-3.woff2')||!paths.includes('source-sans-3-italic.woff2')||
+    !paths.includes('source-sans-license.txt')||paths.filter(x=>x.endsWith('.js')&&x!=='sw.js').length!==1||
     paths.filter(x=>x.endsWith('.css')).length!==1)
     fail('invalid artifact inventory');
   const report=[];
   for(const file of files){
-    if(typeof file.path!=='string'||!(/^(index\.html|facilitator\.html|sw\.js|assets\/index-[\w-]+\.(?:js|css))$/).test(file.path)
+    if(typeof file.path!=='string'||!(/^(index\.html|facilitator\.html|sw\.js|source-sans-3\.woff2|source-sans-3-italic\.woff2|source-sans-license\.txt|assets\/index-[\w-]+\.(?:js|css))$/).test(file.path)
       ||!Number.isSafeInteger(file.size)||file.size<0||!/^[a-f0-9]{64}$/.test(file.sha256))
       fail('untrusted file manifest');
     const target=new URL(file.path,base);
