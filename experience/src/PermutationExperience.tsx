@@ -207,6 +207,5 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
       </>}
     </main>
     <JourneyFooter language={language} index={index} title="Les Quatre Témoins" onMove={step}/>
-    {(stage==='question'||stage==='invent'||stage==='reflect') && <div className="disclaimer">{tr('Vos écrits restent dans cet onglet. Exportez-les pour les conserver.','Your writing stays in this tab. Export it to keep a copy.')}</div>}
   </div>;
 }
