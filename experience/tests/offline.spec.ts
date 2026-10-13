@@ -1,6 +1,26 @@
 import {expect,test} from '@playwright/test';
 
 test('previously loaded approved literary readings and facilitator survive disconnection',async({page,context})=>{
+  const failures:string[]=[];
+  page.on('pageerror',e=>failures.push('pageerror: '+e.message));
+  page.on('console',m=>{if(m.type()==='error')failures.push('console: '+m.text())});
+  page.on('requestfailed',r=>failures.push('request: '+r.url()+' '+r.failure()?.errorText));
+  async function assertOfflineHeading(name:string):Promise<void>{
+    try {
+      await expect(page.getByRole('heading',{name})).toBeVisible({timeout:4000});
+    }catch(err){
+      const diagnostics=await page.evaluate(async()=>{
+        let cache:any=[];
+        try{cache=(await caches.keys()).filter(k=>k.startsWith('poelio-approved-public-v1-'));}catch(e){cache=String(e)}
+        return {url:location.href,body:document.body?.innerText?.slice(0,800),
+          title:document.title,controller:navigator.serviceWorker?.controller?.scriptURL,
+          cache,navigatorOnline:navigator.onLine,
+          scripts:[...document.querySelectorAll('script[src]')].map(x=>x.getAttribute('src'))};
+      }).catch(e=>({evaluationError:String(e)}));
+      console.log('OFFLINE_READ_DIAGNOSTIC',JSON.stringify({expected:name,diagnostics,failures}));
+      throw err;
+    }
+  }
   await page.goto('/');
   await expect(page.getByRole('heading',{name:'Avant la règle, le récit.'})).toBeVisible();
   await page.waitForFunction(()=>Boolean(navigator.serviceWorker?.controller),null,{timeout:20000});
@@ -15,9 +35,9 @@ test('previously loaded approved literary readings and facilitator survive disco
   await context.setOffline(true);
   try {
     await page.goto('/?review=register');
-    await expect(page.getByRole('heading',{name:'Une lecture, avant tout commentaire'})).toBeVisible();
+    await assertOfflineHeading('Une lecture, avant tout commentaire');
     await page.goto('/?companion=permutation');
-    await expect(page.getByRole('heading',{name:'Lire, comprendre, interpréter'})).toBeVisible();
+    await assertOfflineHeading('Lire, comprendre, interpréter');
     await page.goto('/facilitator.html');
     await expect(page.getByRole('heading',{name:'Guide de séance — 60 minutes'})).toBeVisible();
     await page.goto('/');
