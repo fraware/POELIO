@@ -1,17 +1,10 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from './JourneyControls.js';
 import { useSessionDraft } from './useSessionDraft.js';
 import { minimumRepairs, repeatedEdges, type Person, type Schedule } from '../../src/model.js';
 import { authoredForSchedule, demoEpisode, evidence, type Realization } from './episode.js';
 import { PermutationExperience } from './PermutationExperience.js';
 
-type Stage = 'read' | 'question' | 'explore' | 'compare' | 'invent' | 'reflect';
-type Language = 'fr' | 'en';
-const STAGES: Stage[] = ['read','question','explore','compare','invent','reflect'];
-const LABELS: Record<Stage, [string,string]> = {
-  read: ['Lire','Read'], question: ['Questionner','Question'],
-  explore: ['Explorer','Explore'], compare: ['Comparer','Compare'],
-  invent: ['Inventer','Invent'], reflect: ['Revenir','Reflect']
-};
 const DAYS: Record<Language, string[]> = {
   fr: ['Lun₀','Mar','Mer','Jeu','Ven','Sam','Dim','Lun₁'],
   en: ['Mon₀','Tue','Wed','Thu','Fri','Sat','Sun','Mon₁']
@@ -69,7 +62,7 @@ function ScheduleView({ schedule, faultEdge, language }: {
 export function App(): ReactNode {
   const [language,setLanguage] = useState<Language>('fr');
   const [activeExperience,setActiveExperience] = useState<'register'|'permutation'>('register');
-  const [stage,setStage] = useState<Stage>('read');
+  const {stage,current,mainRef,navigate,move} = useLiteraryJourney();
   const [initial,setInitial] = useSessionDraft('register','initial');
   const [revised,setRevised] = useSessionDraft('register','revised');
   const [writing,setWriting] = useSessionDraft('register','writing');
@@ -78,9 +71,7 @@ export function App(): ReactNode {
   const [compareLeft,setCompareLeft] = useState(FIRST.id);
   const [compareRight,setCompareRight] = useState(SECOND.id);
   const [projector,setProjector] = useState(false);
-  const mainRef = useRef<HTMLElement>(null);
   const tr = (fr: string,en: string): string => language === 'fr' ? fr : en;
-  const current = STAGES.indexOf(stage);
 
   const selectedRepair = useMemo(() => REPAIRS.find(r => r.schedule.join('')===selected) ?? REPAIRS[0], [selected]);
   const selectedRealization = authoredForSchedule(demoEpisode, selectedRepair.schedule);
@@ -90,15 +81,6 @@ export function App(): ReactNode {
   useEffect(() => {
     if (activeExperience === 'register') document.documentElement.lang = language;
   }, [language, activeExperience]);
-  function navigate(target: Stage): void {
-    setStage(target);
-    // Focus follows navigation so keyboard and screen-reader users reach the stage heading.
-    requestAnimationFrame(()=>mainRef.current?.focus());
-  }
-  function next(direction: -1|1): void {
-    const index = Math.min(STAGES.length-1,Math.max(0,current+direction));
-    navigate(STAGES[index]);
-  }
   function reset(): void {
     if (!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?'))) return;
     setInitial(''); setRevised(''); setWriting(''); setRule('');
@@ -139,16 +121,7 @@ export function App(): ReactNode {
         <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
       </div>
     </header>
-    <div className="progress-shell">
-      <nav aria-label={tr('Étapes de l’expérience','Experience stages')} className="steps">
-        {STAGES.map((s,i)=><button
-          key={s} type="button" className={s===stage?'step current':'step'}
-          aria-current={s===stage?'step':undefined} onClick={()=>navigate(s)}>
-          <span className="step-number">{String(i+1).padStart(2,'0')}</span>
-          <span>{LABELS[s][language==='fr'?0:1]}</span>
-        </button>)}
-      </nav>
-    </div>
+    <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
     <main id="stage-main" className="main-content" tabIndex={-1} ref={mainRef}>
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / RENCONTRER UN TEXTE','01 / ENCOUNTER A WORK')}</p>
@@ -265,11 +238,7 @@ export function App(): ReactNode {
         <button className="primary-button" type="button" onClick={exportWriting}>{tr('Conserver mon travail','Keep my work')}</button>
       </>}
     </main>
-    <footer className="journey-footer">
-      <button type="button" className="outline-button" onClick={()=>next(-1)} disabled={current===0}>{tr('← Retour','← Back')}</button>
-      <span className="position">{String(current+1).padStart(2,'0')} / 06 · {demoEpisode.title}</span>
-      <button type="button" className="primary-button" onClick={()=>next(1)} disabled={current===5}>{tr('Continuer →','Continue →')}</button>
-    </footer>
+    <JourneyFooter language={language} index={current} title={demoEpisode.title} onMove={move}/>
     <div className="disclaimer">{tr(
       'Démonstration littéraire originale · Aucun contenu inédit de La Relève · Sans IA ni compte · Projet indépendant de l’Oulipo',
       'Original literary demonstration · No unpublished La Relève text · No AI or accounts · Independent from Oulipo'
