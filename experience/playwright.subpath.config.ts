@@ -12,7 +12,7 @@ export default defineConfig({
     {name:'subpath-mobile',use:{...devices['Desktop Chrome'],viewport:{width:375,height:812},isMobile:true,hasTouch:true}}
   ],
   webServer:{
-    command:'npm run preview -- --port 4179 --strictPort',
+    command:'npm run preview -- --base /POELIO/ --port 4179 --strictPort',
     url:'http://127.0.0.1:4179/POELIO/',
     reuseExistingServer:!process.env.CI,
     timeout:60000
