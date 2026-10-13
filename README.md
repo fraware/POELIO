@@ -1,12 +1,12 @@
 # POELIO
 
-\`\`\`text
+```text
          P  O  E  L  I  O
          -------------------------------
 
          01  READ       02  QUESTION    03  EXPLORE
          04  COMPARE    05  INVENT      06  REFLECT
-\`\`\`
+```
 
 **A literary atelier for exploring the possibilities of writing.**
 
@@ -41,19 +41,19 @@ The two works introduce different techniques of constrained writing. In each, th
 
 Requires Node.js 22.12 or later and npm.
 
-\`\`\`bash
+```bash
 git clone https://github.com/fraware/POELIO.git
 cd POELIO/experience
 npm ci
 npm run dev
-\`\`\`
+```
 
 Open the local URL displayed by Vite. To run a production build locally:
 
-\`\`\`bash
+```bash
 npm run build
 npm run preview
-\`\`\`
+```
 
 The application is a static website. For GitHub Pages publication and hosting instructions, see [Deployment](docs/GITHUB_PAGES.md).
 
@@ -67,24 +67,24 @@ Writing stays in the reader's browser tab, with no account or application-side s
 
 The repository keeps the literary experience and its underlying computational models distinct.
 
-\`\`\`text
+```text
 experience/          Interactive literary application (React, TypeScript, Vite)
 src/                 Finite compositional model
 public/              Standalone mathematical explorer
 tests/               Model and repository checks
 docs/                Design, architecture, and research documentation
-\`\`\`
+```
 
 From the repository root, run the mathematical model tests:
 
-\`\`\`bash
+```bash
 npm ci
 npm test
-\`\`\`
+```
 
 For application checks and browser tests:
 
-\`\`\`bash
+```bash
 cd experience
 npm ci
 npm run typecheck
@@ -92,7 +92,7 @@ npm test
 npm run build
 npx playwright install chromium
 npm run test:e2e
-\`\`\`
+```
 
 The source includes unit tests, browser interaction checks, accessibility automation, and reproducible build tooling. For implementation details, see [Architecture](docs/ARCHITECTURE.md) and the [application README](experience/README.md).
 
