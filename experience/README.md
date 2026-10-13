@@ -83,3 +83,9 @@ The release auditor validates the **already built** public app at root or under 
 Run `npm run test:release` for synthetic adversarial checks. Following a root build, use `npm run audit:root`; following a subpath build, use `npm run audit:subpath`. Both commands write deterministic JSON reports under ignored `release-audit/`, **outside** the public `dist/` bundle. The records contain SHA-256 of the exact five deployed files, the two already-public pinned literary source files and both npm lockfiles, plus cache version and deployment prefix. Reports carry `publicationStatus=TECHNICAL_ONLY_NO_PUBLICATION_CLEARANCE`; passing the auditor does not approve a public literary release.
 
 GitHub Actions archives both reports separately from the approved public demo artifact. These manifests contain no private or unpublished literary content and do not establish human editorial, accessibility or legal acceptance.
+
+## Browser security regression tests
+
+The ordinary `npm run test:e2e` includes desktop/mobile `tests/privacy-boundaries.spec.ts`. The tests do not bypass the deployed Content Security Policy and check that editing, local export, and independent editorial reviews produce no unintended third-party or mutating HTTP requests. They also test per-work temporary writing, sessionStorage denial, empty cookies/IndexedDB/localStorage in tested paths, the four approved cached public assets and deliberate Reset deletion.
+
+`sessionStorage` is not encrypted or guaranteed erased by closing a browser session. Shared workshop devices require explicit Reset and local download care. The CI dependency audit covers **production runtime dependencies** only, not the entire build toolchain. See `../docs/SECURITY_PRIVACY_ACCEPTANCE.md` for residual risks and exact acceptance boundaries.
