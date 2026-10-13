@@ -31,11 +31,11 @@ export function ReaderHeader({language,work,onSwitch,onLanguage,projector,onProj
             <summary>{fr?'Options':'Options'}</summary>
             <div className="options-panel">
               <a className="menu-guide" href={import.meta.env.BASE_URL+'facilitator.html'} target="_blank" rel="noopener noreferrer">{fr?'Guide d’atelier':'Workshop guide'}</a>
-              <button type="button" onClick={onProjector} aria-pressed={projector}>
+              <button type="button" onClick={e=>{e.currentTarget.closest("details")?.removeAttribute("open");onProjector();}} aria-pressed={projector}>
                 {projector?'Mode normal':fr?'Mode projection':'Projector mode'}
               </button>
-              <button type="button" onClick={onReset}>{fr?'Recommencer':'Reset'}</button>
-              <button type="button" className="danger-action" onClick={onClear}>
+              <button type="button" onClick={e=>{e.currentTarget.closest("details")?.removeAttribute("open");onReset();}}>{fr?'Recommencer':'Reset'}</button>
+              <button type="button" className="danger-action" onClick={e=>{e.currentTarget.closest("details")?.removeAttribute("open");onClear();}}>
                 {fr?'Effacer toutes mes réponses':'Erase all my drafts'}
               </button>
             </div>
