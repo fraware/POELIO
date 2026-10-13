@@ -111,7 +111,7 @@ export function App(): ReactNode {
     <a href="#stage-main" className="skip-link">{tr('Aller au texte','Skip to the text')}</a>
     <header className="topbar">
       <div className="brand-block">
-        <span className="brand">POELIO<span className="brand-mark">✳</span></span>
+        <span className="brand">POELIO<span className="brand-mark" aria-hidden="true">✳</span></span>
         <span className="brand-desc">{tr('Laboratoire de littérature potentielle','Laboratory for explorable literature')}</span>
       </div>
       <div className="header-actions">
@@ -127,7 +127,7 @@ export function App(): ReactNode {
         <button type="button" className="text-button" onClick={()=>setProjector(v=>!v)}
           aria-pressed={projector}>{projector?tr('Normal','Normal'):tr('Projection','Projector')}</button>
         <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
-        <button type="button" className="text-button" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
+        <button type="button" className="text-button danger-action" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
       </div>
     </header>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
