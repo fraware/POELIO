@@ -63,3 +63,7 @@ jobs:
         run: npx --prefix experience playwright install chromium --with-deps
       - name: Desktop and mobile browser journey
         run: npm --prefix experience run test:e2e
+      - name: Build approved public app at a non-root /POELIO/ path
+        run: npm --prefix experience run build:subpath
+      - name: Verify subpath build and offline navigation in desktop/mobile Chromium
+        run: npm --prefix experience run test:subpath

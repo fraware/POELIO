@@ -111,7 +111,7 @@ export function App(): ReactNode {
         <button className="text-button" type="button" onClick={()=>setActiveExperience('permutation')}>
           {tr('Deuxième expérience : permutations →','Second experience: permutations →')}
         </button>
-        <a className="text-button" href="/facilitator.html" target="_blank" rel="noopener noreferrer">
+        <a className="text-button" href={import.meta.env.BASE_URL + 'facilitator.html'} target="_blank" rel="noopener noreferrer">
           {tr('Guide d’atelier','Workshop guide')}
         </a>
         <button type="button" className="text-button" onClick={()=>setLanguage(v=>v==='fr'?'en':'fr')}

@@ -86,7 +86,7 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
       </div>
       <div className="header-actions">
         <button type="button" className="text-button" onClick={onReturn}>{tr('← Registre des clefs','← Register of Keys')}</button>
-        <a className="text-button" href="/facilitator.html" target="_blank" rel="noopener noreferrer">{tr('Guide d’atelier','Workshop guide')}</a>
+        <a className="text-button" href={import.meta.env.BASE_URL + 'facilitator.html'} target="_blank" rel="noopener noreferrer">{tr('Guide d’atelier','Workshop guide')}</a>
         <button type="button" className="text-button" onClick={()=>setLanguage(v=>v==='fr'?'en':'fr')}
           aria-label={tr('Switch to English','Passer en français')}>{language==='fr'?'EN':'FR'}</button>
         <button type="button" className="text-button" aria-pressed={projector}

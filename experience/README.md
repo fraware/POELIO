@@ -67,3 +67,11 @@ The release build produces five permitted public assets, including sw.js. Run np
 The root and `experience/` dependencies now have committed npm v3 lockfiles. Use `npm ci` at the root and `npm ci --prefix experience` for the literary application; CI fails if either lock diverges from its declared package manifest. Dependency installation runs with `--ignore-scripts` to avoid executing lifecycle scripts. Public-release source files remain pinned by `approved-*.blobsha` and the strict output allowlist.
 
 The reading journey, its reviewer packets and static companions resolve work content through `src/contentCatalog.ts`. The registry only accepts the two pinned original public fixtures, validates their distinct finite models and rejects self-declared rights metadata from foreign sources. It cannot import or publish `La Relève`. See [the public content contract](../docs/PUBLIC_CONTENT_CONTRACT.md) for the entry procedure and limitations.
+
+## Repository-subpath deployment test
+
+In addition to the ordinary root-origin build, POELIO runs a second publication-safe build with a Vite base of `/POELIO/`. This is the layout used by repository-scoped static hosts, including a possible GitHub Pages project URL. Links to the workshop guide derive from Vite's configured base, and the offline service worker registers and caches content only within that subpath.
+
+Run `npm run build:subpath` followed by `npm run test:subpath` to reproduce the desktop/mobile browser checks. The normal `npm run build` and `npm run test:e2e` continue to test hosting at `/`. The second build rewrites `dist/` for testing; run the desired build variant last before copying assets to any static host.
+
+**No deployment is enabled by these commands.** Neither variant contains unpublished La Relève prose or private catalogs; actual publication decisions and website deployment permissions are separate gates.
