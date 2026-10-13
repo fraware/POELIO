@@ -3,6 +3,7 @@ import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from '
 import { useSessionDraft, clearAllPublicDrafts } from './useSessionDraft.js';
 import {isFragmentOrder,orderKey,type FragmentOrder} from './permutation.js';
 import {publicWorks} from './contentCatalog.js';
+import {ReaderHeader} from './ReaderHeader.js';
 const {orders:ALL,originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
   fragments:authoredFragments}=publicWorks.permutation;
 const passagesForOrder=publicWorks.permutation.passages;
@@ -28,7 +29,7 @@ function Fragments({order, comparedTo}: {
   order:FragmentOrder; comparedTo?:FragmentOrder;
 }): ReactNode {
   return <article className="manuscript" lang="fr">
-    <div className="page-meta">Les Quatre Témoins · démonstration originale · ordre construit</div>
+    <div className="page-meta">Les Quatre Témoins · quatre fragments</div>
     {passagesForOrder(order).map((fragment,index)=><section key={fragment.id}
       className={comparedTo && comparedTo[index]!==fragment.id?'changed-passage':'fragment-passage'}>
       <p className="fragment-index">{String(index+1).padStart(2,'0')} / {fragment.title}</p>
@@ -37,8 +38,9 @@ function Fragments({order, comparedTo}: {
   </article>;
 }
 
-export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNode {
-  const [language,setLanguage]=useState<Language>('fr');
+export function PermutationExperience({onReturn,language,onToggleLanguage}: {
+  onReturn:()=>void;language:Language;onToggleLanguage:()=>void
+}): ReactNode {
   const {stage,current:index,mainRef:main,navigate,move:step}=useLiteraryJourney();
   const [selected,setSelected]=useState(orderKey(COUNTER_ORDER));
   const [limited,setLimited]=useState(false);
@@ -87,59 +89,39 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
   }
   return <div className={projector?'app projector':'app'}>
     <a className="skip-link" href="#permutation-main">{tr('Aller au texte','Skip to text')}</a>
-    <header className="topbar">
-      <div className="brand-block">
-        <span className="brand">POELIO<span className="brand-mark" aria-hidden="true">✳</span></span>
-        <span className="brand-desc">{tr('Un autre mécanisme littéraire','Another literary mechanism')}</span>
-      </div>
-      <div className="header-actions">
-        <div className="header-experiences">
-        <span className="edition-flag">{tr('Démonstration publique originale','Original public demonstration')}</span>
-        <button type="button" className="text-button" onClick={onReturn}>{tr('← Registre des clefs','← Register of Keys')}</button>
-        <a className="text-button" href={import.meta.env.BASE_URL + 'facilitator.html'} target="_blank" rel="noopener noreferrer">{tr('Guide d’atelier','Workshop guide')}</a>
-        </div>
-        <div className="header-tools">
-        <button type="button" className="text-button" onClick={()=>setLanguage(v=>v==='fr'?'en':'fr')}
-          aria-label={tr('Switch to English','Passer en français')}>{language==='fr'?'EN':'FR'}</button>
-        <button type="button" className="text-button" aria-pressed={projector}
-          onClick={()=>setProjector(v=>!v)}>{projector?tr('Normal','Normal'):tr('Projection','Projector')}</button>
-        <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
-        <button type="button" className="text-button danger-action" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
-        </div>
-      </div>
-    </header>
+    <ReaderHeader language={language} work="permutation" onSwitch={onReturn}
+      onLanguage={onToggleLanguage}
+      projector={projector} onProjector={()=>setProjector(v=>!v)}
+      onReset={reset} onClear={clearForNextReader}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
     <main id="permutation-main" className="main-content" tabIndex={-1} ref={main}>
       {stage==='read' && <>
-        <p className="eyebrow">{tr('01 / PREMIÈRE LECTURE','01 / FIRST READING')}</p>
-        <h1>{tr('La porte était ouverte.','The door stood open.')}</h1>
+        <p className="eyebrow">{tr('01 / Lecture','01 / Reading')}</p>
+        <h1 lang="fr">Les Quatre Témoins</h1>
         <p className="lede">{tr(
-          'Une porte, une enveloppe, une question. Lisez ce récit et imaginez ce qui a précédé chacun de ces événements. Le procédé de composition apparaîtra plus tard.',
-          'A door, an envelope, a question. Read this story and imagine what preceded each event. Its compositional procedure will emerge later.'
+          'Lisez ces quatre fragments dans l’ordre présenté. Le parcours vous invitera ensuite à les déplacer.',
+          'Read these four fragments in the order presented. You will be able to rearrange them in the next steps.'
         )}</p>
         <div className="reading-column"><Fragments order={ORIGINAL_ORDER}/></div>
-        <p className="discreet">{tr(
-          'Fiction expérimentale originale. Cette œuvre et ses fragments ne proviennent pas de La Relève.',
-          'Original experimental fiction. This work and its fragments are not from La Relève.'
-        )}</p>
+
       </>}
       {stage==='question' && <>
-        <p className="eyebrow">{tr('02 / INTERPRÉTATION','02 / INTERPRETATION')}</p>
-        <h1>{tr('Qui est venu en premier ?','Who arrived first?')}</h1>
+        <p className="eyebrow">{tr('02 / Votre lecture','02 / Your reading')}</p>
+        <h1>{tr('Votre première lecture','Your first reading')}</h1>
         <p className="lede">{tr(
-          'Qu’est-ce qui vous fait croire à un ordre des événements ? Notez une hypothèse avant de modifier le texte.',
-          'What makes you believe in an order of events? Record a hypothesis before changing the text.'
+          'Dans quel ordre imaginez-vous les événements ? Notez votre impression avant de déplacer les fragments.',
+          'In what sequence do you imagine the events occurred? Record your impression before rearranging the fragments.'
         )}</p>
         <label className="field-label" htmlFor="permutation-first">{tr('Première lecture (facultative)','First reading (optional)')}</label>
         <textarea id="permutation-first" rows={7} value={initial} onChange={e=>setInitial(e.target.value)}/>
-        <p className="discreet">{tr('Votre réponse reste dans cet onglet pendant la session, y compris après actualisation. « Recommencer » l’efface.','Your response stays in this tab during the session, even after refresh. Reset clears it.')}</p>
+        <p className="discreet">{tr('Votre réponse reste dans cet onglet pour la relecture.','Your answer stays in this tab for the final rereading.')}</p>
       </>}
       {stage==='explore' && <>
-        <p className="eyebrow">{tr('03 / MÉCANISME','03 / THE MECHANISM')}</p>
-        <h1>{tr('Déplacer sans réécrire.','Reorder without rewriting.')}</h1>
+        <p className="eyebrow">{tr('03 / La contrainte','03 / The constraint')}</p>
+        <h1>{tr('Changer l’ordre','Change the order')}</h1>
         <p className="lede">{tr(
-          'Quatre fragments fixes admettent 24 ordres possibles. Aucun mot de chaque fragment ne change. Le choix de la succession appartient au lecteur.',
-          'Four fixed fragments admit 24 possible orders. Not a word within a fragment changes. The reader chooses the sequence.'
+          'Les quatre fragments restent identiques. Choisissez un ordre de lecture et observez comment le récit se transforme.',
+          'The four fragments stay unchanged. Choose a reading order and consider how the story changes.'
         )}</p>
         <div className="factline">
           <span>4 {tr('fragments attribués','attributed fragments')}</span>
@@ -173,27 +155,24 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
         </details>
       </>}
       {stage==='compare' && <>
-        <p className="eyebrow">{tr('04 / DEUX LECTURES','04 / TWO READINGS')}</p>
-        <h1>{tr('Les mêmes mots, un autre commencement.','The same words, a different beginning.')}</h1>
+        <p className="eyebrow">{tr('04 / Comparaison','04 / Comparison')}</p>
+        <h1>{tr('Deux ordres de lecture','Two reading orders')}</h1>
         <p className="lede">{tr(
-          'La colonne de gauche conserve le premier ordre. À droite, votre ordre actuel. Les fragments déplacés sont signalés par leur nouvelle position. Comparez les interprétations possibles.',
-          'The left column retains the first order. On the right is your selected order. Moved fragments are marked by their positions. Compare possible interpretations.'
+          'À gauche, l’ordre initial. À droite, votre arrangement. Lisez les deux versions et comparez leurs effets.',
+          'The original order is on the left, your arrangement on the right. Read both and compare their effects.'
         )}</p>
         <div className="comparison">
           <Fragments order={ORIGINAL_ORDER} comparedTo={current}/>
           <Fragments order={current} comparedTo={ORIGINAL_ORDER}/>
         </div>
-        <p className="discreet">{tr(
-          'Les quatre paragraphes sont des fragments fixes écrits pour cette démonstration. Leur permutation est calculée ; aucun passage de transition n’est généré.',
-          'All four paragraphs are fixed fragments written for this demonstration. Their permutation is computed; no transitions or alternative prose are generated.'
-        )}</p>
+
       </>}
       {stage==='invent' && <>
-        <p className="eyebrow">{tr('05 / VOTRE CONTRAINTE','05 / YOUR CONSTRAINT')}</p>
-        <h1>{tr('Inventez un nouvel ordre.','Invent a new ordering rule.')}</h1>
+        <p className="eyebrow">{tr('05 / Écriture','05 / Writing')}</p>
+        <h1>{tr('Proposer une règle','Propose a rule')}</h1>
         <p className="lede">{tr(
-          'Énoncez votre propre règle pour organiser ces fragments, puis écrivez quelques lignes qui en explorent une conséquence. Le logiciel ne juge pas votre réponse.',
-          'Describe your own rule for ordering these fragments, then write a short passage exploring its consequences. The software does not score your response.'
+          'Imaginez une nouvelle règle pour disposer les fragments, puis écrivez quelques lignes à partir de ce choix.',
+          'Invent an ordering rule for the fragments, then write a short passage inspired by it.'
         )}</p>
         <label htmlFor="permutation-rule" className="field-label">{tr('Votre règle','Your rule')}</label>
         <input id="permutation-rule" value={rule} maxLength={400} onChange={e=>setRule(e.target.value)}
@@ -201,16 +180,16 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
         <label htmlFor="permutation-writing" className="field-label">{tr('Votre fragment littéraire','Your literary fragment')}</label>
         <textarea id="permutation-writing" rows={9} value={writing} onChange={e=>setWriting(e.target.value)}/>
         <div className="editor-footer">
-          <span>{writing.trim()?writing.trim().split(/\s+/u).length:0} {tr('mots · non évalués','words · unscored')}</span>
+          <span>{writing.trim()?writing.trim().split(/\s+/u).length:0} {tr('mots','words')}</span>
           <button className="outline-button" type="button" onClick={exportResponse}>{tr('Exporter ma création','Export my writing')}</button>
         </div>
       </>}
       {stage==='reflect' && <>
-        <p className="eyebrow">{tr('06 / REVENIR AU TEXTE','06 / RETURN TO THE TEXT')}</p>
-        <h1>{tr('Où commence une histoire ?','Where does a story begin?')}</h1>
+        <p className="eyebrow">{tr('06 / Relecture','06 / Rereading')}</p>
+        <h1>{tr('Revenir aux fragments','Return to the fragments')}</h1>
         <p className="lede">{tr(
-          'Quels faits appartenaient au texte ? Lesquels provenaient de l’ordre de lecture ou de votre imagination ?',
-          'Which facts belonged to the text? Which arose from reading order or your imagination?'
+          'Relisez votre première impression. Qu’est-ce que le nouvel ordre vous a fait remarquer ?',
+          'Read your first impression again. What did a different order bring to your attention?'
         )}</p>
         <div className="reflection">
           <section><h2>{tr('Votre première hypothèse','Your first hypothesis')}</h2><blockquote>{initial||tr('Aucune réponse.','No response.')}</blockquote></section>
@@ -220,17 +199,14 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
         <div className="history">
           <h2>{tr('Une méthode, plusieurs écritures','One method, multiple forms')}</h2>
           <p>{tr(
-            'Permuter des fragments constitue ici une expérience originale avec des textes explicitement attribués. Cela appartient à une tradition plus vaste d’invention combinatoire ; cette démonstration ne revendique ni nouveauté historique ni affiliation avec l’Oulipo.',
-            'Permuting fixed, attributed fragments is an original demonstration within a much older tradition of combinatorial invention. It claims neither historical priority nor Oulipo affiliation.'
+            'Réorganiser des fragments sans toucher à leurs mots appartient à une longue histoire de la littérature combinatoire. POELIO explore ici ce procédé à partir de quatre passages originaux.',
+            'Reordering fragments without changing their words belongs to a long tradition of combinatorial literature. POELIO explores that practice through four original passages.'
           )}</p>
         </div>
         <button className="primary-button" type="button" onClick={exportResponse}>{tr('Conserver ma création','Keep my writing')}</button>
       </>}
     </main>
     <JourneyFooter language={language} index={index} title="Les Quatre Témoins" onMove={step}/>
-    <div className="disclaimer">{tr(
-      'Démonstration expérimentale · 24 arrangements vérifiés par tests · Écriture locale · Pas de génération de prose',
-      'Experimental demonstration · 24 orders checked by tests · Local writing · No prose generation'
-    )}</div>
+    {(stage==='question'||stage==='invent'||stage==='reflect') && <div className="disclaimer">{tr('Vos écrits restent dans cet onglet. Exportez-les pour les conserver.','Your writing stays in this tab. Export it to keep a copy.')}</div>}
   </div>;
 }

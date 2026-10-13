@@ -114,6 +114,7 @@ test('reset clears public writing without deleting the unrelated literary work',
   await page.locator('#permutation-first').fill(SENTINEL+' permutation');
   await page.waitForFunction(s=>sessionStorage.getItem('poelio:session:v1:permutation:initial')?.includes(s),SENTINEL);
   page.once('dialog',dialog=>dialog.accept());
+  await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Recommencer'}).click();
   await page.waitForFunction(()=>sessionStorage.getItem('poelio:session:v1:permutation:initial')===null);
   const stores=await browserStores(page);

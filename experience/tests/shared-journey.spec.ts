@@ -33,8 +33,8 @@ test('French and English stage labels are centralized and consistent',async({pag
   for(const label of ['Read','Question','Explore','Compare','Invent','Reflect'])
     await expect(nav.getByRole('button',{name:new RegExp(label)})).toBeVisible();
   await page.getByRole('button',{name:/Second experience/}).click();
-  await page.getByRole('button',{name:'Switch to English'}).click();
   nav=page.getByRole('navigation',{name:'Experience stages'});
+  await expect(page.getByRole('button',{name:'Passer en français'})).toBeVisible();
   for(const label of ['Read','Question','Explore','Compare','Invent','Reflect'])
     await expect(nav.getByRole('button',{name:new RegExp(label)})).toBeVisible();
 });

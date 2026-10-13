@@ -1,13 +1,19 @@
 import {expect,test} from '@playwright/test';
 
+async function openWorkshopGuide(page:import('@playwright/test').Page){
+  const link=page.getByRole('link',{name:'Guide d’atelier'});
+  if(!await link.isVisible())await page.locator('details.reader-options > summary').click();
+  await link.click();
+}
+
 // CSP is bypassed only within this browser-test context for service-worker inspection.
 test.use({bypassCSP:true});
 
 test('complete six-stage experience, guide and reviewer paths work below /POELIO/',async({page,context})=>{
   await page.goto('./');
-  await expect(page.getByRole('heading',{name:'Avant la règle, le récit.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
   const guidePromise=page.waitForEvent('popup');
-  await page.getByRole('link',{name:'Guide d’atelier'}).click();
+  await openWorkshopGuide(page);
   const guide=await guidePromise;
   await expect(guide).toHaveURL(/\/POELIO\/facilitator\.html$/);
   await expect(guide.getByRole('heading',{name:'Guide de séance — 60 minutes'})).toBeVisible();
@@ -20,9 +26,9 @@ test('complete six-stage experience, guide and reviewer paths work below /POELIO
 
   await page.goto('./');
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
-  await expect(page.getByRole('heading',{name:'La porte était ouverte.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Les Quatre Témoins'})).toBeVisible();
   const secondGuidePromise=page.waitForEvent('popup');
-  await page.getByRole('link',{name:'Guide d’atelier'}).click();
+  await openWorkshopGuide(page);
   const secondGuide=await secondGuidePromise;
   await expect(secondGuide).toHaveURL(/\/POELIO\/facilitator\.html$/);
   await secondGuide.close();

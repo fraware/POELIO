@@ -22,7 +22,7 @@ test('previously loaded approved literary readings and facilitator survive disco
     }
   }
   await page.goto('/');
-  await expect(page.getByRole('heading',{name:'Avant la règle, le récit.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
   await page.waitForFunction(()=>Boolean(navigator.serviceWorker?.controller),null,{timeout:20000});
   const urls=await page.evaluate(async()=>{
     const keys=(await caches.keys()).filter(x=>x.startsWith('poelio-approved-public-v1-'));
@@ -42,6 +42,6 @@ test('previously loaded approved literary readings and facilitator survive disco
     await expect(page.getByRole('heading',{name:'Guide de séance — 60 minutes'})).toBeVisible();
     await page.goto('/');
     await page.getByRole('button',{name:/Deuxième expérience/}).click();
-    await expect(page.getByRole('heading',{name:'La porte était ouverte.'})).toBeVisible();
+    await expect(page.getByRole('heading',{name:'Les Quatre Témoins'})).toBeVisible();
   } finally {await context.setOffline(false);}
 });

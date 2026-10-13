@@ -5,13 +5,14 @@ import { repeatedEdges, type Person, type Schedule } from '../../src/model.js';
 import {publicWorks} from './contentCatalog.js';
 import {type Realization} from './episode.js';
 import { PermutationExperience } from './PermutationExperience.js';
+import { ReaderHeader } from './ReaderHeader.js';
 
 const DAYS: Record<Language, string[]> = {
   fr: ['Lun₀','Mar','Mer','Jeu','Ven','Sam','Dim','Lun₁'],
   en: ['Mon₀','Tue','Wed','Thu','Fri','Sat','Sun','Mon₁']
 };
 const PEOPLE: Record<Person, string> = { A:'Mira', B:'Noor' };
-const {episode:demoEpisode,repairs:REPAIRS,reading:FIRST,evidence}=publicWorks.register;
+const {episode:demoEpisode,repairs:REPAIRS,reading:FIRST}=publicWorks.register;
 const SECOND=demoEpisode.realizations[1];
 
 function downloadText(filename: string, content: string): void {
@@ -32,15 +33,13 @@ function Manuscript({ realization, compareWith }: {
 }): ReactNode {
   const otherModules = new Set(compareWith?.passages.map(p => p.sourceModule) ?? []);
   return <article className="manuscript" lang={demoEpisode.literaryLanguage}>
-    <div className="page-meta">{demoEpisode.title} · {realization.id.toUpperCase()}</div>
+    <div className="page-meta">{demoEpisode.title} · {realization.id===FIRST.id?'Texte I':'Texte II'}</div>
     {realization.passages.map(p =>
       <p key={p.id} className={compareWith && !otherModules.has(p.sourceModule) ? 'changed-passage' : ''}>
         {p.text}
       </p>
     )}
-    {compareWith && <p className="module-note">
-      <small>◦ {realization.passages.filter(p => otherModules.has(p.sourceModule)).length} module(s) commun(s) par identifiant de source. Le sens du texte reste ouvert à l'interprétation.</small>
-    </p>}
+
   </article>;
 }
 
@@ -105,73 +104,50 @@ export function App(): ReactNode {
       ].join('\n'));
   }
   if (activeExperience==='permutation') {
-    return <PermutationExperience onReturn={()=>setActiveExperience('register')}/>;
+    return <PermutationExperience onReturn={()=>setActiveExperience('register')}
+      language={language} onToggleLanguage={()=>setLanguage(v=>v==='fr'?'en':'fr')}/>;
   }
   return <div className={projector?'app projector':'app'}>
     <a href="#stage-main" className="skip-link">{tr('Aller au texte','Skip to the text')}</a>
-    <header className="topbar">
-      <div className="brand-block">
-        <span className="brand">POELIO<span className="brand-mark" aria-hidden="true">✳</span></span>
-        <span className="brand-desc">{tr('Laboratoire de littérature potentielle','Laboratory for explorable literature')}</span>
-      </div>
-      <div className="header-actions">
-        <div className="header-experiences">
-        <span className="edition-flag">{tr('Démonstration publique originale','Original public demonstration')}</span>
-        <button className="text-button" type="button" onClick={()=>setActiveExperience('permutation')}
-          aria-label={tr('Deuxième expérience : permutations →','Second experience: permutations →')}>
-          <span className="desktop-label">{tr('Deuxième expérience : permutations →','Second experience: permutations →')}</span>
-          <span className="mobile-label" aria-hidden="true">{tr('Les Quatre Témoins →','Four Witnesses →')}</span>
-        </button>
-        <a className="text-button" href={import.meta.env.BASE_URL + 'facilitator.html'} target="_blank" rel="noopener noreferrer">
-          {tr('Guide d’atelier','Workshop guide')}
-        </a>
-        </div>
-        <div className="header-tools">
-        <button type="button" className="text-button" onClick={()=>setLanguage(v=>v==='fr'?'en':'fr')}
-          aria-label={tr('Switch to English','Passer en français')}>{language==='fr'?'EN':'FR'}</button>
-        <button type="button" className="text-button" onClick={()=>setProjector(v=>!v)}
-          aria-pressed={projector}>{projector?tr('Normal','Normal'):tr('Projection','Projector')}</button>
-        <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
-        <button type="button" className="text-button danger-action" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
-        </div>
-      </div>
-    </header>
+    <ReaderHeader language={language} work="register"
+      onSwitch={()=>setActiveExperience('permutation')}
+      onLanguage={()=>setLanguage(v=>v==='fr'?'en':'fr')}
+      projector={projector} onProjector={()=>setProjector(v=>!v)}
+      onReset={reset} onClear={clearForNextReader}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
     <main id="stage-main" className="main-content" tabIndex={-1} ref={mainRef}>
       {stage==='read' && <>
-        <p className="eyebrow">{tr('01 / RENCONTRER UN TEXTE','01 / ENCOUNTER A WORK')}</p>
-        <h1>{tr('Avant la règle, le récit.','The story comes first.')}</h1>
+        <p className="eyebrow">{tr('01 / Lecture','01 / Reading')}</p>
+        <h1 lang="fr">Le Registre des clefs</h1>
         <p className="lede">{tr(
-          'Deux personnes veillent à tour de rôle sur une salle où chaque visite laisse une trace. Lisez d’abord la prose, avant de découvrir ses règles de composition.',
-          'Two people take turns watching a room where each visit leaves a trace. Read without trying to solve the mechanism yet.')}</p>
+          'Lisez le texte à votre rythme. Vous en explorerez la construction dans la suite du parcours.',
+          'Read at your own pace. The next steps explore how the story is constructed.')}</p>
         <div className="reading-column"><Manuscript realization={FIRST}/></div>
-        <p className="discreet">{tr(
-          'Le texte français est une fiction de démonstration distincte de La Relève. Aucun modèle ne produit de phrases pendant votre visite.',
-          'This French story is an original demonstration distinct from La Relève. No model generates prose during your visit.')}</p>
+
       </>}
 
       {stage==='question' && <>
-        <p className="eyebrow">{tr('02 / VOTRE LECTURE','02 / YOUR READING')}</p>
-        <h1>{tr('Qui sait quoi ?','Who knows what?')}</h1>
+        <p className="eyebrow">{tr('02 / Votre lecture','02 / Your reading')}</p>
+        <h1>{tr('Une première impression','A first impression')}</h1>
         <p className="lede">{tr(
-          'Mira revient deux jours de suite. Que permet cette continuité ? Qu’ignore peut-être Noor ? Aucune interprétation n’est notée.',
-          'Mira returns on two consecutive days. What does that continuity make possible? What might Noor not know? Interpretations are not scored.')}</p>
+          'Un détail, un geste, un silence vous a-t-il retenu ? Notez votre lecture avant de découvrir la contrainte.',
+          'Was there a detail, a gesture, or a silence that stayed with you? Record your reading before exploring the constraint.')}</p>
         <label htmlFor="initial-answer" className="field-label">{tr('Votre première interprétation (facultative)','Your first interpretation (optional)')}</label>
         <textarea id="initial-answer" rows={7} value={initial} onChange={e=>setInitial(e.target.value)}
           placeholder={tr('Décrivez un détail que vous avez remarqué…','Describe a detail you noticed…')}/>
         <p className="discreet">{tr(
-          'Cette réponse est conservée dans cet onglet pendant la session, y compris lors d’une actualisation. Utilisez « Recommencer » pour l’effacer.',
-          'This response stays in this tab during the session, including on refresh. Use Reset to erase it. It is never sent to a server.')}</p>
+          'Votre réponse reste dans cet onglet. Vous pourrez la relire à la fin du parcours.',
+          'Your response stays in this tab. You can return to it at the end.')}</p>
       </>}
 
       {stage==='explore' && <>
-        <p className="eyebrow">{tr('03 / LES RÈGLES','03 / THE RULES')}</p>
-        <h1>{tr('Une semaine impossible.','An impossible week.')}</h1>
+        <p className="eyebrow">{tr('03 / La contrainte','03 / The constraint')}</p>
+        <h1>{tr('L’alternance impossible','An impossible alternation')}</h1>
         <p className="lede">{tr(
-          'Les deux lundis doivent revenir à la même personne. Sept relais parfaitement alternés conduisent pourtant à la personne opposée. Choisissez où placer l’unique exception.',
-          'Both Mondays must belong to the same person. Seven perfect alternations instead lead to the opposite person. Choose where to place the single exception.')}</p>
+          'Le premier et le dernier lundi reviennent à la même personne. Pourtant, sept relais alternés aboutissent au résultat contraire. Déplacez l’unique exception pour voir ce qui change.',
+          'The first and last Mondays belong to the same person. Seven alternating handovers would contradict that rule. Move the single exception and observe the result.')}</p>
         <div className="factline"><span>256 {tr('configurations','configurations')}</span><span>0 {tr('sans exception admissible','admissible without an exception')}</span><span>14 {tr('réparations minimales','minimum repairs')}</span></div>
-        <label htmlFor="schedule-choice" className="field-label">{tr('Choisissez l’une des quatorze répartitions','Choose one of fourteen schedules')}</label>
+        <label htmlFor="schedule-choice" className="field-label">{tr('Placer la répétition','Place the repeated handover')}</label>
         <select id="schedule-choice" value={selected} onChange={e=>setSelected(e.target.value)}>
           {REPAIRS.map(r=><option key={r.schedule.join('')} value={r.schedule.join('')}>
             {DAYS[language][r.faultEdge]} → {DAYS[language][r.faultEdge+1]} · {PEOPLE[r.repeatedCaregiver]}
@@ -179,35 +155,35 @@ export function App(): ReactNode {
         </select>
         <ScheduleView schedule={selectedRepair.schedule} faultEdge={selectedRepair.faultEdge} language={language}/>
         <p className="model-result">{selectedRealization
-          ?tr('Cette configuration possède un passage littéraire rédigé dans cette démonstration.','This configuration has an authored literary passage in this demonstration.')
-          :tr('Cette configuration est mathématiquement admissible. Aucun texte n’a été rédigé pour elle dans cette démonstration.','This configuration is mathematically admissible. No literary passage was authored for it in this demonstration.')}</p>
-        <details className="details"><summary>{tr('Pourquoi quatorze ? Qu’établit le calcul ?','Why fourteen? What does the computation establish?')}</summary>
+          ?tr('Cette configuration correspond à l’un des deux textes disponibles.','This arrangement corresponds to one of the two available texts.')
+          :tr('Cette configuration respecte les règles. Aucun texte n’a été rédigé pour cet arrangement.','This arrangement satisfies the rules. No literary passage was written for this arrangement.')}</p>
+        <details className="details"><summary>{tr('Comprendre le calcul','Understand the calculation')}</summary>
           <p>{tr('Une répétition doit apparaître sur exactement l’un des sept relais ; chacun peut répéter Mira ou Noor. L’énumération vérifie les 256 attributions possibles. Elle ne vérifie ni le sens du récit ni sa valeur littéraire.',
             'Exactly one of seven transitions must repeat a participant; either Mira or Noor can be repeated. Exhaustive enumeration checks all 256 assignments. It does not verify narrative meaning or literary merit.')}</p>
-          <ul className="evidence-list">{evidence.map(x=><li key={x.id}><strong>{x.status}</strong> · {x.statement}<br/><small>{x.scope}</small></li>)}</ul>
+
         </details>
       </>}
 
       {stage==='compare' && <>
-        <p className="eyebrow">{tr('04 / LES TEXTES','04 / THE TEXTS')}</p>
-        <h1>{tr('Le même lieu, une autre histoire.','The same room, another story.')}</h1>
+        <p className="eyebrow">{tr('04 / Comparaison','04 / Comparison')}</p>
+        <h1>{tr('Deux façons de raconter','Two ways to tell it')}</h1>
         <p className="lede">{tr(
-          'Comparez deux passages réellement rédigés. Le surlignage suit l’identité des modules, et non une prétendue équivalence de sens.',
-          'Compare two passages that were actually written. Highlights follow source-module identity, not a claimed equivalence of meaning.')}</p>
+          'Lisez ces deux versions du récit. Les passages marqués diffèrent dans leur composition.',
+          'Read these two versions of the story. Shaded passages differ in their composition.')}</p>
         <div className="compare-controls">
-          <label>{tr('Première réalisation','First realization')}
+          <label>{tr('Premier texte','First text')}
             <select value={compareLeft} onChange={e=>setCompareLeft(e.target.value)}>
-              {demoEpisode.realizations.map(r=><option value={r.id} key={r.id}>{r.id} · {PEOPLE[r.repeatedCaregiver]}</option>)}
+              {demoEpisode.realizations.map(r=><option value={r.id} key={r.id}>{r.id===FIRST.id?tr('Texte I','Text I'):tr('Texte II','Text II')} · {PEOPLE[r.repeatedCaregiver]}</option>)}
             </select>
           </label>
-          <label>{tr('Seconde réalisation','Second realization')}
+          <label>{tr('Second texte','Second text')}
             <select value={compareRight} onChange={e=>setCompareRight(e.target.value)}>
-              {demoEpisode.realizations.map(r=><option value={r.id} key={r.id}>{r.id} · {PEOPLE[r.repeatedCaregiver]}</option>)}
+              {demoEpisode.realizations.map(r=><option value={r.id} key={r.id}>{r.id===FIRST.id?tr('Texte I','Text I'):tr('Texte II','Text II')} · {PEOPLE[r.repeatedCaregiver]}</option>)}
             </select>
           </label>
         </div>
         {left.id===right.id
-          ? <p className="model-result">{tr('Vous avez choisi deux fois la même réalisation : aucune différence de source.','You selected the same realization twice: no source difference.')}</p>
+          ? <p className="model-result">{tr('Vous avez choisi deux fois le même texte.','You selected the same text twice.')}</p>
           : <div className="comparison"><Manuscript realization={left} compareWith={right}/><Manuscript realization={right} compareWith={left}/></div>}
         <details className="details"><summary>{tr('Différences structurales et limites','Structural differences and limitations')}</summary>
           <p>{tr('Les deux configurations diffèrent dans '+left.schedule.filter((p,i)=>p!==right.schedule[i]).length+' positions sur huit. Les passages aux identifiants de module distincts sont marqués. Le logiciel ne déduit aucune lecture sémantique de ces différences.',
@@ -216,27 +192,27 @@ export function App(): ReactNode {
       </>}
 
       {stage==='invent' && <>
-        <p className="eyebrow">{tr('05 / INVENTER','05 / INVENT')}</p>
-        <h1>{tr('Déplacez la règle.','Change the rule.')}</h1>
+        <p className="eyebrow">{tr('05 / Écriture','05 / Writing')}</p>
+        <h1>{tr('À vous d’écrire','Your turn to write')}</h1>
         <p className="lede">{tr(
-          'Inventez une contrainte pour une nouvelle histoire. Par exemple, deux personnes s’écrivent sans avoir le droit de relire leur propre message. Puis écrivez quelques lignes.',
-          'Invent a constraint for another story. For example, two people exchange notes but cannot reread their own message. Then write a few lines.')}</p>
+          'Choisissez une règle qui guidera votre texte, puis écrivez librement à partir d’elle.',
+          'Choose a rule for your piece, then write a passage following it.')}</p>
         <label className="field-label" htmlFor="own-rule">{tr('Nom ou description de votre contrainte','Name or describe your constraint')}</label>
         <input id="own-rule" maxLength={300} value={rule} onChange={e=>setRule(e.target.value)}
           placeholder={tr('Une règle à inventer…','A rule you invent…')}/>
         <label className="field-label" htmlFor="writing">{tr('Votre texte','Your text')}</label>
         <textarea id="writing" rows={9} value={writing} onChange={e=>setWriting(e.target.value)}
           placeholder={tr('Écrivez votre propre passage…','Write your own passage…')}/>
-        <div className="editor-footer"><span>{writing.trim()?writing.trim().split(/\s+/u).length:0} {tr('mots','words')} · {tr('non évalués','unscored')}</span>
+        <div className="editor-footer"><span>{writing.trim()?writing.trim().split(/\s+/u).length:0} {tr('mots','words')}</span>
           <button type="button" className="outline-button" onClick={exportWriting}>{tr('Exporter mon travail','Export my work')}</button></div>
       </>}
 
       {stage==='reflect' && <>
-        <p className="eyebrow">{tr('06 / REVENIR','06 / REFLECT')}</p>
-        <h1>{tr('Que voyez-vous autrement ?','What do you see differently?')}</h1>
+        <p className="eyebrow">{tr('06 / Relecture','06 / Rereading')}</p>
+        <h1>{tr('Relire le récit','Read the story again')}</h1>
         <p className="lede">{tr(
-          'La structure détermine certaines possibilités ; elle ne détermine pas toutes les lectures. Revenez à votre première impression.',
-          'Structure determines some possibilities, not every interpretation. Return to your first impression.')}</p>
+          'Revenez à votre première impression. Qu’est-ce que cette expérience a déplacé dans votre lecture ?',
+          'Return to your first impression. What has this experience changed in your reading?')}</p>
         <div className="reflection">
           <section><h2>{tr('Votre première lecture','Your first reading')}</h2>
             <blockquote>{initial||tr('Aucune réponse saisie.','No response entered.')}</blockquote></section>
@@ -248,15 +224,12 @@ export function App(): ReactNode {
             'Des Cent mille milliards de poèmes de Raymond Queneau (1961) aux expérimentations informatiques, les pratiques oulipiennes interrogent les rapports entre forme et invention. POELIO est un projet indépendant.',
             'From Raymond Queneau’s Cent mille milliards de poèmes (1961) to computational experiments, Oulipian practices investigate form and invention. POELIO is independent.')}</p>
           <p><a href="https://www.oulipo.net/" target="_blank" rel="noopener noreferrer">oulipo.net</a> · <a href="https://digitalhumanities.org/dhq/vol/11/3/000325/000325.html" target="_blank" rel="noopener noreferrer">Natalie Berkman, Digital Oulipo (2017)</a></p>
-          <p className="discreet">{demoEpisode.rights.notice}</p>
+
         </div>
         <button className="primary-button" type="button" onClick={exportWriting}>{tr('Conserver mon travail','Keep my work')}</button>
       </>}
     </main>
     <JourneyFooter language={language} index={current} title={demoEpisode.title} onMove={move}/>
-    <div className="disclaimer">{tr(
-      'Démonstration littéraire originale · Aucun contenu inédit de La Relève · Sans IA ni compte · Projet indépendant de l’Oulipo',
-      'Original literary demonstration · No unpublished La Relève text · No AI or accounts · Independent from Oulipo'
-    )}</div>
+    {(stage==='question'||stage==='invent'||stage==='reflect') && <div className="disclaimer">{tr('Vos écrits restent dans cet onglet. Exportez-les pour les conserver.','Your writing stays in this tab. Export it to keep a copy.')}</div>}
   </div>;
 }

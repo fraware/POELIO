@@ -60,7 +60,7 @@ test('navigation returns focus to the active literary reading stage', async ({pa
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   await nav.getByRole('button',{name:/Questionner/}).click();
   await expect(page.locator('#stage-main')).toBeFocused();
-  await expect(page.getByRole('heading',{level:1,name:'Qui sait quoi ?'})).toBeVisible();
+  await expect(page.getByRole('heading',{level:1,name:'Une première impression'})).toBeVisible();
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   const permNav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   await permNav.getByRole('button',{name:/Questionner/}).click();
@@ -72,10 +72,10 @@ test('document language tracks the currently mounted reading experience', async 
   await page.getByRole('button',{name:'Switch to English'}).click();
   await expect(page.locator('html')).toHaveAttribute('lang','en');
   await page.getByRole('button',{name:/Second experience/}).click();
+  await expect(page.locator('html')).toHaveAttribute('lang','en');
+  await page.getByRole('button',{name:'Passer en français'}).click();
   await expect(page.locator('html')).toHaveAttribute('lang','fr');
-  await page.getByRole('button',{name:'Switch to English'}).click();
-  await expect(page.locator('html')).toHaveAttribute('lang','en');
-  await page.getByRole('button',{name:/Register of Keys/}).click();
-  await expect(page.locator('html')).toHaveAttribute('lang','en');
-  await expect(page.getByRole('heading',{name:'The story comes first.'})).toBeVisible();
+  await page.getByRole('button',{name:/Registre des clefs/}).click();
+  await expect(page.locator('html')).toHaveAttribute('lang','fr');
+  await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
 });
