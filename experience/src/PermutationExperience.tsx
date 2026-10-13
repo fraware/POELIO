@@ -38,8 +38,9 @@ function Fragments({order, comparedTo}: {
   </article>;
 }
 
-export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNode {
-  const [language,setLanguage]=useState<Language>('fr');
+export function PermutationExperience({onReturn,language,onToggleLanguage}: {
+  onReturn:()=>void;language:Language;onToggleLanguage:()=>void
+}): ReactNode {
   const {stage,current:index,mainRef:main,navigate,move:step}=useLiteraryJourney();
   const [selected,setSelected]=useState(orderKey(COUNTER_ORDER));
   const [limited,setLimited]=useState(false);
@@ -89,7 +90,7 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
   return <div className={projector?'app projector':'app'}>
     <a className="skip-link" href="#permutation-main">{tr('Aller au texte','Skip to text')}</a>
     <ReaderHeader language={language} work="permutation" onSwitch={onReturn}
-      onLanguage={()=>setLanguage(v=>v==='fr'?'en':'fr')}
+      onLanguage={onToggleLanguage}
       projector={projector} onProjector={()=>setProjector(v=>!v)}
       onReset={reset} onClear={clearForNextReader}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
