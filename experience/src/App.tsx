@@ -171,14 +171,14 @@ export function App(): ReactNode {
           'Lisez ces deux versions du récit. Les passages marqués diffèrent dans leur composition.',
           'Read these two versions of the story. Shaded passages differ in their composition.')}</p>
         <div className="compare-controls">
-          <label>{tr('Première réalisation','First realization')}
+          <label>{tr('Premier texte','First text')}
             <select value={compareLeft} onChange={e=>setCompareLeft(e.target.value)}>
-              {demoEpisode.realizations.map(r=><option value={r.id} key={r.id}>{r.id} · {PEOPLE[r.repeatedCaregiver]}</option>)}
+              {demoEpisode.realizations.map(r=><option value={r.id} key={r.id}>{r.id===FIRST.id?tr('Texte I','Text I'):tr('Texte II','Text II')} · {PEOPLE[r.repeatedCaregiver]}</option>)}
             </select>
           </label>
-          <label>{tr('Seconde réalisation','Second realization')}
+          <label>{tr('Second texte','Second text')}
             <select value={compareRight} onChange={e=>setCompareRight(e.target.value)}>
-              {demoEpisode.realizations.map(r=><option value={r.id} key={r.id}>{r.id} · {PEOPLE[r.repeatedCaregiver]}</option>)}
+              {demoEpisode.realizations.map(r=><option value={r.id} key={r.id}>{r.id===FIRST.id?tr('Texte I','Text I'):tr('Texte II','Text II')} · {PEOPLE[r.repeatedCaregiver]}</option>)}
             </select>
           </label>
         </div>
@@ -230,6 +230,6 @@ export function App(): ReactNode {
       </>}
     </main>
     <JourneyFooter language={language} index={current} title={demoEpisode.title} onMove={move}/>
-    <div className="disclaimer">{tr('Vos écrits restent dans cet onglet. Exportez-les pour les conserver.','Your writing stays in this tab. Export it to keep a copy.')}</div>
+    {(stage==='question'||stage==='invent'||stage==='reflect') && <div className="disclaimer">{tr('Vos écrits restent dans cet onglet. Exportez-les pour les conserver.','Your writing stays in this tab. Export it to keep a copy.')}</div>}
   </div>;
 }
