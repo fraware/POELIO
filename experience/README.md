@@ -8,18 +8,18 @@ Built with React, TypeScript, and Vite. No account, backend, or generative writi
 
 Use Node.js 22.12 or later and npm. From the repository root:
 
-\`\`\`bash
+```bash
 cd experience
 npm ci
 npm run dev
-\`\`\`
+```
 
 Vite prints the local development URL. To inspect the production build:
 
-\`\`\`bash
+```bash
 npm run build
 npm run preview
-\`\`\`
+```
 
 ## What readers do
 
@@ -39,59 +39,59 @@ The application also provides pages suited to first readings and facilitated dis
 
 | Route | Content |
 |---|---|
-| \`/\` | Interactive six-stage experience |
-| \`/?review=register\` | First reading of *Le Registre des clefs* |
-| \`/?review=permutation\` | First reading of *Les Quatre Témoins* |
-| \`/?companion=register\` | Written companion to *Le Registre des clefs* |
-| \`/?companion=permutation\` | Written companion to *Les Quatre Témoins* |
-| \`/facilitator.html\` | Printable workshop guide |
+| `/` | Interactive six-stage experience |
+| `/?review=register` | First reading of *Le Registre des clefs* |
+| `/?review=permutation` | First reading of *Les Quatre Témoins* |
+| `/?companion=register` | Written companion to *Le Registre des clefs* |
+| `/?companion=permutation` | Written companion to *Les Quatre Témoins* |
+| `/facilitator.html` | Printable workshop guide |
 
 For an independent first reading, share the review route before the explanatory companion.
 
 ## Reader data
 
-Drafts for the interactive works are held in per-tab \`sessionStorage\`, with an in-memory fallback in browsers that restrict storage. They survive some refreshes, but are not durable or encrypted. Local export is an explicit reader action. First-reading review notes stay in memory until the page is reloaded.
+Drafts for the interactive works are held in per-tab `sessionStorage`, with an in-memory fallback in browsers that restrict storage. They survive some refreshes, but are not durable or encrypted. Local export is an explicit reader action. First-reading review notes stay in memory until the page is reloaded.
 
 The application does not collect writing on a server, send it to a model, or install analytics. Ordinary static-site requests still pass through the chosen hosting provider. See [Privacy and security](../docs/SECURITY_PRIVACY_ACCEPTANCE.md).
 
 ## Test and build
 
-From \`experience/\`:
+From `experience/`:
 
-\`\`\`bash
+```bash
 npm run typecheck
 npm test
 npm run build
 npx playwright install chromium
 npm run test:e2e
-\`\`\`
+```
 
 The browser suite exercises the literary journey, comparison, storage behavior, keyboard access, narrow-screen layout, and automated accessibility checks.
 
 For a repository-scoped deployment such as GitHub Pages:
 
-\`\`\`bash
+```bash
 npm run build:subpath
 npm run audit:subpath
 npm run test:subpath
-\`\`\`
+```
 
-The application uses the \`/POELIO/\` base for this variant. Each build replaces \`dist/\`; build the intended deployment variant last. Publication is managed by [GitHub Pages deployment](../docs/GITHUB_PAGES.md).
+The application uses the `/POELIO/` base for this variant. Each build replaces `dist/`; build the intended deployment variant last. Publication is managed by [GitHub Pages deployment](../docs/GITHUB_PAGES.md).
 
 ## Code organization
 
 | Path | Responsibility |
 |---|---|
-| \`src/App.tsx\` | First literary work and shared reader interface |
-| \`src/PermutationExperience.tsx\` | Fragment-order experience |
-| \`src/JourneyControls.tsx\` | Six-stage navigation |
-| \`src/contentCatalog.ts\` | Literary work registration and source validation |
-| \`src/episode.ts\`, \`src/permutation.ts\` | Authored content and compositional rules |
-| \`src/useSessionDraft.ts\` | Local draft storage |
-| \`src/ReviewPackets.tsx\` | Independent reading and companion pages |
-| \`src/styles.css\` | Editorial layout and responsive design |
-| \`tests/\` | Browser regression suite |
-| \`scripts/\` | Build, offline, and release checks |
+| `src/App.tsx` | First literary work and shared reader interface |
+| `src/PermutationExperience.tsx` | Fragment-order experience |
+| `src/JourneyControls.tsx` | Six-stage navigation |
+| `src/contentCatalog.ts` | Literary work registration and source validation |
+| `src/episode.ts`, `src/permutation.ts` | Authored content and compositional rules |
+| `src/useSessionDraft.ts` | Local draft storage |
+| `src/ReviewPackets.tsx` | Independent reading and companion pages |
+| `src/styles.css` | Editorial layout and responsive design |
+| `tests/` | Browser regression suite |
+| `scripts/` | Build, offline, and release checks |
 
 The finite mathematical model is shared with the repository root. Details of the content representation and its tested properties are in [Architecture](../docs/ARCHITECTURE.md).
 
