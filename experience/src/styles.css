@@ -236,6 +236,7 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
 .review-label {display:block;margin:1.2rem 0 .6rem;font-size:.88rem;font-weight:600}
 .review-response textarea,.review-second textarea {display:block;max-width:100%;min-height:130px}
 .review-actions {display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin:1.2rem 0}
+.review-actions .primary-button,.review-actions .outline-button {white-space:normal;max-width:100%;text-align:center}
 .review-footnote {font-size:.82rem;color:var(--muted)}
 .review-second {border-top:1px solid var(--line);padding-top:1rem}
 .review-second li {margin:.6rem 0}
