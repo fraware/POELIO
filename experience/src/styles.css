@@ -56,3 +56,38 @@ textarea{resize:vertical;line-height:1.7}.factline{display:flex;flex-wrap:wrap;g
 .manuscript section.changed-passage p{margin-left:0;margin-right:0}
 .inline-checkbox{width:auto;max-width:none;margin:0 10px 0 0;accent-color:#374936;vertical-align:middle}
 .header-actions a.text-button{color:#3b4236;text-decoration:underline;text-decoration-color:#a4ae99;text-underline-offset:3px}
+
+
+/* Standalone first-reading editorial packet and source-identical static companion. */
+.review-shell{min-height:100vh;background:#f5f3ee}
+.review-main{max-width:810px;margin:0 auto;padding:36px 24px 68px}
+.review-top{display:flex;justify-content:space-between;align-items:baseline;gap:18px;border-bottom:1px solid #c9cec0;padding:0 0 16px;flex-wrap:wrap}
+.review-code{font-size:.81rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#364d30}
+.review-private{font-size:.8rem;color:#53604f}
+.review-head{font:400 clamp(2rem,5vw,3.5rem)/1.15 Georgia,serif;max-width:750px;letter-spacing:-.025em;margin:33px 0 16px}
+.review-intro{max-width:680px;color:#4e594b;font-size:1.03rem;margin-bottom:24px}
+.review-text{background:#fffdf9;border:1px solid #dddcd2;padding:30px 39px;margin:22px 0 30px}
+.review-text p{font:1.13rem/1.92 Georgia,"Times New Roman",serif;margin:20px 0;color:#2e302b}
+.review-response,.review-second,.review-explanation{max-width:760px}
+.review-response h2,.review-second h2,.review-explanation h2{font:400 1.7rem Georgia,serif;margin:27px 0 12px}
+.review-response p,.review-second p,.review-explanation p{color:#495246}
+.review-label{display:block;color:#34412f;font-size:.9rem;font-weight:650;margin:18px 0 10px}
+.review-response textarea,.review-second textarea{display:block;width:100%;max-width:100%;min-height:125px;border:1px solid #aeb6a6}
+.review-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:18px 0}
+.review-footnote{font-size:.81rem;color:#4d5b48}
+.review-second{padding-top:18px;border-top:1px solid #d0d5cc}
+.review-second li{margin:8px 0}
+.review-second h2:focus{outline:none}
+.review-explanation{padding-top:14px}
+.review-explanation h3{font:400 1.25rem Georgia,serif;margin-top:25px}
+.review-footer{margin-top:35px;padding-top:13px;border-top:1px solid #d1d5cb;color:#53604f;font-size:.79rem}
+.review-footer p{margin:6px 0}
+@media(max-width:560px){.review-main{padding:24px 16px 44px}.review-text{padding:20px 21px}.review-text p{font-size:1.05rem;line-height:1.85}}
+@media print{
+ .review-shell{background:#fff}.review-main{padding:0;max-width:none}
+ .review-top{border-color:#aaa}.review-text{border:0;padding:5px 0;margin:14px 0;break-inside:avoid}
+ .review-text p{font-size:11pt;line-height:1.52;margin:12px 0}
+ .review-head{font-size:25pt;margin:18px 0}.review-intro{font-size:10pt}
+ .review-actions,.review-response textarea,.review-second textarea,.review-label,.review-footnote,.no-print{display:none!important}
+ .review-second,.review-explanation{break-before:page}.review-footer{font-size:8pt}
+}
