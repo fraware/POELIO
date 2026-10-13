@@ -96,11 +96,11 @@ a {color:var(--green);text-underline-offset:.2em}
   display:flex;align-items:center;gap:.5rem;white-space:nowrap;
   min-width:0;min-height:45px;padding:.65rem .2rem;
   border:0;border-bottom:2px solid transparent;
-  background:none;text-align:left;font-size:.77rem;color:#6c756f
+  background:none;text-align:left;font-size:.77rem;color:#4e5b53
 }
 .step:hover {color:var(--ink)}
 .step.current {color:var(--ink);border-bottom-color:var(--green);font-weight:650}
-.step-number {color:#89948c;font-size:.69rem;letter-spacing:.02em}
+.step-number {color:#4e5e52;font-size:.69rem;letter-spacing:.02em}
 .step.current .step-number {color:var(--green)}
 /* Typography and a restrained reading measure. */
 .main-content {
@@ -222,13 +222,13 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
 .projector .reading-column {max-width:920px}
 /* Separate unprimed reading view keeps the same typographic discipline. */
 .review-shell {min-height:100svh;background:var(--paper)}
-.review-main {max-width:850px;margin:auto;padding:3rem 1.6rem 4.5rem}
+.review-main {max-width:850px;margin:auto;padding:3rem 1.6rem 4.5rem;min-width:0;overflow-wrap:anywhere}
 .review-top {display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:1rem}
 .review-code {font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:650;color:var(--ink)}
 .review-private {color:var(--soft);font-size:.8rem}
 .review-head {max-width:760px;margin:2.5rem 0 1.15rem;font:400 clamp(2.3rem,5vw,3.7rem)/1.13 var(--serif)}
 .review-intro {max-width:690px;color:var(--muted);font-size:1.02rem;line-height:1.75;margin-bottom:1.7rem}
-.review-text {background:var(--sheet);border:1px solid var(--line);padding:2.15rem 2.7rem;margin:1.6rem 0 2rem}
+.review-text {background:var(--sheet);border:1px solid var(--line);padding:2.15rem 2.7rem;margin:1.6rem 0 2rem;min-width:0;overflow-wrap:anywhere}
 .review-text p {font:1.15rem/1.9 var(--serif);color:var(--ink);margin:1.3rem 0}
 .review-response,.review-second,.review-explanation {max-width:760px}
 .review-response h2,.review-second h2,.review-explanation h2 {font:400 1.5rem var(--serif);margin:1.7rem 0 1rem}
