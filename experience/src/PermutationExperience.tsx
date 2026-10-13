@@ -199,8 +199,8 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
         <div className="history">
           <h2>{tr('Une méthode, plusieurs écritures','One method, multiple forms')}</h2>
           <p>{tr(
-            'Permuter des fragments constitue ici une expérience originale avec des textes explicitement attribués. Cela appartient à une tradition plus vaste d’invention combinatoire ; cette démonstration ne revendique ni nouveauté historique ni affiliation avec l’Oulipo.',
-            'Permuting fixed, attributed fragments is an original demonstration within a much older tradition of combinatorial invention. It claims neither historical priority nor Oulipo affiliation.'
+            'Réorganiser des fragments sans toucher à leurs mots appartient à une longue histoire de la littérature combinatoire. POELIO explore ici ce procédé à partir de quatre passages originaux.',
+            'Reordering fragments without changing their words belongs to a long tradition of combinatorial literature. POELIO explores that practice through four original passages.'
           )}</p>
         </div>
         <button className="primary-button" type="button" onClick={exportResponse}>{tr('Conserver ma création','Keep my writing')}</button>
