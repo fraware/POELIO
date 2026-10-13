@@ -49,9 +49,10 @@ test('literary reading, interpretation, composition and exports send no particip
   await page.locator('#revised').fill(SENTINEL+' Revision.');
   await page.waitForFunction(s=>sessionStorage.getItem('poelio:session:v1:register:writing')?.includes(s),SENTINEL);
   const download=page.waitForEvent('download');
-  await page.getByRole('button',{name:'Conserver ma création'}).click();
+  await page.getByRole('button',{name:'Conserver mon travail'}).click();
   const file=await download;
   expect((await readFile(await file.path(),'utf8'))).toContain(SENTINEL);
+  await page.waitForFunction(()=>Boolean(navigator.serviceWorker?.controller),null,{timeout:20000});
   let stores=await browserStores(page);
   expect(stores.local).toEqual([]);
   expect(stores.databases).toEqual([]);
