@@ -89,3 +89,16 @@ GitHub Actions archives both reports separately from the approved public demo ar
 The ordinary `npm run test:e2e` includes desktop/mobile `tests/privacy-boundaries.spec.ts`. The tests do not bypass the deployed Content Security Policy and check that editing, local export, and independent editorial reviews produce no unintended third-party or mutating HTTP requests. They also test per-work temporary writing, sessionStorage denial, empty cookies/IndexedDB/localStorage in tested paths, the four approved cached public assets and deliberate Reset deletion.
 
 `sessionStorage` is not encrypted or guaranteed erased by closing a browser session. Shared workshop devices require explicit Reset and local download care. The CI dependency audit covers **production runtime dependencies** only, not the entire build toolchain. See `../docs/SECURITY_PRIVACY_ACCEPTANCE.md` for residual risks and exact acceptance boundaries.
+
+
+## Full dependency security audit and HTTP-host acceptance
+
+CI audits **all** locked root and literary-app npm packages (including developer tools) at severity high and critical. The production/runtime-only advisory audit is retained separately. Patched versions of Vite, Vitest, and Playwright are pinned in `package.json` and `package-lock.json`.
+
+Run `npm run test:host-headers` to test the HTTPS response contract using synthetic fixtures. To validate a later *deployed* site, first produce a matching `release-audit/root.json` or `release-audit/subpath.json`, then run:
+
+    node scripts/audit_host_headers.mjs https://example.org/POELIO/ release-audit/subpath.json
+
+That command checks response-level CSP including `frame-ancestors`, browser-isolation and privacy headers, TLS/HSTS, Content-Type, nonredirected delivery, and exact SHA-256 identity of the five approved files. It requires a host capable of setting these headers. The current Vite preview only serves local test builds and does **not** establish production HTTP headers. No hosted site or production certificate has been configured.
+
+See `../docs/HOSTING_RESPONSE_HEADERS.md` for explicit requirements and release boundaries.
