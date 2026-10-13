@@ -339,6 +339,10 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
 }
 
 /* Public site shell */
+.brand {text-decoration:none}
+.brand:hover {text-decoration:none}
+.work-entry-link {justify-self:start}
+.atelier-row > a {justify-self:start}
 :root {color-scheme:light;line-height:1.6}
 body {background:#fff}
 .app {background:#fff}
