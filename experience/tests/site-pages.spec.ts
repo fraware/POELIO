@@ -27,6 +27,9 @@ test('French and English navigation remain coherent across page changes',async({
   await page.locator('.work-entry').last().locator('.work-entry-link').click();
   await expect(page.getByRole('heading',{level:1,name:'Les Quatre Témoins'})).toBeVisible();
   await expect(page.getByRole('navigation',{name:'Experience stages'})).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('navigation',{name:'Experience stages'})).toBeVisible();
+  await expect(page).toHaveURL(/lang=en/);
 });
 
 test('site uses one local font family, no remote assets and a neutral palette',async({page})=>{
