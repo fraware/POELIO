@@ -1,42 +1,33 @@
-# The POELIO library
+# Documentation
 
-*An editorial map of the project, from the first page to the technical evidence.*
+POELIO combines literary reading, constrained composition, and a small, verifiable computational model. The guides below describe the application, its editorial approach, and its implementation.
 
-The best starting point is the [main README](../README.md), followed by the **literary experience** in [\`experience/\`](../experience/README.md). The materials below separate literary intent, participation, content control, and machine evidence.
+Start with the [project README](../README.md) or the [application guide](../experience/README.md).
 
-## I. The work
+## Reading and teaching
 
-| Document | Question |
-|---|---|
-| [Product contract](PRODUCT_SPEC.md) | What literary encounter is POELIO trying to create? |
-| [Editorial art direction](ART_DIRECTION.md) | How the literary interface is composed and tested |
-| [Editorial quality gate](EDITORIAL_QUALITY_GATE.md) | What justifies calling a text artistically successful? |
-| [Independent reading protocol](EDITORIAL_REVIEW_PROTOCOL.md) | How do we collect a reader's unprimed reaction? |
-| [Static-comparison protocol](STATIC_COMPARISON_PROTOCOL.md) | How does an interactive literary experience compare to a complete static explanation? |
-| [Workshop pilot](WORKSHOP_PILOT.md) | What could a 60-minute intergenerational session look like? |
+- [Product design](PRODUCT_SPEC.md) — the six-stage reading and writing experience.
+- [Editorial art direction](ART_DIRECTION.md) — typography, layout, and interaction principles.
+- [Workshop guide](WORKSHOP_PILOT.md) — a proposed 60-minute facilitated session.
+- [Reading review](EDITORIAL_REVIEW_PROTOCOL.md) — independent first-reading procedure.
+- [Literary evaluation](EDITORIAL_QUALITY_GATE.md) — qualitative review criteria.
+- [Static comparison](STATIC_COMPARISON_PROTOCOL.md) — comparison with a written explanation.
 
-## II. The system
+## Engineering
 
-| Document | Scope |
-|---|---|
-| [Architecture](ARCHITECTURE.md) | Model, reader, public/private isolation and data flows |
-| [Public content contract](PUBLIC_CONTENT_CONTRACT.md) | Allowlisted original texts, provenance, and scope of release |
-| [Content integrity](CONTENT_INTEGRITY.md) | Source hashes, private import gates, and formal state mapping |
-| [Release and candidate preflight](RELEASE_AND_CANDIDATE_PREFLIGHT.md) | Synthetic preflight, exact-byte builds and explicit nonauthorization |
-| [Hosting security contract](HOSTING_RESPONSE_HEADERS.md) | Strict HTTP response requirements and host limitations |
-| [GitHub Pages deployment](GITHUB_PAGES.md) | CI-gated static publication, required Pages activation and repository metadata |
+- [Architecture](ARCHITECTURE.md) — applications, content models, and data flow.
+- [Literary content interface](PUBLIC_CONTENT_CONTRACT.md) — work registration, provenance, and finite-model validation.
+- [Content integrity](CONTENT_INTEGRITY.md) — source identity and reproducibility.
+- [Accessibility](ACCESSIBILITY_ACCEPTANCE.md) — browser checks and manual testing procedures.
+- [Privacy and security](SECURITY_PRIVACY_ACCEPTANCE.md) — storage, threat model, and browser behavior.
 
-## III. Evidence and care
+## Build and release
 
-| Document | Boundary |
-|---|---|
-| [Accessibility acceptance](ACCESSIBILITY_ACCEPTANCE.md) | What automation checks, and what people still need to test |
-| [Security and privacy](SECURITY_PRIVACY_ACCEPTANCE.md) | What stays local, and residual threats |
-| [Release notes](RELEASE_NOTES_v0.2.0-rc.2.md) | Current research-preview candidate and explicit limitations |
-| [Repository settings and release checklist](GITHUB_RELEASE_PLAYBOOK.md) | GitHub description, topics, release governance and explicit pending settings |
-| [Changelog](../CHANGELOG.md) | Engineering milestones and their limits |
-| [Permissions for literature](../LICENSE-CONTENT.md) | The boundary between MIT software and separately reserved prose |
+- [GitHub Pages](GITHUB_PAGES.md) — deployment of the static reader.
+- [Hosting requirements](HOSTING_RESPONSE_HEADERS.md) — response-header security expectations.
+- [Release verification](RELEASE_AND_CANDIDATE_PREFLIGHT.md) — build and source checks.
+- [Releases](GITHUB_RELEASE_PLAYBOOK.md) — repository publication procedures.
+- [Release notes](RELEASE_NOTES_v0.2.0-rc.2.md) — latest published source prerelease.
+- [Changelog](../CHANGELOG.md) — software history.
 
-## The governing rule
-
-Literature precedes mechanism. A finite computation establishes only its stated formal property. A source reference establishes provenance, not authorship consent. An editorial reading establishes a perspective, not a theorem. A technically reproducible release is not itself a permission to publish.
+For contributing code or editorial improvements, read [Contributing](../CONTRIBUTING.md). The application code and literary material have separate terms described in [Copyright and permissions](../LICENSE-CONTENT.md).
