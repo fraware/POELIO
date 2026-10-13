@@ -17,7 +17,9 @@
     "audit:root": "node scripts/audit_release.mjs root",
     "audit:subpath": "node scripts/audit_release.mjs subpath",
     "test:release": "node --test scripts/audit_release.test.mjs",
-    "test:host-headers": "node --test scripts/audit_host_headers.test.mjs"
+    "test:host-headers": "node --test scripts/audit_host_headers.test.mjs",
+    "test:compare": "node --test scripts/compare_release.test.mjs",
+    "compare:variants": "node scripts/compare_release.mjs variants release-audit/root.json release-audit/subpath.json"
   },
   "dependencies": {
     "react": "19.0.0",

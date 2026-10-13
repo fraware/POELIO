@@ -102,3 +102,9 @@ Run `npm run test:host-headers` to test the HTTPS response contract using synthe
 That command checks response-level CSP including `frame-ancestors`, browser-isolation and privacy headers, TLS/HSTS, Content-Type, nonredirected delivery, and exact SHA-256 identity of the five approved files. It requires a host capable of setting these headers. The current Vite preview only serves local test builds and does **not** establish production HTTP headers. No hosted site or production certificate has been configured.
 
 See `../docs/HOSTING_RESPONSE_HEADERS.md` for explicit requirements and release boundaries.
+
+## Compare technical release candidates
+
+Run `npm run test:compare` for synthetic fail-closed comparison cases. After both approved root and `/POELIO/` build audits, `npm run compare:variants` checks that the two deployment variants retain identical original public-source hashes and locked dependencies, while permitting base-specific HTML/JS/CSS and service-worker hashes. To compare a previous root (or subpath) release manifest against a new build of the **same** variant, run `node scripts/compare_release.mjs candidate <baseline.json> <candidate.json>`. A changed source, dependency, asset or cache identity returns a nonzero status and demands review. Nothing is auto-published. Manifest comparison is technical bookkeeping, not a signed attestation or editorial rights approval.
+
+The desktop/mobile browser suite now checks 320 CSS-pixel reflow on both works and the static readers, keyboard-only skip-link and stage navigation, and focus indication under forced-colors and reduced-motion preferences. These tests complement axe scans but **do not constitute manual screen-reader, browser-zoom, or WCAG certification**.
