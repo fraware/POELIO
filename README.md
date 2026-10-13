@@ -9,11 +9,12 @@ This repository is **an early-stage public codebase**, not a finished literary e
 
 ## Current implementation
 
-- A bilingual **six-stage literary experience** in [`experience/`](experience/) using an independent, newly written French microfiction fixture, not the unpublished *La Relève* text.
+- Two original bilingual-interface **six-stage literary experiences** in [`experience/`](experience/): *Le Registre des clefs* explores an inconsistent scheduling rule; *Les Quatre Témoins* explores permutations of four fixed, authored fragments. Neither uses the unpublished *La Relève* prose.
 - A deterministic, exhaustive finite-model engine for the eight-position, two-person scheduling construction.
 - Regression tests for all 256 configurations, the impossibility of strict alternation plus recurrence, and the 14 labelled minimum repairs.
 - A scoped product specification in [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md) and explicit verification boundaries in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-- Twelve valid configurations deliberately have **no authored prose** in the public demonstration; the interface never fabricates literary text.
+- The scheduling episode has two authored alternatives and leaves twelve valid schedules without fictional prose. The permutation episode recombines four unchanged, prewritten fragments across 24 orders; it does not invent transitions.
+- An accessible, printable **60-minute workshop guide** is included at `/facilitator.html` in the built experience, with an independent [pilot protocol](docs/WORKSHOP_PILOT.md).
 - The unpublished literary realizations, original private catalog and blinded study material **are not included**.
 
 ## Get started
@@ -68,6 +69,6 @@ Literature first; computational structure on demand. Verified finite facts, exec
 
 ## Status
 
-**Research prototype — not production-ready.** A synthetic, release-safe literary experience exists alongside the original mathematical explorer. The complete *La Relève* edition, a reusable rights/SHA importer, full accessibility conformance, a workshop facilitator kit, and evaluation of literary outcomes remain pending. Full literary publication rights are not established.
+**Research prototype — not production-ready.** A synthetic, release-safe literary experience exists alongside the original mathematical explorer. The complete *La Relève* edition, a reusable rights/SHA importer, full accessibility conformance, independent editorial approval, a full facilitator usability pilot, and evaluation of literary outcomes remain pending. Full literary publication rights are not established.
 
 No license grant is asserted until a license is selected and added explicitly.
