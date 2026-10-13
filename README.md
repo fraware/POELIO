@@ -72,6 +72,10 @@ Passing CI does **not** establish WCAG 2.2 AA conformance, literary value, or ca
 
 The tested, private-only manuscript gate is documented in [docs/CONTENT_INTEGRITY.md](docs/CONTENT_INTEGRITY.md). It verifies source bytes, permissions assertions, supported schedules and module provenance, and never stages private catalogs inside the public checkout. A separate adapter validates the originally supplied La Relève master archive **locally** without bundling manuscripts into this repository. It does not grant publication rights or make the private edition available through the public website.
 
+## Browser privacy and supply-chain regression gates
+
+The public literary interface is tested for accidental network transmission of participant prose, absence of unexpected persistent browser stores, memory-only editorial notes, work-specific Reset, and in-memory composition when session storage is unavailable. The release workflow uses commit-pinned GitHub Actions and blocks known high-severity production dependency advisories. See [Security and privacy acceptance](docs/SECURITY_PRIVACY_ACCEPTANCE.md) for the precise test scope, residual risks and safeguards for shared workshop devices. This is not a claim of independent security certification.
+
 ## Publication and confidentiality
 
 The repository is public. Do **not** commit or deploy `catalog.json`, manuscript archives, private build directories, reading manuscripts, blinded-study materials, participant responses, or any other unreleased literary content.

@@ -1,0 +1,43 @@
+# POELIO — Browser privacy and security acceptance
+
+**Status:** automated regression coverage for the approved public teaching application. This is not a production security certification, independent penetration test, privacy impact assessment or new publication authorization.
+
+## Trust boundaries
+
+The public application exposes exactly two original literary demonstrations. Unpublished La Relève prose, private catalogs, blind-study materials and participant research records must remain outside the Git checkout, CI artifacts and offline website cache.
+
+| Content | Location | Lifecycle |
+|---|---|---|
+| Approved public teaching prose | Compiled public JS and approved offline shell | Replaced by a reviewed public release |
+| Interpretations and original writing in the two six-stage episodes | Per-tab sessionStorage, with React-memory fallback | Refresh-resilient in that tab; browser lifecycle dependent |
+| Pre-reveal editorial review notes | React memory only | Cleared by page reload |
+| Voluntary TXT export | Local browser download | Controlled by reader and operating system |
+| Public release evidence | CI technical artifact, outside the website | Artifact retention policy |
+
+**Browser sessionStorage is neither encryption nor guaranteed secure erasure.** Browser session restore, extensions, a shared device profile, malicious same-origin code and downloaded TXT files remain relevant threats. Reset clears the selected episode only. When using shared devices, use Reset, remove exported files where appropriate and prefer a separate browsing profile. Same-origin code has technical access to session-scoped data; this must not be portrayed as an encrypted secret vault.
+
+The app itself has no accounts, analytics or participant-submission API. Requests for the static site still reach its hosting provider, which can observe normal request metadata such as IP addresses. External literary/scholarly links are opened only by deliberate user action and use referrer-suppressing link attributes.
+
+## Browser regression scope
+
+The Playwright security/privacy suite runs under the normal shipped Content Security Policy, without bypassing it, to verify:
+
+- Editing all original creative response fields and exporting authored text produces no unsolicited third-party requests, mutating HTTP methods, or participant-text content in request URLs or bodies.
+- Authored text does not appear in Cache Storage, public asset URLs, cookies, localStorage or IndexedDB in exercised routes.
+- Private first-reading editorial notes stay in React memory, with no persistence on reload.
+- The two works retain independent drafts, and Reset clears only the currently selected work's response storage.
+- When browser sessionStorage is disabled, writing and explicit local export still function via in-memory state.
+
+The existing browser checks cover root and /POELIO/ paths, offline caching, bilingual navigation, publication pins, automated accessibility rules and public-only output. **Passing these tests does not establish that every possible browsing environment or malicious extension is safe.**
+
+## Supply-chain checks
+
+GitHub Actions uses exact upstream commit SHAs for checkout, setup-node and upload-artifact. Both npm projects have committed lockfiles and use npm ci with lifecycle scripts disabled. A CI advisory check rejects high-severity and critical known advisories in the literary application's production/runtime dependency set.
+
+The runtime advisory check does not assess every development, build or test dependency, detect unpublished vulnerabilities, or eliminate the need for independent code/security review. Pinning improves repeatability, not absolute security. A separate full dependency-tree security review and controlled upgrades remain before a production security claim.
+
+## Explicitly open decisions
+
+Human editorial acceptance, manual screen-reader accessibility checks, rights-holder approval and prior-publication assessment for any real work, participant-consent procedure for human research, hosted-site security headers and data-retention policy are **not complete**.
+
+The current security gates support a narrowly scoped public teaching prototype. They do not enable public deployment, private manuscript release, user accounts or research-data collection. Read the release and candidate preflight and public content-contract documents before adding any literary material.
