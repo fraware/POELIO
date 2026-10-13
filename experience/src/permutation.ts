@@ -59,7 +59,7 @@ export function allFragmentOrders(): FragmentOrder[] {
   function visit(prefix: FragmentId[], available: FragmentId[]): void {
     if (available.length === 0) {
       if (!isFragmentOrder(prefix)) throw new Error('Invalid permutation');
-      results.push([...prefix]);
+      results.push([prefix[0],prefix[1],prefix[2],prefix[3]]);
       return;
     }
     for (const id of available) {
