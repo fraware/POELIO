@@ -1,6 +1,6 @@
 {
   "name": "poelio-experience",
-  "version": "0.2.0",
+  "version": "0.2.0-rc.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -33,5 +33,32 @@
     "vitest": "5.0.4",
     "@playwright/test": "1.64.0",
     "@axe-core/playwright": "4.13.0"
-  }
+  },
+  "license": "MIT",
+  "author": "Mateo Petel and POELIO contributors",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fraware/POELIO.git"
+  },
+  "homepage": "https://github.com/fraware/POELIO#readme",
+  "bugs": {
+    "url": "https://github.com/fraware/POELIO/issues"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "keywords": [
+    "digital-humanities",
+    "electronic-literature",
+    "interactive-literature",
+    "constrained-writing",
+    "creative-writing",
+    "literary-interpretation",
+    "oulipo",
+    "formal-methods",
+    "education",
+    "privacy-first",
+    "typescript"
+  ],
+  "description": "POELIO six-stage literary-reading and writing experience with public-only authored works"
 }
