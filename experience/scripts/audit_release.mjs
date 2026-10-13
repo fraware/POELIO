@@ -84,7 +84,7 @@ function verifyWorker(dist){
   const tmp=mkdtempSync(join(tmpdir(),'poelio-public-evidence-'));
   try{
     mkdirSync(join(tmp,'assets'));
-    for(const file of ['index.html','facilitator.html']){
+    for(const file of ['index.html','facilitator.html','source-sans-3.woff2','source-sans-3-italic.woff2','source-sans-license.txt']){
       cpSync(join(dist,file),join(tmp,file),{dereference:false});
     }
     for(const entry of names(join(dist,'assets'))){
