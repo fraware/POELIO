@@ -31,7 +31,7 @@ function gitBlob(data){
 }
 function inspectFive(dist){
   const root=names(dist);
-  if(root.map(x=>x.name).join('|')!=='assets|facilitator.html|index.html|sw.js' ||
+  if(root.map(x=>x.name).join('|')!=='assets|facilitator.html|index.html|source-sans-3-italic.woff2|source-sans-3.woff2|source-sans-license.txt|sw.js' ||
     root.some(x=>x.name==='assets'?!x.isDirectory():!x.isFile()))
     fail('unexpected root distribution entries');
   const assets=names(join(dist,'assets'));
@@ -39,7 +39,7 @@ function inspectFive(dist){
     assets.filter(x=>x.name.endsWith('.js')).length!==1 ||
     assets.filter(x=>x.name.endsWith('.css')).length!==1)
     fail('extra, missing or non-regular public assets');
-  return ['index.html','facilitator.html',...assets.map(x=>'assets/'+x.name),'sw.js'];
+  return ['index.html','facilitator.html','source-sans-3-italic.woff2','source-sans-3.woff2','source-sans-license.txt',...assets.map(x=>'assets/'+x.name),'sw.js'];
 }
 function verifyDocument(dist,files,base){
   const html=bytes(join(dist,'index.html')).toString('utf8');
@@ -50,12 +50,22 @@ function verifyDocument(dist,files,base){
   ]) if(!html.includes(policy))fail('reader CSP missing '+policy);
   if(!html.includes('<meta name="referrer" content="no-referrer">'))
     fail('reader referrer policy missing');
-  if(!guide.includes("default-src 'none'") || !guide.includes('no-referrer'))
+  if(!guide.includes("default-src 'none'") || !guide.includes('no-referrer') || !guide.includes("font-src 'self'"))
     fail('facilitator CSP or referrer policy missing');
   const js=files.find(x=>x.endsWith('.js'));
   const css=files.find(x=>x.endsWith('.css'));
   if(!html.includes('src="'+base+js+'"') || !html.includes('href="'+base+css+'"'))
     fail('HTML references do not match approved base or hashed assets');
+  const stylesheet=bytes(join(dist,css)).toString('utf8');
+  if(!stylesheet.includes(base+'source-sans-3.woff2') || !stylesheet.includes(base+'source-sans-3-italic.woff2'))
+    fail('Source Sans 3 variable fonts must load from the approved local base');
+  const notice=bytes(join(dist,'source-sans-license.txt')).toString('utf8');
+  if(!notice.includes('SIL OPEN FONT LICENSE Version 1.1') || !notice.includes('Copyright 2010-2024 Adobe'))
+    fail('licensed font notice missing');
+  for(const file of ['source-sans-3.woff2','source-sans-3-italic.woff2']) {
+    if(bytes(join(dist,file)).subarray(0,4).toString('latin1')!=='wOF2')
+      fail('invalid self-hosted font asset');
+  }
   if(/(?:src|href)=["']https?:\/\//i.test(html) ||
      /(?:src|href)=["']https?:\/\//i.test(guide))
     fail('remote active asset or hyperlink detected in offline documents');

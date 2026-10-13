@@ -11,6 +11,9 @@ function fixture(){
   for(const [name,content] of [
     ['index.html','<html>Public reader only</html>'],
     ['facilitator.html','<html>Facilitator</html>'],
+    ['source-sans-3.woff2','wOF2TEST'],
+    ['source-sans-3-italic.woff2','wOF2TEST'],
+    ['source-sans-license.txt','SIL OPEN FONT LICENSE Version 1.1'],
     ['assets/index-DEMO123.js','console.log("public");'],
     ['assets/index-DEMO123.css','body {margin:0}']
   ])writeFileSync(join(root,name),content);
@@ -20,7 +23,7 @@ function fixture(){
 test('only the approved public shell is accepted',()=>{
   const dir=fixture();
   try{
-    assert.equal(inspectBuild(dir).length,4);
+    assert.equal(inspectBuild(dir).length,7);
     const result=renderOfflineShell(dir);
     assert.match(result.cache,/^poelio-approved-public-v1-[0-9a-f]{24}$/);
     assert.match(result.worker,/caches\.open\(CACHE\)/);

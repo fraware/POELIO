@@ -13,7 +13,7 @@ const TECHNICAL_ONLY='TECHNICAL_ONLY_NO_PUBLICATION_CLEARANCE';
 const PUBLIC_WORKS=['register','permutation'];
 const SOURCE_NAMES=['src/episode.ts','src/permutation.ts'];
 const LOCK_NAMES=['package-lock.json','experience/package-lock.json'];
-const FIXED_FILES=['index.html','facilitator.html','sw.js'];
+const FIXED_FILES=['index.html','facilitator.html','source-sans-3-italic.woff2','source-sans-3.woff2','source-sans-license.txt','sw.js'];
 
 function reject(message){throw new Error('POELIO release comparison rejected: '+message)}
 function plainObject(value){
@@ -68,8 +68,8 @@ function checkEvidence(value){
   if(typeof value.cacheIdentity!=='string'||
     !/^poelio-approved-public-v1-[a-f0-9]{24}$/.test(value.cacheIdentity))
     reject('invalid offline cache identity');
-  if(!Array.isArray(value.artifacts)||value.artifacts.length!==5)
-    reject('exactly five approved public assets expected');
+  if(!Array.isArray(value.artifacts)||value.artifacts.length!==8)
+    reject('exactly eight approved public assets expected');
   const artifacts=new Map();
   for(const row of value.artifacts){
     exactKeys(row,['path','size','sha256'],'public artifact');

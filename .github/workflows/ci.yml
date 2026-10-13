@@ -55,7 +55,7 @@ jobs:
           find experience/dist -type f | sort
           test ! -e experience/dist/catalog.json
           test ! -e experience/dist/private-runtime
-          test "$(find experience/dist -type f | wc -l)" -eq 5
+          test "$(find experience/dist -type f | wc -l)" -eq 8
           test -f experience/dist/sw.js
           ! grep -R -E 'Mardi, une clé en soulevait|Lundi, l.enveloppe reposait' experience/dist
       - name: Strict offline build allowlist tests

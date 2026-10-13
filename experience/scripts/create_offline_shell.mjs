@@ -2,7 +2,7 @@
  * Strict public-only offline shell builder.
  *
  * The release build is deliberately limited to two known HTML documents
- * and a single hashed JavaScript/CSS pair. Never auto-cache extra files.
+ * and a single hashed JavaScript/CSS pair plus three licensed font resources. Never auto-cache extra files.
  */
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -24,7 +24,7 @@ function regularNames(folder) {
 export function inspectBuild(dist = DEFAULT_DIST) {
   const top = readdirSync(dist, { withFileTypes: true });
   const names = top.map(x => x.name).sort();
-  if (names.join('|') !== 'assets|facilitator.html|index.html' ||
+  if (names.join('|') !== 'assets|facilitator.html|index.html|source-sans-3-italic.woff2|source-sans-3.woff2|source-sans-license.txt' ||
       top.some(x => x.name === 'assets' ? !x.isDirectory() : !x.isFile())) {
     throw new Error('Unexpected root entries in public build: ' + names.join(', '));
   }
@@ -34,7 +34,7 @@ export function inspectBuild(dist = DEFAULT_DIST) {
       assets.filter(name => name.endsWith('.css')).length !== 1) {
     throw new Error('Unexpected public asset inventory: ' + assets.join(', '));
   }
-  return ['index.html', 'facilitator.html', ...assets.map(x => 'assets/' + x)];
+  return ['index.html', 'facilitator.html', 'source-sans-3-italic.woff2', 'source-sans-3.woff2', 'source-sans-license.txt', ...assets.map(x => 'assets/' + x)];
 }
 
 export function renderOfflineShell(dist = DEFAULT_DIST) {
@@ -105,7 +105,7 @@ function main() {
   const {inventory,worker,cache} = renderOfflineShell();
   writeFileSync(join(DEFAULT_DIST,'sw.js'),worker,{flag:'wx',mode:0o644});
   const names=readdirSync(DEFAULT_DIST).sort().join('|');
-  if(names!=='assets|facilitator.html|index.html|sw.js'){
+  if(names!=='assets|facilitator.html|index.html|source-sans-3-italic.woff2|source-sans-3.woff2|source-sans-license.txt|sw.js'){
     throw new Error('Unexpected public files after adding worker');
   }
   console.log('Offline public shell verified:',inventory.length,'approved assets;',cache);
