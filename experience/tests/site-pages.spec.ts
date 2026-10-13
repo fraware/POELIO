@@ -22,7 +22,7 @@ test('French and English navigation remain coherent across page changes',async({
   await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'About'}).click();
   await expect(page).toHaveURL(/view=about.*lang=en/);
   await expect(page.getByRole('heading',{level:1,name:'About'})).toBeVisible();
-  await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Works'}).click();
+  await page.getByRole('navigation',{name:'Main navigation'}).getByRole('link',{name:'Works',exact:true}).click();
   await expect(page.getByRole('heading',{level:1,name:'Works'})).toBeVisible();
   await page.locator('.work-entry').last().locator('.work-entry-link').click();
   await expect(page.getByRole('heading',{level:1,name:'Les Quatre Témoins'})).toBeVisible();
