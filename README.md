@@ -163,7 +163,7 @@ To contribute, read [CONTRIBUTING.md](CONTRIBUTING.md); for a private vulnerabil
 
 ## Present status
 
-**Research preview · proposed v0.2.0-rc.1 release notes.** The local public teaching demo and automated verification pipeline are operational. The repository does **not** claim that a GitHub Release has been published unless one appears on the [Releases page](https://github.com/fraware/POELIO/releases).
+**Research preview · [v0.2.0-rc.1 prerelease published](https://github.com/fraware/POELIO/releases/tag/v0.2.0-rc.1).** The local public teaching demo and automated verification pipeline are operational. The prerelease is a source snapshot, not a publicly hosted POELIO website or a finished literary edition. Consult the [Releases page](https://github.com/fraware/POELIO/releases) for the verified version and date.
 
 Still outstanding: independent literary editorial evaluation, manual screen-reader/WCAG acceptance, original-work publication decisions, actual hosted HTTP-header verification, and properly designed empirical workshop evaluation. A green CI run does not confer these outcomes.
 
