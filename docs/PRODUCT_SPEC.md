@@ -51,7 +51,7 @@ The first-read materials prioritize actual prose before formal explanation, reta
 
 ## Offline continuity for in-person literary workshops
 
-POELIO's publication-safe build now installs a versioned offline cache of its explicitly allowlisted public literary shell after an initial online visit (HTTPS or localhost). Browser tests check reading, companion and facilitator pages during simulated network loss. No unpublished manuscripts, private catalogs, research packets or reader-written work belong in that cache. This supports the six-stage literary and facilitator experience without adding a backend or changing the authored works.
+POELIO's publication-safe build now installs a versioned offline cache of its explicitly allowlisted public literary shell after an initial online visit (HTTPS or localhost). Browser tests check reading, companion and facilitator pages during simulated network loss. No unpublished manuscripts, private catalogs, research packets or reader-written work belong in that cache. Authored responses in the public six-stage episodes use session-scoped browser storage, separated by work, for accidental-refresh recovery; reviewer responses stay memory-only to protect unprimed reading confidentiality. This supports the six-stage literary and facilitator experience without adding a backend or changing the authored works.
 
 ## Quality gates for a future complete episode
 

@@ -34,9 +34,14 @@ test('permutation journey is literature-first, exhaustive and locally writable',
   await page.getByRole('button', {name:'Conserver ma création'}).click();
   expect((await download).suggestedFilename()).toBe('poelio-fragments-et-invention.txt');
 
+  await page.waitForFunction(()=>sessionStorage.getItem('poelio:session:v1:permutation:initial')==='L’ordre fabrique une chronologie hypothétique.');
   await page.reload();
   await page.getByRole('button', {name:/Deuxième expérience/}).click();
   await stages.getByRole('button', {name:/Revenir/}).click();
+  await expect(page.getByText('L’ordre fabrique une chronologie hypothétique.')).toBeVisible();
+  page.once('dialog',dialog=>dialog.accept());
+  await page.getByRole('button',{name:'Recommencer'}).click();
+  await stages.getByRole('button',{name:/Revenir/}).click();
   await expect(page.getByText('Aucune réponse.')).toBeVisible();
 });
 
