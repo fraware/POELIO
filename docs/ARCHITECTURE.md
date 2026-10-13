@@ -31,3 +31,9 @@ The standalone Python importer in tools/private_content.py validates a strict ma
 Each prototype episode combines authored prose, interpretive questions, constraint exploration, comparison, original composition, and reflection. A future fully editorialized episode will deepen these experiences. It must preserve provenance and distinguish executable findings from interpretation. The complete literary edition cannot be public until rights and study-integrity decisions are resolved.
 
 No official affiliation with Oulipo is claimed. No software license has yet been selected.
+
+## Single public literary work registry
+
+`experience/src/contentCatalog.ts` is the only approved entry point for the reading components and independent reviewer packets. It validates each public work against explicitly pinned literary source identity, scoped publication metadata, the corresponding model validator and actual authored realizations or immutable fragments. The original sources live in `episode.ts` and `permutation.ts`; the registry does not copy the manuscript. The private Python content importer stays a separate command-line system and supplies no public browser material.
+
+Root and literary-app npm lockfiles are committed separately; both CI jobs install with `npm ci`. This improves build reproducibility, subject to the configured Node/runtime and dependency registry availability. The static release continues to fail closed when unexpected files appear.
