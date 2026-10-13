@@ -100,6 +100,9 @@ export function validatePublicEpisode(value: Episode): void {
   const ids = new Set<string>();
   const schedules = new Set<string>();
   const canonical = new Set(repairs.map(r => scheduleKey(r.schedule)));
+  // Identical source-module identifiers must denote *identical authored prose*.
+  // Otherwise the comparison UI would conceal a substantive textual change.
+  const moduleTexts = new Map<string, string>();
   for (const r of value.realizations) {
     const key = scheduleKey(r.schedule);
     if (ids.has(r.id) || schedules.has(key) || !canonical.has(key) ||
@@ -111,6 +114,18 @@ export function validatePublicEpisode(value: Episode): void {
     if (r.passages.length === 0 ||
         r.passages.some(p => !p.id || !p.sourceModule || !p.text.trim())) {
       throw new Error('Missing provenance or source text');
+    }
+    const passageIds = new Set<string>();
+    for (const passage of r.passages) {
+      if (passageIds.has(passage.id)) {
+        throw new Error('Duplicate passage ID within realization');
+      }
+      passageIds.add(passage.id);
+      const priorText = moduleTexts.get(passage.sourceModule);
+      if (priorText !== undefined && priorText !== passage.text) {
+        throw new Error('Shared source-module identity maps to different authored prose');
+      }
+      moduleTexts.set(passage.sourceModule, passage.text);
     }
     ids.add(r.id);
     schedules.add(key);
