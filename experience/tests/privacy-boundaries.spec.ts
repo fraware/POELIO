@@ -137,7 +137,7 @@ test('blocked sessionStorage still permits temporary original composition',async
   await page.locator('#writing').fill(SENTINEL+' In-memory-only composition.');
   await expect(page.locator('#writing')).toHaveValue(SENTINEL+' In-memory-only composition.');
   const download=page.waitForEvent('download');
-  await page.getByRole('button',{name:'Conserver ma création'}).click();
+  await page.getByRole('button',{name:'Exporter mon travail'}).click();
   expect((await readFile(await (await download).path(),'utf8'))).toContain(SENTINEL);
   await page.reload();
   await nav.getByRole('button',{name:/Inventer/}).click();
