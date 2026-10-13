@@ -6,7 +6,7 @@
 
 POELIO's HTML has a strict Content Security Policy via a meta tag. Several defenses require **HTTP response headers** and are not supplied by the meta tag, notably frame embedding restrictions (frame-ancestors), HSTS and some browser-isolation policies. A root build and a /POELIO/ build can be correct on disk while an actual host distributes files with weaker policies or substitutes other bytes.
 
-The automated host verifier, experience/scripts/audit_host_headers.mjs, accepts an HTTPS base URL and the matching, already-produced technical release manifest. It retrieves all five approved files from that host, rejects redirects and non-200 responses, verifies MIME types and checks their SHA-256 identities. It does not write any prose or browser responses to disk.
+The automated host verifier, experience/scripts/audit_host_headers.mjs, accepts an HTTPS base URL and the matching, already-produced technical release manifest. It retrieves all eight approved files from that host, rejects redirects and non-200 responses, verifies MIME types and checks their SHA-256 identities. It does not write any prose or browser responses to disk.
 
 ## Required response headers
 
@@ -38,7 +38,7 @@ This runs positive and negative tests for a correct HTTPS fixture, wrong byte id
 ## Prospective real-host verification
 
 1. Obtain separate and explicit authorization to deploy only the existing reviewed public teaching demos.
-2. Build the intended root or repository-subpath variant, preserving the strict five-file public allowlist.
+2. Build the intended root or repository-subpath variant, preserving the strict eight-file public allowlist.
 3. Run npm run audit:root or npm run audit:subpath and retain the generated release-audit JSON **outside** the published website tree.
 4. Configure all HTTP headers on the chosen hosting provider and serve exactly the audited files over HTTPS.
 5. Execute the live audit against the actual host, e.g.:
