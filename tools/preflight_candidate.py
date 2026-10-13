@@ -93,6 +93,8 @@ def _arrangements(rows: Any, kind: str, sources: dict[str,str]) -> tuple[int,int
     seen_states: set[str]=set()
     used: set[str]=set()
     canonical=canonical_schedules() if kind==SCHEDULE else None
+    if kind==PERMUTATION and len(sources)!=4:
+        raise ContentError("Permutation model requires exactly four fixed sources")
     universe=len(canonical) if canonical is not None else 24
     if len(rows)>universe:
         raise ContentError("More arrangements than finite model states")
@@ -116,8 +118,10 @@ def _arrangements(rows: Any, kind: str, sources: dict[str,str]) -> tuple[int,int
                 raise ContentError("Schedule is not one of fourteen canonical minimum repairs")
             key=state
         else:
-            if not isinstance(state,list) or len(state)!=4 or set(state)!=set(refs) or len(refs)!=4:
-                raise ContentError("Fragment arrangement is not a permutation of exactly four sources")
+            if (not isinstance(state,list) or len(state)!=4 or
+                any(not isinstance(x,str) for x in state) or
+                len(refs)!=4 or set(refs)!=set(sources) or set(state)!=set(sources)):
+                raise ContentError("Fragment arrangement is not a permutation of the same four sources")
             key="/".join(state)
         if key in seen_states:
             raise ContentError("Duplicate formal state")
