@@ -12,11 +12,11 @@ class DocumentationLinkTests(unittest.TestCase):
             p=root/"docs"/"README.md"
             p.parent.mkdir()
             (root/"README.md").write_text("demo")
-            self.assertEqual(local_target(p,"../README.md"),root/"README.md")
+            self.assertEqual(local_target(p,"../README.md",root),root/"README.md")
     def test_external_urls_and_same_page_anchors_are_not_local_files(self):
         with tempfile.TemporaryDirectory() as name:
             p=Path(name)/"README.md"
             for link in ("https://github.com/example","#methods","mailto:example@example.org"):
-                self.assertIsNone(local_target(p,link))
+                self.assertIsNone(local_target(p,link,Path(name)))
 
 if __name__=="__main__":unittest.main()
