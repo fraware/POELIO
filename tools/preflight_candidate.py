@@ -133,6 +133,9 @@ def _arrangements(rows: Any, kind: str, sources: dict[str,str]) -> tuple[int,int
 
 def preflight_candidate(manifest: Any,source_directory: Path) -> dict[str,Any]:
     """Validate a candidate and return counts without a single prose byte."""
+    _private_location(source_directory)
+    if source_directory.is_symlink() or not source_directory.is_dir():
+        raise ContentError("Private candidate source directory must be outside the repository")
     data=require_mapping(manifest,"manifest")
     require_keys(data,{"schemaVersion","mode","work","rights","mechanism","sources",
                        "arrangements"},"manifest")
