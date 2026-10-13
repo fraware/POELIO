@@ -69,8 +69,11 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
   function setConstraint(enabled:boolean):void {
     setLimited(enabled);
     setFeedback(enabled
-      ?tr('Contrainte activée. Les déplacements qui ne la satisfont pas sont refusés.',
-          'Rule enabled. Moves that fail it are rejected.')
+      ?(permitted
+        ?tr('Contrainte activée. Les déplacements contraires à la règle sont refusés.',
+            'Rule enabled. Moves that break it are rejected.')
+        :tr('Cet ordre ne satisfait pas la règle. Déplacez la question avant l’enveloppe.',
+            'This order does not satisfy the rule. Move the question before the envelope.'))
       :tr('Contrainte désactivée. Les 24 ordres sont accessibles.',
           'Rule disabled. All 24 arrangements are available.'));
   }
