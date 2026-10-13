@@ -10,7 +10,7 @@ async function openWorkshopGuide(page:import('@playwright/test').Page){
 test.use({bypassCSP:true});
 
 test('complete six-stage experience, guide and reviewer paths work below /POELIO/',async({page,context})=>{
-  await page.goto('./');
+  await page.goto('./?work=register');
   await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
   const guidePromise=page.waitForEvent('popup');
   await openWorkshopGuide(page);
@@ -24,7 +24,7 @@ test('complete six-stage experience, guide and reviewer paths work below /POELIO
   await page.goto('./?companion=permutation');
   await expect(page.getByRole('heading',{name:'Lire, comprendre, interpréter'})).toBeVisible();
 
-  await page.goto('./');
+  await page.goto('./?work=register');
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   await expect(page.getByRole('heading',{name:'Les Quatre Témoins'})).toBeVisible();
   const secondGuidePromise=page.waitForEvent('popup');
@@ -35,7 +35,7 @@ test('complete six-stage experience, guide and reviewer paths work below /POELIO
 });
 
 test('offline cache is scoped to the repository subpath',async({page,context})=>{
-  await page.goto('./');
+  await page.goto('./?work=register');
   await page.waitForFunction(()=>Boolean(navigator.serviceWorker?.controller),null,{timeout:20000});
   const check=await page.evaluate(async()=>{
     const registration=await navigator.serviceWorker.getRegistration();
@@ -45,8 +45,8 @@ test('offline cache is scoped to the repository subpath',async({page,context})=>
   });
   expect(check.scope).toMatch(/\/POELIO\/$/);
   expect(check.ids).toHaveLength(1);
-  expect(check.entries).toHaveLength(4);
-  for(const url of check.entries)expect(url).toMatch(/\/POELIO\/(index\.html|facilitator\.html|assets\/index-[^/]+\.(js|css))$/);
+  expect(check.entries).toHaveLength(7);
+  for(const url of check.entries)expect(url).toMatch(/\/POELIO\/(index\.html|facilitator\.html|source-sans-3\.woff2|source-sans-3-italic\.woff2|source-sans-license\.txt|assets\/index-[^/]+\.(js|css))$/);
   await context.setOffline(true);
   try{
     await page.goto('./?review=permutation');
