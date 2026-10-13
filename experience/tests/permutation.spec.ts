@@ -36,7 +36,7 @@ test('permutation journey is literature-first, exhaustive and locally writable',
 
   await page.waitForFunction(()=>sessionStorage.getItem('poelio:session:v1:permutation:initial')==='L’ordre fabrique une chronologie hypothétique.');
   await page.reload();
-  await page.getByRole('button', {name:/Deuxième expérience/}).click();
+  await expect(page.getByRole('heading',{name:'Les Quatre Témoins'})).toBeVisible();
   await stages.getByRole('button', {name:/Revenir/}).click();
   await expect(page.getByText('L’ordre fabrique une chronologie hypothétique.')).toBeVisible();
   page.once('dialog',dialog=>dialog.accept());
