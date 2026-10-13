@@ -41,3 +41,9 @@ Root and literary-app npm lockfiles are committed separately; both CI jobs insta
 ## Static deployment portability
 
 The existing strict public asset builder supports a second verified Vite base (`/POELIO/`) for repository-scoped static hosting. The browser interface constructs workshop-guide links from the configured base, and the service worker uses its registration scope to find approved cache entries. The independent root and subpath browser suites exercise reading, comparison, reviewer packets, guide navigation, and offline fallbacks. No deployment action or public GitHub Pages service is configured by the CI workflow.
+
+## Technical release evidence and future work intake
+
+The public Vite distribution now has a deterministic, fail-closed release auditor in experience/scripts/audit_release.mjs. It compares five approved build files, checks source-identity pins and CSP/referrer rules, matches the service worker to its generated cache, verifies deployment-base references and records SHA-256 values of the public assets and npm lockfiles. Root and /POELIO/ builds generate separate reports outside the web bundle. These reports explicitly cannot establish publication rights or artistic quality.
+
+The unrelated private intake gate tools/preflight_candidate.py only inspects author-supplied source material outside this Git checkout. It accepts two declared finite model families and verifies exact UTF-8 source bytes and source-module identities before returning a content-free unverified summary. It has no public promotion mode or runtime connection to React. Independent publishing and editorial gates remain.
