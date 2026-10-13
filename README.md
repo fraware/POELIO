@@ -13,6 +13,7 @@
   &nbsp; · &nbsp; <a href="LICENSE-CONTENT.md">Literary rights</a>
   &nbsp; · &nbsp; <a href="docs/PRODUCT_SPEC.md">Product contract</a>
   &nbsp; · &nbsp; <a href="docs/RELEASE_NOTES_v0.2.0-rc.2.md">Research-preview notes</a>
+  &nbsp; · &nbsp; <a href="docs/GITHUB_PAGES.md">GitHub Pages publishing</a>
 </p>
 
 ---
@@ -23,7 +24,7 @@
 
 The formal construction is an instrument of attention. It is never a substitute for the author or for literary judgment.
 
-The long-term vision is an accessible, multilingual atelier connecting readers, writers, educators, digital-humanities researchers, and in-person workshops. The repository currently implements **two original public teaching works**, a reusable six-stage interface, and a separate finite-model explorer. This is a **research preview**, not a finished literary edition or a publicly deployed service.
+The long-term vision is an accessible, multilingual atelier connecting readers, writers, educators, digital-humanities researchers, and in-person workshops. The repository currently implements **two original public teaching works**, a reusable six-stage interface, and a separate finite-model explorer. This is a **research preview**, not a finished literary edition. GitHub Pages deployment requires independent activation and live verification; see [publishing status and limitations](docs/GITHUB_PAGES.md).
 
 ### Six movements through a work
 
