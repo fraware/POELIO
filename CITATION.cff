@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use POELIO in research or teaching, please cite the software repository and the specific commit you used."
+type: software
+title: "POELIO: A Literary Laboratory for Constrained Writing and Interactive Interpretation"
+abstract: "An independent, literature-first research prototype with two original public teaching works, a six-stage reading and writing experience, and executable finite-model checks."
+authors:
+  - family-names: Petel
+    given-names: Mateo
+repository-code: "https://github.com/fraware/POELIO"
+url: "https://github.com/fraware/POELIO"
+license: MIT
+keywords:
+  - digital humanities
+  - electronic literature
+  - creative writing
+  - constrained writing
+  - literary interpretation
+  - interactive literature
+  - formal methods
