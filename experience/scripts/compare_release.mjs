@@ -87,11 +87,15 @@ function checkEvidence(value){
     reject('missing or duplicated compiled public assets');
   return {pins,locks,artifacts};
 }
-function changesIn(current,candidate,category,key){
+function canonicalRow(row){
+  if(!row)return null;
+  return JSON.stringify(Object.fromEntries(Object.entries(row).sort(([a],[b])=>a.localeCompare(b))));
+}
+function changesIn(current,candidate,category){
   const result=[];
   for(const name of new Set([...current.keys(),...candidate.keys()])){
     const a=current.get(name),b=candidate.get(name);
-    if(!a||!b||JSON.stringify(a)!==JSON.stringify(b))
+    if(!a||!b||canonicalRow(a)!==canonicalRow(b))
       result.push(category+':'+name);
   }
   return result.sort();
@@ -106,9 +110,9 @@ export function compareCandidates(reference,candidate){
   if(reference.variant!==candidate.variant||reference.base!==candidate.base)
     reject('compare identical hosting variants, not root against subpath');
   const changes=[
-    ...changesIn(previous.pins,next.pins,'literary-source','source'),
-    ...changesIn(previous.locks,next.locks,'dependency','path'),
-    ...changesIn(previous.artifacts,next.artifacts,'public-byte','path')
+    ...changesIn(previous.pins,next.pins,'literary-source'),
+    ...changesIn(previous.locks,next.locks,'dependency'),
+    ...changesIn(previous.artifacts,next.artifacts,'public-byte')
   ];
   if(reference.cacheIdentity!==candidate.cacheIdentity)
     changes.push('offline-cache:identity');
@@ -130,8 +134,8 @@ export function compareDeploymentVariants(root,subpath){
   if(root.variant!=='root'||subpath.variant!=='subpath')
     reject('root and subpath evidence must be in the specified order');
   const mismatches=[
-    ...changesIn(left.pins,right.pins,'literary-source','source'),
-    ...changesIn(left.locks,right.locks,'dependency','path')
+    ...changesIn(left.pins,right.pins,'literary-source'),
+    ...changesIn(left.locks,right.locks,'dependency')
   ];
   return {
     result:mismatches.length?'INCONSISTENT_PUBLIC_BUILDS':'COHERENT_PUBLIC_VARIANTS',
