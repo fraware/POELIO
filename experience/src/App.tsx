@@ -86,7 +86,9 @@ export function App(): ReactNode {
   const left = demoEpisode.realizations.find(r => r.id===compareLeft) ?? FIRST;
   const right = demoEpisode.realizations.find(r => r.id===compareRight) ?? SECOND;
 
-  useEffect(() => { document.documentElement.lang=language; }, [language]);
+  useEffect(() => {
+    if (activeExperience === 'register') document.documentElement.lang = language;
+  }, [language, activeExperience]);
   function navigate(target: Stage): void {
     setStage(target);
     // Focus follows navigation so keyboard and screen-reader users reach the stage heading.
@@ -151,7 +153,7 @@ export function App(): ReactNode {
         <p className="eyebrow">{tr('01 / RENCONTRER UN TEXTE','01 / ENCOUNTER A WORK')}</p>
         <h1>{tr('Avant la règle, le récit.','The story comes first.')}</h1>
         <p className="lede">{tr(
-          'Deux personnes veillent à tour de rôle sur une salle où chaque visite laisse une trace. Lisez sans chercher encore à résoudre le mécanisme.',
+          'Deux personnes veillent à tour de rôle sur une salle où chaque visite laisse une trace. Lisez d’abord la prose, avant de découvrir ses règles de composition.',
           'Two people take turns watching a room where each visit leaves a trace. Read without trying to solve the mechanism yet.')}</p>
         <div className="reading-column"><Manuscript realization={FIRST}/></div>
         <p className="discreet">{tr(
