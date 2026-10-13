@@ -49,6 +49,7 @@ jobs:
           test ! -e experience/dist/private-runtime
           test "$(find experience/dist -type f | wc -l)" -eq 5
           test -f experience/dist/sw.js
+          ! grep -R -E 'Mardi, une clé en soulevait|Lundi, l.enveloppe reposait' experience/dist
       - name: Strict offline build allowlist tests
         run: npm --prefix experience run test:offline
       - name: Archive approved public demo for local review
@@ -58,7 +59,6 @@ jobs:
           path: experience/dist/
           if-no-files-found: error
           retention-days: 14
-          ! grep -R -E 'Mardi, une clé en soulevait|Lundi, l.enveloppe reposait' experience/dist
       - name: Install headless Chromium
         run: npx --prefix experience playwright install chromium --with-deps
       - name: Desktop and mobile browser journey
