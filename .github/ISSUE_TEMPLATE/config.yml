@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Private security disclosures
+    url: https://github.com/fraware/POELIO/security
+    about: Do not disclose exploitable details or private literary research material in public issues.
+  - name: Documentation map
+    url: https://github.com/fraware/POELIO/blob/main/docs/INDEX.md
+    about: Find literary protocols, build instructions, rights policies and verified evidence.
