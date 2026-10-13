@@ -3,6 +3,7 @@ import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from '
 import { useSessionDraft, clearAllPublicDrafts } from './useSessionDraft.js';
 import {isFragmentOrder,orderKey,type FragmentOrder} from './permutation.js';
 import {publicWorks} from './contentCatalog.js';
+import {ReaderHeader} from './ReaderHeader.js';
 const {orders:ALL,originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
   fragments:authoredFragments}=publicWorks.permutation;
 const passagesForOrder=publicWorks.permutation.passages;
@@ -87,27 +88,10 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
   }
   return <div className={projector?'app projector':'app'}>
     <a className="skip-link" href="#permutation-main">{tr('Aller au texte','Skip to text')}</a>
-    <header className="topbar">
-      <div className="brand-block">
-        <span className="brand">POELIO<span className="brand-mark" aria-hidden="true">✳</span></span>
-        <span className="brand-desc">{tr('Un autre mécanisme littéraire','Another literary mechanism')}</span>
-      </div>
-      <div className="header-actions">
-        <div className="header-experiences">
-        <span className="edition-flag">{tr('Démonstration publique originale','Original public demonstration')}</span>
-        <button type="button" className="text-button" onClick={onReturn}>{tr('← Registre des clefs','← Register of Keys')}</button>
-        <a className="text-button" href={import.meta.env.BASE_URL + 'facilitator.html'} target="_blank" rel="noopener noreferrer">{tr('Guide d’atelier','Workshop guide')}</a>
-        </div>
-        <div className="header-tools">
-        <button type="button" className="text-button" onClick={()=>setLanguage(v=>v==='fr'?'en':'fr')}
-          aria-label={tr('Switch to English','Passer en français')}>{language==='fr'?'EN':'FR'}</button>
-        <button type="button" className="text-button" aria-pressed={projector}
-          onClick={()=>setProjector(v=>!v)}>{projector?tr('Normal','Normal'):tr('Projection','Projector')}</button>
-        <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
-        <button type="button" className="text-button danger-action" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
-        </div>
-      </div>
-    </header>
+    <ReaderHeader language={language} work="permutation" onSwitch={onReturn}
+      onLanguage={()=>setLanguage(v=>v==='fr'?'en':'fr')}
+      projector={projector} onProjector={()=>setProjector(v=>!v)}
+      onReset={reset} onClear={clearForNextReader}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
     <main id="permutation-main" className="main-content" tabIndex={-1} ref={main}>
       {stage==='read' && <>
