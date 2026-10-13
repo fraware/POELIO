@@ -4,6 +4,11 @@ POELIO combines literary reading, constrained composition, and a small, verifiab
 
 Start with the [project README](../README.md) or the [application guide](../experience/README.md).
 
+## Strategy and reuse
+
+- [Impact and reuse roadmap](IMPACT_REUSE_ROADMAP.md) — gated delivery plan, reusable interactions, workshop assets, evaluation criteria and priority GitHub issues.
+
+
 ## Reading and teaching
 
 - [Site design system](SITE_DESIGN_SYSTEM.md) — architecture, typography and acceptance criteria for the public site.
