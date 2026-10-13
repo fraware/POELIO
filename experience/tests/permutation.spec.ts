@@ -3,7 +3,7 @@ import {expect, test} from '@playwright/test';
 test('permutation journey is literature-first, exhaustive and locally writable', async ({page}) => {
   await page.goto('/');
   await page.getByRole('button', {name:/Deuxième expérience/}).click();
-  await expect(page.getByRole('heading', {name:'La porte était ouverte.'})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'Les Quatre Témoins'})).toBeVisible();
   const stages = page.getByRole('navigation', {name:'Étapes de l’expérience'});
   await expect(page.locator('.reading-column .fragment-passage')).toHaveCount(4);
 
@@ -40,6 +40,7 @@ test('permutation journey is literature-first, exhaustive and locally writable',
   await stages.getByRole('button', {name:/Revenir/}).click();
   await expect(page.getByText('L’ordre fabrique une chronologie hypothétique.')).toBeVisible();
   page.once('dialog',dialog=>dialog.accept());
+  await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Recommencer'}).click();
   await stages.getByRole('button',{name:/Revenir/}).click();
   await expect(page.getByText('Aucune réponse.')).toBeVisible();
@@ -58,7 +59,7 @@ test('second mechanism permits English interface and does not overflow on mobile
   await page.goto('/');
   await page.getByRole('button', {name:/Deuxième expérience/}).click();
   await page.getByRole('button', {name:'Switch to English'}).click();
-  await expect(page.getByRole('heading', {name:'The door stood open.'})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'Les Quatre Témoins'})).toBeVisible();
   const steps=page.getByRole('navigation', {name:'Experience stages'});
   await steps.getByRole('button', {name:/Explore/}).click();
   await expect(page.locator('#permutation-select option')).toHaveCount(24);
