@@ -20,6 +20,10 @@ The TypeScript module `src/model.ts` is deterministic. Its regression tests esta
 
 The tracked-filename guard checks common leakage paths, **not arbitrary strings or all possible secret data**. Code review remains necessary.
 
+## Private content pipeline
+
+The standalone Python importer in tools/private_content.py validates a strict manifest, independently enumerates the canonical schedules, checks exact UTF-8 source bytes against SHA-256 claims, rejects inconsistent source-module identities, and writes a private catalog outside the repository only. The master-archive adapter separately reconciles original reader and generated manifests; its output is not part of the Vite application or a public release. See docs/CONTENT_INTEGRITY.md for supported schema, execution instructions and limitations.
+
 ## Design intent
 
 A future episode will combine authored prose, interpretive questions, constraint exploration, passage comparison, original composition, and reflection. It must preserve provenance and distinguish executable findings from interpretation. The complete literary edition cannot be public until rights and study-integrity decisions are resolved.
