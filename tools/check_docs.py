@@ -24,7 +24,7 @@ REQUIRED = (
     "docs/RELEASE_NOTES_v0.2.0-rc.1.md", "docs/assets/poelio-masthead.svg"
 )
 
-def local_target(document: Path, reference: str) -> Path | None:
+def local_target(document: Path, reference: str, root: Path = ROOT) -> Path | None:
     reference = reference.strip().split(" ", 1)[0].strip("<>")
     if not reference or reference.startswith(SKIP):
         return None
@@ -32,8 +32,8 @@ def local_target(document: Path, reference: str) -> Path | None:
     if not stem:
         return None
     resolved = (document.parent / stem).resolve()
-    if not resolved.is_relative_to(ROOT.resolve()):
-        raise ValueError(f"link escapes repository: {document.relative_to(ROOT)} -> {reference}")
+    if not resolved.is_relative_to(root.resolve()):
+        raise ValueError(f"link escapes repository: {reference}")
     return resolved
 
 def check_links(root: Path = ROOT) -> list[str]:
@@ -45,7 +45,7 @@ def check_links(root: Path = ROOT) -> list[str]:
         targets = MARKDOWN_LINK.findall(text) + HTML_LINK.findall(text)
         for ref in targets:
             try:
-                target = local_target(document, ref)
+                target = local_target(document, ref, root)
             except ValueError as exc:
                 failures.append(str(exc))
                 continue
