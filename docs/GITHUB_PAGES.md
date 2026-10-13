@@ -8,7 +8,7 @@
 
 The GitHub Pages site is built and deployed by `.github/workflows/pages.yml`, not from the root of `main` or a general-purpose `docs/` folder. Deployment is strictly conditional on a successful **push-to-main** `Public source CI` completion for the exact SHA which still heads `main`.
 
-The workflow uses the pinned Node 22/npm lockfile and `npm ci --ignore-scripts`, checks the whole dependency tree for high/critical known advisories, runs `build:subpath`, validates the exact `/POELIO/` five-file public distribution using the deterministic release auditor, and uploads only `experience/dist`. GitHub's pinned Pages actions deploy that upload. No prose-generation endpoint, analytics service, database, account system, private candidate import or manuscript archive is shipped.
+The workflow uses the pinned Node 22/npm lockfile and `npm ci --ignore-scripts`, checks the whole dependency tree for high/critical known advisories, runs `build:subpath`, validates the exact `/POELIO/` eight-file public distribution using the deterministic release auditor, and uploads only `experience/dist`. GitHub's pinned Pages actions deploy that upload. No prose-generation endpoint, analytics service, database, account system, private candidate import or manuscript archive is shipped.
 
 ## Required GitHub administrator activation
 
