@@ -49,7 +49,7 @@ test('language switching, comparison identity, and mobile dimensions work', asyn
   await expect(page.getByRole('heading', {name:'Le Registre des clefs'})).toBeVisible();
   const steps = page.getByRole('navigation', {name:'Experience stages'});
   await steps.getByRole('button', {name:/Compare/}).click();
-  await page.getByLabel('Second realization').selectOption('demo-a');
+  await page.getByLabel('Second text').selectOption('demo-a');
   await expect(page.getByText('You selected the same text twice.')).toBeVisible();
   const width = await page.evaluate(()=>({
     scroll: document.documentElement.scrollWidth,
