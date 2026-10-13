@@ -115,6 +115,7 @@ export function App(): ReactNode {
         <span className="brand-desc">{tr('Laboratoire de littérature potentielle','Laboratory for explorable literature')}</span>
       </div>
       <div className="header-actions">
+        <div className="header-experiences">
         <span className="edition-flag">{tr('Démonstration publique originale','Original public demonstration')}</span>
         <button className="text-button" type="button" onClick={()=>setActiveExperience('permutation')}>
           {tr('Deuxième expérience : permutations →','Second experience: permutations →')}
@@ -122,12 +123,15 @@ export function App(): ReactNode {
         <a className="text-button" href={import.meta.env.BASE_URL + 'facilitator.html'} target="_blank" rel="noopener noreferrer">
           {tr('Guide d’atelier','Workshop guide')}
         </a>
+        </div>
+        <div className="header-tools">
         <button type="button" className="text-button" onClick={()=>setLanguage(v=>v==='fr'?'en':'fr')}
           aria-label={tr('Switch to English','Passer en français')}>{language==='fr'?'EN':'FR'}</button>
         <button type="button" className="text-button" onClick={()=>setProjector(v=>!v)}
           aria-pressed={projector}>{projector?tr('Normal','Normal'):tr('Projection','Projector')}</button>
         <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
         <button type="button" className="text-button danger-action" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
+        </div>
       </div>
     </header>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
