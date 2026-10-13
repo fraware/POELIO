@@ -1,6 +1,6 @@
 # POELIO v0.2.0-rc.1 — Research preview
 
-> **Proposed GitHub prerelease notes.** Publication of a GitHub Release requires a separate action; the presence of this file does not assert that a release is already live.
+> **Research prerelease candidate.** This software preview is not a stable product, a rights-cleared literary edition, or an independent accessibility certification. A GitHub Release is published only following successful `main` CI.
 
 A literature-first, privacy-aware public research prototype. POELIO invites the reader to move through six stages: **Read → Question → Explore → Compare → Invent → Reflect**.
 
