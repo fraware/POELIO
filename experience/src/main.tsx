@@ -22,3 +22,14 @@ const content = isReviewWork(review)
     : <App/>;
 
 createRoot(container).render(<React.StrictMode>{content}</React.StrictMode>);
+
+
+/* Cache only the approved PUBLIC shell, never private texts or participant writing. */
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const scope = import.meta.env.BASE_URL;
+    void navigator.serviceWorker.register(scope + 'sw.js', {scope}).catch(() => {
+      // Normal online reading stays available if offline installation fails.
+    });
+  });
+}

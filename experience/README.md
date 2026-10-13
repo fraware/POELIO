@@ -52,3 +52,12 @@ Only the already approved **public original teaching fixtures** are exposed thro
 - `/?companion=permutation` — complete, written, static explanation of fragment permutations with a different fixed reading order.
 
 Do **not** send a static companion before obtaining a first-reading response. These are source-derived editorial instruments, not a finished controlled experiment, publisher-approved prose, or a way to distribute the unpublished La Relève. The review pages record no server-side notes. Direct responses and exported files stay under the participant's control. See `../docs/EDITORIAL_REVIEW_PROTOCOL.md` and `../docs/STATIC_COMPARISON_PROTOCOL.md`.
+
+
+## Offline workshop operation — PUBLIC materials only
+
+After a production build, the generated service worker caches the two permitted HTML documents and the compiled, approved JS/CSS bundle. An unexpected file fails the strict release inventory. The cache contains only already-public teaching examples, never the unpublished La Relève manuscript, private catalogs, research packets, or participant writing.
+
+Open the app once over HTTPS or localhost while connected. Subsequent visits to the main site, first-reading packets, static literary companions and /facilitator.html can work offline in compatible browsers. First-time offline visitors have no cache. Participant responses stay in browser memory; export drafts explicitly before reloading or closing the tab.
+
+The release build produces five permitted public assets, including sw.js. Run npm run test:offline for fail-closed build tests and npm run test:e2e for desktop/mobile disconnection tests. GitHub Actions attaches the approved PUBLIC static site as a reproducibility artifact. This is not a live website, a private distribution mechanism or real-time collaboration.

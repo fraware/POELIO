@@ -49,6 +49,10 @@ The next validation path retains the existing two original public demonstration 
 
 The first-read materials prioritize actual prose before formal explanation, retain local control of notes, and disclose specific questions only on a subsequent editorial pass. The static companions make a legitimate alternative delivery possible without claiming that exposure time or educational outcomes are matched. Independent editorial reviews, physical workshops, and human-subject research approval have **not occurred**. Refer to `docs/EDITORIAL_REVIEW_PROTOCOL.md` and `docs/STATIC_COMPARISON_PROTOCOL.md` before using these materials.
 
+## Offline continuity for in-person literary workshops
+
+POELIO's publication-safe build now installs a versioned offline cache of its explicitly allowlisted public literary shell after an initial online visit (HTTPS or localhost). Browser tests check reading, companion and facilitator pages during simulated network loss. No unpublished manuscripts, private catalogs, research packets or reader-written work belong in that cache. This supports the six-stage literary and facilitator experience without adding a backend or changing the authored works.
+
 ## Quality gates for a future complete episode
 
 - Reviewed opening passage and coherent guided narrative.
