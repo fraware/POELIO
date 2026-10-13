@@ -73,3 +73,7 @@ The six stages, French/English labels, keyboard focus transfer, and previous/nex
 ## Approved public literary content registry
 
 The browser, first-reading editorial packets and noninteractive companions now use one versioned, strictly allowlisted content registry with separate validators for minimum-repair schedules and fixed-fragment permutations. Source identity is pinned, public release metadata is explicit, and absent authored text stays absent. The independent private importer remains disconnected. New works must undergo source approval, scoped model verification, provenance review and rights clearance before adding another registry entry. The two npm projects now use committed lockfiles and CI installs exactly those resolved dependency sets. See `docs/PUBLIC_CONTENT_CONTRACT.md` for the full acceptance contract.
+
+## Deployment-path compatibility
+
+Both origin-root (`/`) and repository-subpath (`/POELIO/`) hosting layouts have build configurations and separate desktop/mobile regression suites. Workshop links use the configured Vite base, and the approved public-only service worker scopes its cache to the deployment prefix. This protects accessibility to the reader and facilitator experience without authorizing a public deployment or changing any authored material.
