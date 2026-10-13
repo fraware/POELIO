@@ -34,11 +34,15 @@ a {color:var(--green);text-underline-offset:.2em}
 }
 ::selection {background:#d9e2d8;color:#1c3024}
 .skip-link {
-  position:fixed;top:-8rem;left:1rem;z-index:100;
-  background:var(--sheet);border:1px solid var(--green);
-  color:var(--green);padding:.75rem 1rem
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;
 }
-.skip-link:focus {top:1rem}
+.skip-link:focus {
+  position:fixed;top:1rem;left:1rem;z-index:100;
+  width:auto;height:auto;margin:0;padding:.75rem 1rem;
+  clip:auto;overflow:visible;white-space:normal;
+  color:var(--green);background:var(--sheet);border:1px solid var(--green)
+}
 .app {min-height:100svh;background:var(--paper)}
 /* Two quiet navigation bands, not a dashboard. */
 .topbar {background:var(--sheet);border-bottom:1px solid var(--line)}
