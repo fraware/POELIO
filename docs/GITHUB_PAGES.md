@@ -12,11 +12,11 @@ The workflow uses the pinned Node 22/npm lockfile and `npm ci --ignore-scripts`,
 
 ## Required GitHub administrator activation
 
-The connected GitHub application may edit repository files, branches, issues and pull requests but cannot manage GitHub Pages source settings or About/topics. For a previously disabled Pages site:
+A repository administrator must enable GitHub Pages and configure its publishing source. For a previously disabled Pages site:
 
 1. Visit https://github.com/fraware/POELIO/settings/pages.
 2. Under **Build and deployment → Source**, select **GitHub Actions**.
-3. GitHub will accept the existing `Publish public reading preview` workflow; no template workflow needs to be generated.
+3. Use the existing `Publish public reading preview` workflow; no template workflow needs to be generated.
 4. Push an approved new commit to `main` through a pull request to trigger fresh source CI and the deployment workflow. The last build cannot be considered live solely because its artifacts or workflow files exist.
 5. Verify the workflow reports a successful `github-pages` deployment and open https://fraware.github.io/POELIO/ on mobile and desktop.
 
