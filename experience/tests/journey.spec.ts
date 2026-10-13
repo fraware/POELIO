@@ -39,7 +39,7 @@ test('the full six-stage literary journey preserves authorial provenance and pri
 
 test('language switching, comparison identity, and mobile dimensions work', async ({page}) => {
   await page.goto('/');
-  await page.getByRole('button', {name:'EN',exact:true}).click();
+  await page.getByRole('button', {name:'Switch to English'}).click();
   await expect(page.getByRole('heading', {name:'The story comes first.'})).toBeVisible();
   const steps = page.getByRole('navigation', {name:'Experience stages'});
   await steps.getByRole('button', {name:/Compare/}).click();
