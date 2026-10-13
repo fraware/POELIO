@@ -16,10 +16,12 @@ export interface Repair {
 export function allSchedules(): Schedule[] {
   const results: Schedule[] = [];
   for (let value = 0; value < 256; value++) {
-    const schedule = Array.from(
-      { length: 8 },
-      (_, index): Person => (value & (1 << index)) === 0 ? 'A' : 'B'
-    ) as Schedule;
+    const bit = (index: number): Person =>
+      (value & (1 << index)) === 0 ? 'A' : 'B';
+    const schedule: Schedule = [
+      bit(0), bit(1), bit(2), bit(3),
+      bit(4), bit(5), bit(6), bit(7)
+    ];
     results.push(schedule);
   }
   return results;
