@@ -77,3 +77,9 @@ The browser, first-reading editorial packets and noninteractive companions now u
 ## Deployment-path compatibility
 
 Both origin-root (`/`) and repository-subpath (`/POELIO/`) hosting layouts have build configurations and separate desktop/mobile regression suites. Workshop links use the configured Vite base, and the approved public-only service worker scopes its cache to the deployment prefix. This protects accessibility to the reader and facilitator experience without authorizing a public deployment or changing any authored material.
+
+## Candidate intake and release-evidence milestones
+
+Two additional pre-publication tools exist without expanding the literary repertoire. A **private-only candidate preflight** validates source hashes, provenance and model-state mappings outside the public checkout. The **public release auditor** issues deterministic root/subpath reports containing verified public artifact checksums, dependency-lock identities, and exact build/CSP/cache checks. Both declare that they establish *technical* conditions only; neither grants publication authorization or validates literary merit.
+
+The complete six-stage literary specification still governs future works. Candidates that pass these machine checks remain private until the original author approves distribution and the required editorial, accessibility and venue-specific publication gates are completed. See docs/RELEASE_AND_CANDIDATE_PREFLIGHT.md.

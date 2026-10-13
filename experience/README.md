@@ -75,3 +75,11 @@ In addition to the ordinary root-origin build, POELIO runs a second publication-
 Run `npm run build:subpath` followed by `npm run test:subpath` to reproduce the desktop/mobile browser checks. The normal `npm run build` and `npm run test:e2e` continue to test hosting at `/`. The second build rewrites `dist/` for testing; run the desired build variant last before copying assets to any static host.
 
 **No deployment is enabled by these commands.** Neither variant contains unpublished La Relève prose or private catalogs; actual publication decisions and website deployment permissions are separate gates.
+
+## Exact-byte release evidence
+
+The release auditor validates the **already built** public app at root or under `/POELIO/`, refusing extra files, forged source pins, altered service-worker bytes, missing CSP/referrer policy or asset paths inconsistent with the deployment base.
+
+Run `npm run test:release` for synthetic adversarial checks. Following a root build, use `npm run audit:root`; following a subpath build, use `npm run audit:subpath`. Both commands write deterministic JSON reports under ignored `release-audit/`, **outside** the public `dist/` bundle. The records contain SHA-256 of the exact five deployed files, the two already-public pinned literary source files and both npm lockfiles, plus cache version and deployment prefix. Reports carry `publicationStatus=TECHNICAL_ONLY_NO_PUBLICATION_CLEARANCE`; passing the auditor does not approve a public literary release.
+
+GitHub Actions archives both reports separately from the approved public demo artifact. These manifests contain no private or unpublished literary content and do not establish human editorial, accessibility or legal acceptance.

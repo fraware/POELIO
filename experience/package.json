@@ -13,7 +13,10 @@
     "verify:fixture": "node scripts/verify_approved_demo.mjs",
     "test:offline": "node --test scripts/offline_shell.test.mjs",
     "build:subpath": "npm run verify:fixture && npm run typecheck && vite build --base /POELIO/ && node scripts/create_offline_shell.mjs",
-    "test:subpath": "playwright test -c playwright.subpath.config.ts"
+    "test:subpath": "playwright test -c playwright.subpath.config.ts",
+    "audit:root": "node scripts/audit_release.mjs root",
+    "audit:subpath": "node scripts/audit_release.mjs subpath",
+    "test:release": "node --test scripts/audit_release.test.mjs"
   },
   "dependencies": {
     "react": "19.0.0",
