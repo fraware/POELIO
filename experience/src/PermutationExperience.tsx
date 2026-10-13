@@ -89,10 +89,11 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
     <a className="skip-link" href="#permutation-main">{tr('Aller au texte','Skip to text')}</a>
     <header className="topbar">
       <div className="brand-block">
-        <span className="brand">POELIO<span className="brand-mark">✳</span></span>
+        <span className="brand">POELIO<span className="brand-mark" aria-hidden="true">✳</span></span>
         <span className="brand-desc">{tr('Un autre mécanisme littéraire','Another literary mechanism')}</span>
       </div>
       <div className="header-actions">
+        <span className="edition-flag">{tr('Démonstration publique originale','Original public demonstration')}</span>
         <button type="button" className="text-button" onClick={onReturn}>{tr('← Registre des clefs','← Register of Keys')}</button>
         <a className="text-button" href={import.meta.env.BASE_URL + 'facilitator.html'} target="_blank" rel="noopener noreferrer">{tr('Guide d’atelier','Workshop guide')}</a>
         <button type="button" className="text-button" onClick={()=>setLanguage(v=>v==='fr'?'en':'fr')}
@@ -100,7 +101,7 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
         <button type="button" className="text-button" aria-pressed={projector}
           onClick={()=>setProjector(v=>!v)}>{projector?tr('Normal','Normal'):tr('Projection','Projector')}</button>
         <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
-        <button type="button" className="text-button" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
+        <button type="button" className="text-button danger-action" onClick={clearForNextReader}>{tr('Effacer toutes mes réponses','Erase all my drafts')}</button>
       </div>
     </header>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
