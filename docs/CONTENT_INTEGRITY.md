@@ -46,6 +46,10 @@ The specialized archive adapter checks the reader-edition hashes, reader/generat
 
 The adapter records archival Lean evidence only. It does not rerun Lean. The computed digest proves source-byte identity, not legal authorization, narrative semantics or literary quality.
 
+## Curated public fixture change control
+
+The public experience includes only its original teaching fixture under experience/src/episode.ts. The public build checks its pinned Git-blob identity against experience/approved-demo.blobsha. This prevents accidental source edits from silently reaching a generated website. The identity pin is **not** evidence of a publication license, nor an absolute safeguard against a maintainer deliberately updating both files. Any proposed new public prose demands separate author/editor approval and a reviewed update of the fixture pin.
+
 ## Release and editorial review gates
 
 Before publishing a literary episode, obtain and record rights-holder approval covering the specific distribution channel. Check authorship, quoted passages, annotations, the chosen edition, and consequences for the blinded study. These external approvals are NOT implemented by the importer; the authorizationRef field is a statement supplied by an operator, not authenticated legal evidence.
