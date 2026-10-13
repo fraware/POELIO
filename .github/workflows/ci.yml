@@ -52,6 +52,10 @@ jobs:
           ! grep -R -E 'Mardi, une clé en soulevait|Lundi, l.enveloppe reposait' experience/dist
       - name: Strict offline build allowlist tests
         run: npm --prefix experience run test:offline
+      - name: Test fail-closed release evidence auditor
+        run: npm --prefix experience run test:release
+      - name: Audit exact approved root-build bytes and source pins
+        run: npm --prefix experience run audit:root
       - name: Archive approved public demo for local review
         uses: actions/upload-artifact@v4
         with:
@@ -65,5 +69,14 @@ jobs:
         run: npm --prefix experience run test:e2e
       - name: Build approved public app at a non-root /POELIO/ path
         run: npm --prefix experience run build:subpath
+      - name: Audit exact approved repository-subpath build bytes
+        run: npm --prefix experience run audit:subpath
       - name: Verify subpath build and offline navigation in desktop/mobile Chromium
         run: npm --prefix experience run test:subpath
+      - name: Archive technical-only release evidence (not publication authorization)
+        uses: actions/upload-artifact@v4
+        with:
+          name: poelio-public-technical-release-evidence
+          path: experience/release-audit/
+          if-no-files-found: error
+          retention-days: 14
