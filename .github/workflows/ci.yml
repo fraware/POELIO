@@ -47,7 +47,17 @@ jobs:
           find experience/dist -type f | sort
           test ! -e experience/dist/catalog.json
           test ! -e experience/dist/private-runtime
-          test "$(find experience/dist -type f | wc -l)" -le 6
+          test "$(find experience/dist -type f | wc -l)" -eq 5
+          test -f experience/dist/sw.js
+      - name: Strict offline build allowlist tests
+        run: npm --prefix experience run test:offline
+      - name: Archive approved public demo for local review
+        uses: actions/upload-artifact@v4
+        with:
+          name: poelio-approved-offline-demo
+          path: experience/dist/
+          if-no-files-found: error
+          retention-days: 14
           ! grep -R -E 'Mardi, une clé en soulevait|Lundi, l.enveloppe reposait' experience/dist
       - name: Install headless Chromium
         run: npx --prefix experience playwright install chromium --with-deps

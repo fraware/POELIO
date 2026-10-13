@@ -7,10 +7,11 @@
     "dev": "vite --host 127.0.0.1",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "vitest run",
-    "build": "npm run verify:fixture && npm run typecheck && vite build",
+    "build": "npm run verify:fixture && npm run typecheck && vite build && node scripts/create_offline_shell.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "test:e2e": "playwright test",
-    "verify:fixture": "node scripts/verify_approved_demo.mjs"
+    "verify:fixture": "node scripts/verify_approved_demo.mjs",
+    "test:offline": "node --test scripts/offline_shell.test.mjs"
   },
   "dependencies": {
     "react": "19.0.0",
