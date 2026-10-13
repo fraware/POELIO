@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('the full six-stage literary journey preserves authorial provenance and private writing', async ({page}) => {
   await page.goto('/');
   const steps = page.getByRole('navigation', {name:'Étapes de l’expérience'});
-  await expect(page.getByRole('heading', {name:'Avant la règle, le récit.'})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'Le Registre des clefs'})).toBeVisible();
   await expect(page.getByText('La salle des clefs possédait une table', {exact:false})).toBeVisible();
   await steps.getByRole('button', {name:/Questionner/}).click();
   await page.locator('#initial-answer').fill('Mira peut comparer deux visites.');
@@ -37,6 +37,7 @@ test('the full six-stage literary journey preserves authorial provenance and pri
   await steps.getByRole('button', {name:/Revenir/}).click();
   await expect(page.getByText('Mira peut comparer deux visites.')).toBeVisible();
   page.once('dialog',dialog=>dialog.accept());
+  await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Recommencer'}).click();
   await steps.getByRole('button',{name:/Revenir/}).click();
   await expect(page.getByText('Aucune réponse saisie.')).toBeVisible();
@@ -45,7 +46,7 @@ test('the full six-stage literary journey preserves authorial provenance and pri
 test('language switching, comparison identity, and mobile dimensions work', async ({page}) => {
   await page.goto('/');
   await page.getByRole('button', {name:'Switch to English'}).click();
-  await expect(page.getByRole('heading', {name:'The story comes first.'})).toBeVisible();
+  await expect(page.getByRole('heading', {name:'Le Registre des clefs'})).toBeVisible();
   const steps = page.getByRole('navigation', {name:'Experience stages'});
   await steps.getByRole('button', {name:/Compare/}).click();
   await page.getByLabel('Second realization').selectOption('demo-a');
