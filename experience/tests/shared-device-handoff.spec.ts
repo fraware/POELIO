@@ -19,13 +19,14 @@ test('facilitator handoff removes both public drafts without erasing unrelated s
   page.once('dialog',dialog=>dialog.accept());
   await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Effacer toutes mes réponses'}).click();
-  await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Les Quatre Témoins'})).toBeVisible();
   const remaining=await page.evaluate(()=>({
     poelio:Object.keys(sessionStorage).filter(k=>k.startsWith('poelio:session:v1:')),
     unrelated:sessionStorage.getItem('independent:test-key')
   }));
   expect(remaining.poelio).toEqual([]);
   expect(remaining.unrelated).toBe('retain');
+  await page.getByRole('button',{name:/Registre des clefs/}).click();
   await nav.getByRole('button',{name:/Questionner/}).click();
   await expect(page.locator('#initial-answer')).toHaveValue('');
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
