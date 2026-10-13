@@ -109,6 +109,8 @@ a:hover { text-decoration-thickness: 2px; }
   border-color: #557568;
 }
 .text-button[aria-pressed="true"] { background: #315347; border-color: #b4c5b3; }
+.danger-action { color: #ffe7d8; }
+.danger-action:hover { background: #65453e; border-color: #b98d7a; }
 .topbar :where(a,button):focus-visible { outline-color: #f2c88f; }
 
 /* A restrained six-part folio stays available during the reading journey. */
