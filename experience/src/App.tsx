@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useSessionDraft } from './useSessionDraft.js';
 import { minimumRepairs, repeatedEdges, type Person, type Schedule } from '../../src/model.js';
 import { authoredForSchedule, demoEpisode, evidence, type Realization } from './episode.js';
 import { PermutationExperience } from './PermutationExperience.js';
@@ -69,10 +70,10 @@ export function App(): ReactNode {
   const [language,setLanguage] = useState<Language>('fr');
   const [activeExperience,setActiveExperience] = useState<'register'|'permutation'>('register');
   const [stage,setStage] = useState<Stage>('read');
-  const [initial,setInitial] = useState('');
-  const [revised,setRevised] = useState('');
-  const [writing,setWriting] = useState('');
-  const [rule,setRule] = useState('');
+  const [initial,setInitial] = useSessionDraft('register','initial');
+  const [revised,setRevised] = useSessionDraft('register','revised');
+  const [writing,setWriting] = useSessionDraft('register','writing');
+  const [rule,setRule] = useSessionDraft('register','rule');
   const [selected,setSelected] = useState(REPAIRS[0].schedule.join(''));
   const [compareLeft,setCompareLeft] = useState(FIRST.id);
   const [compareRight,setCompareRight] = useState(SECOND.id);
@@ -99,7 +100,7 @@ export function App(): ReactNode {
     navigate(STAGES[index]);
   }
   function reset(): void {
-    if (!window.confirm(tr('Effacer toutes les réponses de cette session et recommencer ?','Delete all answers in this session and restart?'))) return;
+    if (!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?'))) return;
     setInitial(''); setRevised(''); setWriting(''); setRule('');
     setSelected(REPAIRS[0].schedule.join('')); setCompareLeft(FIRST.id); setCompareRight(SECOND.id);
     navigate('read');
@@ -171,8 +172,8 @@ export function App(): ReactNode {
         <textarea id="initial-answer" rows={7} value={initial} onChange={e=>setInitial(e.target.value)}
           placeholder={tr('Décrivez un détail que vous avez remarqué…','Describe a detail you noticed…')}/>
         <p className="discreet">{tr(
-          'Cette réponse reste dans la mémoire de votre navigateur pendant la session. Elle n’est ni envoyée ni enregistrée sur un serveur.',
-          'This response stays in your browser memory during the session. It is neither sent nor stored on a server.')}</p>
+          'Cette réponse est conservée dans cet onglet pendant la session, y compris lors d’une actualisation. Utilisez « Recommencer » pour l’effacer.',
+          'This response stays in this tab during the session, including on refresh. Use Reset to erase it. It is never sent to a server.')}</p>
       </>}
 
       {stage==='explore' && <>

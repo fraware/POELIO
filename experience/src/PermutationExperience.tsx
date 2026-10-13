@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useSessionDraft } from './useSessionDraft.js';
 import {
   ORIGINAL_ORDER, COUNTER_ORDER, allFragmentOrders, authoredFragments, isFragmentOrder,
   orderKey, passagesForOrder, questionBeforeLetter, type FragmentOrder
@@ -46,10 +47,10 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
   const [stage,setStage]=useState<Stage>('read');
   const [selected,setSelected]=useState(orderKey(COUNTER_ORDER));
   const [limited,setLimited]=useState(false);
-  const [initial,setInitial]=useState('');
-  const [revised,setRevised]=useState('');
-  const [rule,setRule]=useState('');
-  const [writing,setWriting]=useState('');
+  const [initial,setInitial]=useSessionDraft('permutation','initial');
+  const [revised,setRevised]=useSessionDraft('permutation','revised');
+  const [rule,setRule]=useSessionDraft('permutation','rule');
+  const [writing,setWriting]=useSessionDraft('permutation','writing');
   const [projector,setProjector]=useState(false);
   const main=useRef<HTMLElement>(null);
   const tr=(fr:string,en:string)=>language==='fr'?fr:en;
@@ -75,7 +76,7 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
     }
   }
   function reset():void {
-    if(!window.confirm(tr('Effacer les réponses et recommencer ?','Erase responses and restart?')))return;
+    if(!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?')))return;
     setInitial('');setRevised('');setRule('');setWriting('');
     setSelected(orderKey(COUNTER_ORDER));setLimited(false);
     navigate('read');
@@ -138,7 +139,7 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
         )}</p>
         <label className="field-label" htmlFor="permutation-first">{tr('Première lecture (facultative)','First reading (optional)')}</label>
         <textarea id="permutation-first" rows={7} value={initial} onChange={e=>setInitial(e.target.value)}/>
-        <p className="discreet">{tr('Votre réponse ne quitte pas cet onglet.','Your response does not leave this browser tab.')}</p>
+        <p className="discreet">{tr('Votre réponse reste dans cet onglet pendant la session, y compris après actualisation. « Recommencer » l’efface.','Your response stays in this tab during the session, even after refresh. Reset clears it.')}</p>
       </>}
       {stage==='explore' && <>
         <p className="eyebrow">{tr('03 / MÉCANISME','03 / THE MECHANISM')}</p>

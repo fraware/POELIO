@@ -21,7 +21,7 @@ npm run preview
 
 Open the local URL printed by Vite. For browser regression tests, run \`npx playwright install chromium\` once and then \`npm run test:e2e\` after building.
 
-The six stages in each episode are Read, Question, Explore, Compare, Invent, and Reflect. Switch to the second episode with the dedicated button in the first episode header. The experience includes an independent, print-ready 60-minute facilitator guide at `/facilitator.html` and a pilot protocol in `../docs/WORKSHOP_PILOT.md`. The reader sees French prose with optional English interface translation. Drafts stay in React memory and are downloadable by explicit action. Refreshing or resetting clears them. No accounts, server state, API calls, AI inference, telemetry, or automated literary-quality scores are implemented.
+The six stages in each episode are Read, Question, Explore, Compare, Invent, and Reflect. Switch to the second episode with the dedicated button in the first episode header. The experience includes an independent, print-ready 60-minute facilitator guide at `/facilitator.html` and a pilot protocol in `../docs/WORKSHOP_PILOT.md`. The reader sees French prose with optional English interface translation. Public-episode drafts stay in per-tab sessionStorage and are downloadable by explicit action. Refreshing the same tab preserves them; Reset or closing the tab clears session notes in ordinary browser behavior. Private reviewer notes remain memory-only and clear on refresh. No accounts, server state, API calls, AI inference, telemetry, or automated literary-quality scores are implemented.
 
 ## Evidence boundaries
 
@@ -58,6 +58,6 @@ Do **not** send a static companion before obtaining a first-reading response. Th
 
 After a production build, the generated service worker caches the two permitted HTML documents and the compiled, approved JS/CSS bundle. An unexpected file fails the strict release inventory. The cache contains only already-public teaching examples, never the unpublished La Relève manuscript, private catalogs, research packets, or participant writing.
 
-Open the app once over HTTPS or localhost while connected. Subsequent visits to the main site, first-reading packets, static literary companions and /facilitator.html can work offline in compatible browsers. First-time offline visitors have no cache. Participant responses stay in browser memory; export drafts explicitly before reloading or closing the tab.
+Open the app once over HTTPS or localhost while connected. Subsequent visits to the main site, first-reading packets, static literary companions and /facilitator.html can work offline in compatible browsers. First-time offline visitors have no cache. Public-episode drafts remain in per-tab sessionStorage across refreshes; Reset clears them. Private reviewer notes remain memory-only. Explicitly export any work you wish to keep before closing the tab. Neither storage path sends data to a server or the offline cache.
 
 The release build produces five permitted public assets, including sw.js. Run npm run test:offline for fail-closed build tests and npm run test:e2e for desktop/mobile disconnection tests. GitHub Actions attaches the approved PUBLIC static site as a reproducibility artifact. This is not a live website, a private distribution mechanism or real-time collaboration.
