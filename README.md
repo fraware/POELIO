@@ -1,11 +1,11 @@
 # POELIO
 
 ```text
-         P  O  E  L  I  O
-         -------------------------------
-
-         01  READ       02  QUESTION    03  EXPLORE
-         04  COMPARE    05  INVENT      06  REFLECT
+        P  O  E  L  I  O
+        ------------------------
+        01  READ       02  QUESTION
+        03  EXPLORE    04  COMPARE
+        05  INVENT     06  REFLECT
 ```
 
 **A literary atelier for exploring the possibilities of writing.**
@@ -59,7 +59,7 @@ The application is a static website. For GitHub Pages publication and hosting in
 
 ## Made for reading and writing
 
-POELIO includes side-by-side comparison, keyboard-accessible navigation, local text export, and a printable [workshop guide](experience/public/facilitator.html) for facilitated sessions. The public application supports offline reading in compatible browsers once the site has loaded successfully.
+POELIO includes side-by-side comparison, keyboard-accessible navigation, local text export, and a printable facilitator guide for workshops. The public application supports offline reading in compatible browsers once the site has loaded successfully.
 
 Writing stays in the reader's browser tab, with no account or application-side submission service. Drafts use session storage and are not a permanent backup; export anything worth keeping. POELIO does not use generative AI to write passages, score creative work, or analyze personal responses.
 
