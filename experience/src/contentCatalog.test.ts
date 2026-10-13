@@ -85,7 +85,7 @@ describe('publication-gated literary content registry',()=>{
       expect(work.release.channel).toBe('public-demo');
       expect(work.release.source).toBe('reviewed-original-fixture');
       expect(work.release.sourceIdentity).toContain('.blobsha');
-      expect(work.evidence.every(x=>x.status!=='FORMALLY_VERIFIED')).toBe(true);
+      expect(work.evidence.every(x=>['COMPUTED_IN_SESSION','EXECUTABLY_CHECKED','EDITORIAL_INTERPRETATION','NOT_ESTABLISHED'].includes(x.status))).toBe(true);
       expect(work.evidence.find(x=>x.status==='NOT_ESTABLISHED')).toBeDefined();
     }
   });
