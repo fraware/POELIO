@@ -1,3 +1,4 @@
+import {createOrderState,reorderItems,satisfiesOrderRule} from './orderEngine.js';
 import { describe, expect, it } from 'vitest';
 import {
   FRAGMENT_IDS, ORIGINAL_ORDER, COUNTER_ORDER, allFragmentOrders,
@@ -39,5 +40,33 @@ describe('four-fragment compositional mechanism', () => {
     expect(ORIGINAL_ORDER).not.toEqual(COUNTER_ORDER);
     expect(passagesForOrder(ORIGINAL_ORDER).map(p => p.text).sort())
       .toEqual(passagesForOrder(COUNTER_ORDER).map(p => p.text).sort());
+  });
+});
+
+describe('reusable ordering core compatibility', () => {
+  it('reaches all approved finite states while retaining exact attributed fragments', () => {
+    const starting = createOrderState(FRAGMENT_IDS, ORIGINAL_ORDER);
+    const seen = new Set<string>();
+    for (const target of allFragmentOrders()) {
+      const result = reorderItems(starting, target);
+      expect(result.accepted).toBe(true);
+      if (!result.accepted || !isFragmentOrder(result.state.order)) {
+        throw new Error('Expected exact four-fragment permutation');
+      }
+      const actual = result.state.order;
+      seen.add(orderKey(actual));
+      expect(actual).toEqual(target);
+      expect(passagesForOrder(actual).map(piece=>piece.text))
+        .toEqual(target.map(id=>authoredFragments[id].text));
+      // Bridge the generic ID-sequence rule to the fixed-four domain contract.
+      // The original model retains its tuple precondition.
+      expect(satisfiesOrderRule(result.state,candidate=>{
+        if (!isFragmentOrder(candidate)) throw new Error('Invalid four-fragment order');
+        return questionBeforeLetter(candidate);
+      })).toBe(questionBeforeLetter(target));
+    }
+    expect(seen.size).toBe(24);
+    expect(allFragmentOrders().filter(questionBeforeLetter).length).toBe(12);
+    expect(starting.order).toEqual(ORIGINAL_ORDER);
   });
 });
