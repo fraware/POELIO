@@ -79,6 +79,13 @@ jobs:
         run: npx --prefix experience playwright install chromium --with-deps
       - name: Desktop and mobile browser journey
         run: npm --prefix experience run test:e2e
+      - name: Archive browser screenshots for human design review
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: poelio-editorial-visual-review
+          path: experience/visual-review/
+          if-no-files-found: error
+          retention-days: 14
       - name: Build approved public app at a non-root /POELIO/ path
         run: npm --prefix experience run build:subpath
       - name: Audit exact approved repository-subpath build bytes
