@@ -45,3 +45,7 @@ The current security gates support a narrowly scoped public teaching prototype. 
 ## Prospective host HTTP requirements
 
 The separate `docs/HOSTING_RESPONSE_HEADERS.md` and `experience/scripts/audit_host_headers.mjs` define and synthetically test a strict HTTPS-response contract, including response-level CSP with `frame-ancestors`, HSTS, permissions, MIME and exact approved asset hashes. These checks have **not** yet been run against a deployed POELIO site. HTML meta CSP by itself does not establish production HTTP security headers.
+
+## Release-candidate comparison and additional reflow tests
+
+Deterministic release manifests can now be compared across builds of the same hosting variant; any change in pinned authored public source, npm dependency, compiled file or offline-cache identity is flagged for deliberate review, with no automatic authorization. The two builds produced by CI (`/` and `/POELIO/`) must also agree on pinned public sources and lockfile identities, while deployment-prefix-specific bytes may differ. An unsigned comparison record is not a trusted release signature. The browser suite additionally verifies 320 CSS-pixel reflow, keyboard entry and system forced-colors focus behavior; manual assistive-technology and actual high-zoom acceptance remain open.
