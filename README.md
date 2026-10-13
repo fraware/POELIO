@@ -6,7 +6,7 @@ POELIO brings together literature, creative constraints, and interactive reading
 
 The project is open source, independent, and designed for readers, writers, educators, and researchers interested in the relationship between literary form and invention.
 
-[Get started](#get-started) · [The reading experience](#the-reading-experience) · [Development](#development) · [Documentation](docs/INDEX.md)
+[Open POELIO](https://fraware.github.io/POELIO/) · [Get started](#get-started) · [The reading experience](#the-reading-experience) · [Development](#development) · [Documentation](docs/INDEX.md)
 
 ## The reading experience
 
