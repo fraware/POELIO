@@ -1,17 +1,11 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from './JourneyControls.js';
 import { useSessionDraft } from './useSessionDraft.js';
 import {
   ORIGINAL_ORDER, COUNTER_ORDER, allFragmentOrders, authoredFragments, isFragmentOrder,
   orderKey, passagesForOrder, questionBeforeLetter, type FragmentOrder
 } from './permutation.js';
 
-type Stage = 'read'|'question'|'explore'|'compare'|'invent'|'reflect';
-type Language = 'fr'|'en';
-const STAGES: readonly Stage[] = ['read','question','explore','compare','invent','reflect'];
-const LABELS: Record<Stage,readonly [string,string]> = {
-  read:['Lire','Read'],question:['Questionner','Question'],explore:['Explorer','Explore'],
-  compare:['Comparer','Compare'],invent:['Inventer','Invent'],reflect:['Revenir','Reflect']
-};
 const ALL = allFragmentOrders();
 const BY_KEY = new Map(ALL.map(order=>[orderKey(order), order]));
 if (BY_KEY.size !== 24) throw new Error('Invalid permutation catalogue');
@@ -44,7 +38,7 @@ function Fragments({order, comparedTo}: {
 
 export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNode {
   const [language,setLanguage]=useState<Language>('fr');
-  const [stage,setStage]=useState<Stage>('read');
+  const {stage,current:index,mainRef:main,navigate,move:step}=useLiteraryJourney();
   const [selected,setSelected]=useState(orderKey(COUNTER_ORDER));
   const [limited,setLimited]=useState(false);
   const [initial,setInitial]=useSessionDraft('permutation','initial');
@@ -52,21 +46,12 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
   const [rule,setRule]=useSessionDraft('permutation','rule');
   const [writing,setWriting]=useSessionDraft('permutation','writing');
   const [projector,setProjector]=useState(false);
-  const main=useRef<HTMLElement>(null);
   const tr=(fr:string,en:string)=>language==='fr'?fr:en;
-  const index=STAGES.indexOf(stage);
   const orders=useMemo(()=>limited?ALL.filter(questionBeforeLetter):ALL,[limited]);
   const current=BY_KEY.get(selected)??COUNTER_ORDER;
   const permitted=questionBeforeLetter(current);
 
   useEffect(()=>{document.documentElement.lang=language;},[language]);
-  function navigate(target:Stage):void {
-    setStage(target);
-    requestAnimationFrame(()=>main.current?.focus());
-  }
-  function step(delta: -1|1):void {
-    navigate(STAGES[Math.max(0,Math.min(STAGES.length-1,index+delta))]);
-  }
   function setConstraint(enabled:boolean):void {
     setLimited(enabled);
     if(enabled && !permitted){
@@ -108,14 +93,7 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
         <button type="button" className="text-button" onClick={reset}>{tr('Recommencer','Reset')}</button>
       </div>
     </header>
-    <nav className="progress-shell" aria-label={tr('Étapes de l’expérience','Experience stages')}>
-      <div className="steps">{STAGES.map((s,i)=><button key={s} type="button"
-        className={s===stage?'step current':'step'}
-        aria-current={s===stage?'step':undefined} onClick={()=>navigate(s)}>
-        <span className="step-number">{String(i+1).padStart(2,'0')}</span>
-        <span>{LABELS[s][language==='fr'?0:1]}</span>
-      </button>)}</div>
-    </nav>
+    <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
     <main id="permutation-main" className="main-content" tabIndex={-1} ref={main}>
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / PREMIÈRE LECTURE','01 / FIRST READING')}</p>
@@ -234,11 +212,7 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
         <button className="primary-button" type="button" onClick={exportResponse}>{tr('Conserver ma création','Keep my writing')}</button>
       </>}
     </main>
-    <footer className="journey-footer">
-      <button type="button" className="outline-button" onClick={()=>step(-1)} disabled={index===0}>{tr('← Retour','← Back')}</button>
-      <span className="position">{String(index+1).padStart(2,'0')} / 06 · Les Quatre Témoins</span>
-      <button type="button" className="primary-button" onClick={()=>step(1)} disabled={index===5}>{tr('Continuer →','Continue →')}</button>
-    </footer>
+    <JourneyFooter language={language} index={index} title="Les Quatre Témoins" onMove={step}/>
     <div className="disclaimer">{tr(
       'Démonstration expérimentale · 24 arrangements vérifiés par tests · Écriture locale · Pas de génération de prose',
       'Experimental demonstration · 24 orders checked by tests · Local writing · No prose generation'
