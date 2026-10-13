@@ -9,7 +9,7 @@ test('capture desktop and mobile literary reading, structure and writing',async(
   mkdirSync(dir,{recursive:true});
   async function capture(name:string,width:number,height:number){
     await page.setViewportSize({width,height});
-    await expect(page.locator('.manuscript').first()).toBeVisible();
+    await expect(page.locator('.main-content')).toBeVisible();
     await page.screenshot({path:resolve(dir,name+'.png'),fullPage:true,animations:'disabled'});
   }
   await page.goto('/');
