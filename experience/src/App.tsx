@@ -242,6 +242,5 @@ export function App(): ReactNode {
       </>}
     </main>
     <JourneyFooter language={language} index={current} title={demoEpisode.title} onMove={move}/>
-    {(stage==='question'||stage==='invent'||stage==='reflect') && <div className="disclaimer">{tr('Vos écrits restent dans cet onglet. Exportez-les pour les conserver.','Your writing stays in this tab. Export it to keep a copy.')}</div>}
   </div>;
 }
