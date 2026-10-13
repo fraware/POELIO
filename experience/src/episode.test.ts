@@ -30,6 +30,31 @@ describe('public demonstration contract', () => {
       realizations: [{...first, faultEdge: 2}, second]
     })).toThrow(/mapping/);
   });
+  test('shared source identifiers cannot silently conceal different prose', () => {
+    const [first, second] = demoEpisode.realizations;
+    const changed = {
+      ...second,
+      passages: [
+        {...second.passages[0], text: 'Same module name, completely different content.'},
+        ...second.passages.slice(1)
+      ]
+    };
+    expect(() => validatePublicEpisode({...demoEpisode, realizations: [first, changed]}))
+      .toThrow(/Shared source-module identity/);
+  });
+  test('duplicate passage identifiers inside an authored realization fail closed', () => {
+    const [first, second] = demoEpisode.realizations;
+    const duplicate = {
+      ...first,
+      passages: [
+        first.passages[0],
+        {...first.passages[1], id: first.passages[0].id},
+        ...first.passages.slice(2)
+      ]
+    };
+    expect(() => validatePublicEpisode({...demoEpisode, realizations: [duplicate, second]}))
+      .toThrow(/Duplicate passage ID/);
+  });
   test('module provenance makes common versus variant-specific passages explicit', () => {
     const [a, b] = demoEpisode.realizations;
     expect(a.passages[0].text).toBe(b.passages[0].text);

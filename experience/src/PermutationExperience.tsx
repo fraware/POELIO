@@ -118,10 +118,10 @@ export function PermutationExperience({onReturn}: {onReturn:()=>void}): ReactNod
     <main id="permutation-main" className="main-content" tabIndex={-1} ref={main}>
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / PREMIÈRE LECTURE','01 / FIRST READING')}</p>
-        <h1>{tr('Quatre fragments. Une lecture.','Four fragments. One reading.')}</h1>
+        <h1>{tr('La porte était ouverte.','The door stood open.')}</h1>
         <p className="lede">{tr(
-          'Un lieu fermé, quatre traces. Lisez ces fragments dans l’ordre proposé. Cherchez une histoire, sans connaître encore le mécanisme.',
-          'A closed place, four traces. Read these fragments in the proposed order. Look for a story before discovering the mechanism.'
+          'Une porte, une enveloppe, une question. Lisez ce récit et imaginez ce qui a précédé chacun de ces événements. Le procédé de composition apparaîtra plus tard.',
+          'A door, an envelope, a question. Read this story and imagine what preceded each event. Its compositional procedure will emerge later.'
         )}</p>
         <div className="reading-column"><Fragments order={ORIGINAL_ORDER}/></div>
         <p className="discreet">{tr(
