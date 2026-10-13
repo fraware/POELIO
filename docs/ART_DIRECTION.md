@@ -1,40 +1,48 @@
-# POELIO | Editorial art direction
+# POELIO | Direction artistique
 
-**Status:** visual implementation contract for the public research prototype. Not an independent literary review or accessibility certification.
+La littérature, l’interaction et la clarté déterminent la forme du site. Le texte s’affiche avant son analyse. Les écrans exposent seulement les choix utiles au lecteur.
 
-## The page comes first
+## Typographie
 
-POELIO is a reading room, not a control panel. The reader encounters actual prose before the constraints. The six movements remain **Lire → Questionner → Explorer → Comparer → Inventer → Revenir**. Mechanism and evidence support attention to literature; no interface may invent unwritten passages, score artistic merit, or reveal the unpublished *La Relève* manuscript.
+**Source Sans 3** est l’unique famille pour le site, les textes littéraires, les commandes, les lectures indépendantes et le guide imprimable. Les caractères romains et italiques variables proviennent de la distribution officielle Adobe Fonts, sous licence SIL OFL 1.1. Le navigateur charge les deux fichiers depuis la même origine que l’application. La licence accompagne la distribution.
 
-## Palette and typography
+Pas de police de présentation additionnelle, d’illustration générative ou de chargement typographique externe.
 
-| Role | Value | Intent |
-|---|---|---|
-| Forest | \`#193a31\` | Identity and primary controls |
-| Dark ink | \`#102b24\` | Literary headings |
-| Paper | \`#f8f6f0\` | Reading-room background |
-| Page | \`#fffdfa\` | Manuscript surfaces |
-| Copper | \`#a87245\` | Editorial rules and stage indicator |
-| Sage | \`#e8eee5\` | Formal evidence and selected arrangements |
+## Couleurs et surfaces
 
-Georgia/Times serve literary titles and passages; the device's system sans-serif serves actions and annotations. There are no remote font files or design-image requests. The project README uses a small, typographic wordmark rather than decorative artwork. The application retains its restrained forest-and-paper visual identity.
+Blanc, noir et gris. Le système ne comporte aucune couleur d’accent. Le contraste exprime l’importance ; l’espacement sépare les tâches.
 
-## Reader experience
+| Usage | Valeur |
+|---|---|
+| Fond et page | `#ffffff` |
+| Texte principal | `#181818` |
+| Texte secondaire | `#515151` |
+| Traits et limites | `#dddddd` |
+| Bouton principal | `#161616` |
+| États secondaires | Gris neutres |
+| Indicateur de sélection | Trait noir |
+| Focus | Contour noir perceptible |
 
-Authored prose is typeset at a narrower measure than the surrounding controls, with ample whitespace, a source label, and a discreet manuscript boundary. Technical facts are presented in subdued evidence panels. The two-work comparison uses two balanced pages on large screens and one column on narrower screens. Reader text wraps without truncation.
+## Composition
 
-At 320 CSS pixels, the stages scroll **inside** the navigation surface, not the whole page. Destructive shared-device clearing is explicit. The chapter footer gives a compact count without trapping the primary navigation buttons in wrapping text.
+L’accueil donne une introduction, puis la liste des œuvres. Les autres entrées principales sont les œuvres, l’Atelier et la page À propos. Une seule navigation commune relie ces sections. La navigation interne aux œuvres est secondaire.
 
-The independently runnable mathematics-only explorer is visually related, while remaining clearly labelled as a mathematical companion. The printable facilitator document uses the same editorial hierarchy and provides a grayscale-compatible print layout.
+- Échelle de base de 8 px.
+- Titres sans décorations ou effets, avec des tailles limitées.
+- Largeur de texte réduite dans les espaces de lecture.
+- Marges et interlignes généreux.
+- Formulaires et actions homogènes.
+- Aucun slogan dans les en-têtes ou les pieds de page.
+- Sur mobile, regroupement ou réorganisation des panneaux au lieu d’un défilement horizontal du document.
 
-## Inclusive design and verification
+## Interaction
 
-Test visible focus, keyboard navigation, touch-target dimensions, 320px reflow, two-column reading order, reduced motion, high-contrast/forced-color behavior, and both French/English controls. Automated assertions live in \`experience/tests/editorial-design.spec.ts\` alongside accessibility and privacy tests.
+La littérature précède l’exploration formelle. Le parcours conserve Lire → Questionner → Explorer → Comparer → Inventer → Revenir. La conception future privilégie le déplacement direct des fragments et des contraintes, avec commandes alternatives accessibles, historique local et annulation.
 
-These checks prevent mechanical regressions. **They cannot establish full WCAG 2.2 AA, successful screen-reader interaction, universal aesthetic appeal, or literary merit.** Those acceptance decisions require direct human assessment on relevant devices.
+Les deux œuvres d’origine restent les seules sources de textes autorisées. Les possibilités calculées ne deviennent jamais des passages littéraires inventés par le logiciel.
 
-## Boundaries
+## Vérification
 
-No third-party analytics, cloud writing storage, third-party font requests, AI text generation, gamified writing score, additional literary mechanism or silent manuscript import is warranted by a design refresh. Original authored sources retain their exact pins. Website deployment and literary rights authorization are distinct release gates, and no official Oulipo relationship is claimed.
+Chaque modification doit préserver le modèle, les contrôles de droits, la confidentialité, la navigation clavier, le rendu mobile à 320 px, la réduction de mouvement et l’audit des fichiers publics. Les tests automatiques ne remplacent pas les lectures critiques et les essais avec des utilisateurs.
 
-Design changes must be evaluated against the [product contract](PRODUCT_SPEC.md), [accessibility acceptance](ACCESSIBILITY_ACCEPTANCE.md) and [public content contract](PUBLIC_CONTENT_CONTRACT.md).
+Voir le [référentiel de conception du site](SITE_DESIGN_SYSTEM.md), le [contrat produit](PRODUCT_SPEC.md) et les [critères d’accessibilité](ACCESSIBILITY_ACCEPTANCE.md).
