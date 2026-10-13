@@ -65,3 +65,7 @@ POELIO's publication-safe build now installs a versioned offline cache of its ex
 - Usability study with an adequate static comparison condition.
 
 **No superiority claim about literary learning or artistic quality is presently established.**
+
+## Shared literary journey controls
+
+The six stages, French/English labels, keyboard focus transfer, and previous/next progression are implemented in one typed shared module (`experience/src/JourneyControls.tsx`). Both existing works use it. Their source passages, formal constructions, authored comparisons, and reader interpretations remain work-specific. Additional literary works must supply their own approved prose and rigorously scoped computation, not a newly improvised navigation system. Browser regression checks cover identical stage order and accessible focus in both works.
