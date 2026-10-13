@@ -8,7 +8,6 @@ from __future__ import annotations
 import json
 import re
 import sys
-import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -21,7 +20,7 @@ REQUIRED = (
     "README.md", "LICENSE", "LICENSE-CONTENT.md", "CITATION.cff",
     "CHANGELOG.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md",
     "docs/INDEX.md", "docs/GITHUB_RELEASE_PLAYBOOK.md",
-    "docs/RELEASE_NOTES_v0.2.0-rc.1.md", "docs/RELEASE_NOTES_v0.2.0-rc.2.md", "docs/assets/poelio-masthead.svg"
+    "docs/RELEASE_NOTES_v0.2.0-rc.1.md", "docs/RELEASE_NOTES_v0.2.0-rc.2.md"
 )
 
 def local_target(document: Path, reference: str, root: Path = ROOT) -> Path | None:
@@ -53,9 +52,65 @@ def check_links(root: Path = ROOT) -> list[str]:
                 failures.append(f"{document.relative_to(root)}: broken local link {ref}")
     return failures
 
+def check_readme_markdown(text: str, name: str) -> list[str]:
+    """Catch structural regressions in the two reader-facing Markdown files.
+
+    This is a deliberately small structural linter, not a complete CommonMark
+    parser or a replacement for reviewing GitHub-rendered Markdown.
+    """
+    errors: list[str] = []
+    if re.search(r"(?i)la[\s_-]+rel[eè]ve", text):
+        errors.append(f"{name}: unrelated manuscript reference in README")
+    if re.search(r"!\[[^\]]*\]\([^)]*\)|<img\b", text, flags=re.I):
+        errors.append(f"{name}: README uses an image instead of the text identity")
+    if re.search(r"</?(?:details|summary|div|center|p|br)\b", text, flags=re.I):
+        errors.append(f"{name}: unnecessary HTML layout in README")
+    if "\\" + chr(96) in text:
+        errors.append(f"{name}: escaped Markdown code delimiter")
+
+    fence: tuple[str, int, int] | None = None
+    headings: list[int] = []
+    table_columns: int | None = None
+    for lineno, line in enumerate(text.splitlines(), 1):
+        marker = re.match(r"^ {0,3}(" + chr(96) + r"{3,}|~{3,})", line)
+        if fence:
+            if marker and marker.group(1)[0] == fence[0] and len(marker.group(1)) >= fence[1]:
+                if not line[marker.end():].strip():
+                    fence = None
+            continue
+        if marker:
+            fence = (marker.group(1)[0], len(marker.group(1)), lineno)
+            table_columns = None
+            continue
+        heading = re.match(r"^(#{1,6})\s+\S", line)
+        if heading:
+            headings.append(len(heading.group(1)))
+        if line.lstrip().startswith("|"):
+            columns = len(re.split(r"(?<!\\)\|", line.strip())) - 2
+            if table_columns is not None and columns != table_columns:
+                errors.append(f"{name}:{lineno}: Markdown table column mismatch")
+            table_columns = columns
+        else:
+            table_columns = None
+    if fence:
+        errors.append(f"{name}:{fence[2]}: unclosed Markdown code fence")
+    if headings.count(1) != 1:
+        errors.append(f"{name}: expected exactly one top-level heading")
+    for previous, current in zip(headings, headings[1:]):
+        if current > previous + 1:
+            errors.append(f"{name}: skipped Markdown heading level")
+            break
+    return errors
+
 def check_repository() -> list[str]:
     problems = [f"Missing required document: {p}" for p in REQUIRED if not (ROOT / p).is_file()]
     problems.extend(check_links())
+    for relative in ("README.md", "experience/README.md"):
+        try:
+            document = (ROOT / relative).read_text(encoding="utf-8")
+            problems.extend(check_readme_markdown(document, relative))
+        except OSError as exc:
+            problems.append(f"{relative}: {exc}")
     for sub in (ROOT, ROOT / "experience"):
         try:
             pkg = json.loads((sub / "package.json").read_text(encoding="utf-8"))
@@ -82,13 +137,8 @@ def check_repository() -> list[str]:
             problems.append("README lacks rights separation or locked installation")
         if readme.count("<details") != readme.count("</details>"):
             problems.append("Unbalanced README collapsible sections")
-        visual = ET.parse(ROOT / "docs/assets/poelio-masthead.svg").getroot()
-        if not visual.tag.endswith("svg"):
-            problems.append("Editorial masthead is not valid SVG")
-        if any(element.tag.lower().endswith(("script", "foreignobject", "image")) for element in visual.iter()):
-            problems.append("Editorial masthead must be self-contained static vector artwork")
-    except (OSError, ET.ParseError) as exc:
-        problems.append(f"Invalid license or editorial asset: {exc}")
+    except OSError as exc:
+        problems.append(f"Invalid license or permissions document: {exc}")
     return problems
 
 if __name__ == "__main__":
@@ -97,4 +147,4 @@ if __name__ == "__main__":
         print("DOCUMENTATION FAIL:", finding, file=sys.stderr)
     if findings:
         raise SystemExit(1)
-    print("Documentation verified: internal links, licenses, version pins and static artwork.")
+    print("Documentation verified: links, licensing, package versions and README structure.")

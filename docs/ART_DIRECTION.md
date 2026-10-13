@@ -17,7 +17,7 @@ POELIO is a reading room, not a control panel. The reader encounters actual pros
 | Copper | \`#a87245\` | Editorial rules and stage indicator |
 | Sage | \`#e8eee5\` | Formal evidence and selected arrangements |
 
-Georgia/Times serve literary titles and passages; the device's system sans-serif serves actions and annotations. There are no remote font files or design-image requests. The six-movement masthead [in the repository](assets/poelio-masthead.svg) and the application use a related, deliberately restrained forest-and-paper identity.
+Georgia/Times serve literary titles and passages; the device's system sans-serif serves actions and annotations. There are no remote font files or design-image requests. The project README uses a small, typographic wordmark rather than decorative artwork. The application retains its restrained forest-and-paper visual identity.
 
 ## Reader experience
 
