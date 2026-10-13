@@ -16,7 +16,8 @@
     "test:subpath": "playwright test -c playwright.subpath.config.ts",
     "audit:root": "node scripts/audit_release.mjs root",
     "audit:subpath": "node scripts/audit_release.mjs subpath",
-    "test:release": "node --test scripts/audit_release.test.mjs"
+    "test:release": "node --test scripts/audit_release.test.mjs",
+    "test:host-headers": "node --test scripts/audit_host_headers.test.mjs"
   },
   "dependencies": {
     "react": "19.0.0",
