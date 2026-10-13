@@ -137,7 +137,7 @@ L'acceptation d'une PR technique ne vaut ni homologation WCAG 2.2 AA, ni approba
 
 **Sprint A, cible 14–27 octobre 2026 :**
 - Contrat minimal et fonctions pures validées ;
-- tests de permutation/contrainte, invariants et historie réversible ;
+- tests de permutation/contrainte, invariants et historique réversible ;
 - composant de manipulation sous démonstration synthétique ou prototypé sans toucher aux œuvres ;
 - description documentée de la commande clavier/tactile ;
 - spécification de l'interface de comparaison et des données à exporter.
