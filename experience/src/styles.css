@@ -500,3 +500,42 @@ textarea,input,select {background:#fff;color:#171717;border-color:#8a8a8a;border
 @media(forced-colors:active) {
   .site-nav a[aria-current="page"],.work-entry,.work-list,.about-content section {border-color:CanvasText}
 }
+
+/* Reversible fragment workspace: neutral visual grammar, usable without dragging. */
+.fragment-board {list-style:none;padding:0;margin:1.4rem 0 1rem;max-width:780px;border-top:1px solid #d5d5d5}
+.fragment-card {
+  display:grid;grid-template-columns:2rem 2.85rem minmax(0,1fr) auto;
+  gap:.7rem;align-items:center;padding:.8rem .4rem;
+  border-bottom:1px solid #d5d5d5;min-width:0;background:#fff;
+}
+.fragment-card.fragment-target {background:#f2f2f2;box-shadow:inset 0 0 0 2px #333}
+.fragment-position {color:#555;font-size:.8rem;font-variant-numeric:tabular-nums}
+.fragment-title {font-size:1.03rem;font-weight:600;color:#202020;min-width:0;overflow-wrap:anywhere}
+.fragment-grip {
+  display:inline-flex;align-items:center;justify-content:center;
+  height:44px;width:44px;touch-action:none;user-select:none;
+  cursor:grab;font-size:1.6rem;line-height:1;color:#444;
+  border:1px solid #d5d5d5;border-radius:2px;
+}
+.fragment-grip:active {cursor:grabbing}
+.fragment-move-buttons {display:flex;gap:.3rem}
+.fragment-move-buttons button {
+  display:inline-flex;align-items:center;justify-content:center;
+  width:44px;min-width:44px;height:44px;border:1px solid #888;
+  background:#fff;color:#161616;border-radius:2px;font-size:1.1rem;
+}
+.fragment-move-buttons button:hover:not(:disabled) {background:#ededed;border-color:#111}
+.board-actions {display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;max-width:780px;margin:1.1rem 0}
+.board-actions .outline-button {padding:.6rem 1rem;min-height:44px}
+.board-feedback {min-height:1.4rem;max-width:780px;color:#383838;font-size:.91rem;line-height:1.6}
+@media(max-width:600px) {
+  .fragment-card {grid-template-columns:1.4rem 2.75rem minmax(0,1fr) auto;gap:.35rem;padding:.7rem 0}
+  .fragment-grip {width:42px;height:44px}
+  .fragment-move-buttons {gap:.15rem}
+  .fragment-move-buttons button {width:42px;min-width:42px}
+  .fragment-title {font-size:.94rem}
+}
+@media(forced-colors:active) {
+  .fragment-card,.fragment-grip,.fragment-move-buttons button {border-color:CanvasText}
+  .fragment-card.fragment-target {outline:2px solid Highlight;background:Canvas}
+}
