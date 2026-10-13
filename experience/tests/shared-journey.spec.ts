@@ -1,7 +1,7 @@
 import {expect,test} from '@playwright/test';
 
 test('both works expose the same six literary stages with bounded navigation',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   const stages=['Lire','Questionner','Explorer','Comparer','Inventer','Revenir'];
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for(const label of stages){
@@ -27,7 +27,7 @@ test('both works expose the same six literary stages with bounded navigation',as
 });
 
 test('French and English stage labels are centralized and consistent',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.getByRole('button',{name:'Switch to English'}).click();
   let nav=page.getByRole('navigation',{name:'Experience stages'});
   for(const label of ['Read','Question','Explore','Compare','Invent','Reflect'])

@@ -38,7 +38,7 @@ async function browserStores(page:Page){
 
 test('literary reading, interpretation, composition and exports send no participant data',async({page,context})=>{
   const requests=watchNetwork(context);
-  await page.goto('/');
+  await page.goto('/?work=register');
   const stages=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   await stages.getByRole('button',{name:/Questionner/}).click();
   await page.locator('#initial-answer').fill(SENTINEL+' A');
@@ -62,7 +62,7 @@ test('literary reading, interpretation, composition and exports send no particip
     'poelio:session:v1:register:rule','poelio:session:v1:register:writing'
   ]);
   expect(stores.cacheNames).toHaveLength(1);
-  expect(stores.urls).toHaveLength(4);
+  expect(stores.urls).toHaveLength(7);
   expect(stores.urls.every(url=>url.startsWith(APP_ORIGIN+'/'))).toBe(true);
   expect(stores.urls.join(' ')).not.toContain(SENTINEL);
   expect(stores.currentUrl).not.toContain(SENTINEL);
@@ -104,7 +104,7 @@ test('private editorial notes are memory-only, including a subsequent review pas
 });
 
 test('reset clears public writing without deleting the unrelated literary work',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   await nav.getByRole('button',{name:/Questionner/}).click();
   await page.locator('#initial-answer').fill(SENTINEL+' register');
@@ -132,7 +132,7 @@ test('blocked sessionStorage still permits temporary original composition',async
       get(){throw new Error('Storage deliberately unavailable for regression test');}
     });
   });
-  await page.goto('/');
+  await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   await nav.getByRole('button',{name:/Inventer/}).click();
   await page.locator('#writing').fill(SENTINEL+' In-memory-only composition.');

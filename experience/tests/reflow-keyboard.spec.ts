@@ -17,7 +17,7 @@ async function noHorizontalOverflow(page:import('@playwright/test').Page,scenari
 
 test('both six-stage works and the literary-only packets reflow at 320 CSS pixels',async({page})=>{
   await page.setViewportSize({width:320,height:640});
-  await page.goto('/');
+  await page.goto('/?work=register');
   const stages=['Lire','Questionner','Explorer','Comparer','Inventer','Revenir'];
   const first=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for(const stage of stages){
@@ -40,7 +40,7 @@ test('both six-stage works and the literary-only packets reflow at 320 CSS pixel
 });
 
 test('keyboard-only entry preserves meaningful skip link and focus progression',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.keyboard.press('Tab');
   await expect(page.locator('a.skip-link')).toBeFocused();
   await page.keyboard.press('Enter');
@@ -58,7 +58,7 @@ test('keyboard-only entry preserves meaningful skip link and focus progression',
 
 test('forced-colors and reduced-motion preferences preserve visible keyboard focus',async({page})=>{
   await page.emulateMedia({forcedColors:'active',reducedMotion:'reduce'});
-  await page.goto('/');
+  await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   const question=nav.getByRole('button',{name:/Questionner/});
   await question.focus();

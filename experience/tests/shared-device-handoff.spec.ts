@@ -1,7 +1,7 @@
 import {expect,test} from '@playwright/test';
 
 test('facilitator handoff removes both public drafts without erasing unrelated same-origin storage',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.evaluate(()=>sessionStorage.setItem('independent:test-key','retain'));
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   await nav.getByRole('button',{name:/Questionner/}).click();
@@ -34,7 +34,7 @@ test('facilitator handoff removes both public drafts without erasing unrelated s
 });
 
 test('declining shared-device handoff keeps writing without a reload',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.getByRole('navigation',{name:'Étapes de l’expérience'})
     .getByRole('button',{name:/Questionner/}).click();
   await page.locator('#initial-answer').fill('Keep this reader’s text');
