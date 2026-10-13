@@ -9,7 +9,7 @@ POELIO is developed openly, with deliberately separate **software readiness**, *
 
 ## 0.2.0-rc.1 — Research-preview release candidate (13 October 2026)
 
-**Proposed prerelease.** This heading prepares release notes; it is not, by itself, an assertion that a GitHub Release or tag has been published.
+This entry records the research-preview candidate. Verify availability and its exact source commit on the GitHub Releases page.
 
 - Two original public literary teaching works with a six-stage reading, interpretation and invention journey.
 - Immutable authored fragments, provenance checks, finite-model validation, and explicit absence of unwritten prose.
