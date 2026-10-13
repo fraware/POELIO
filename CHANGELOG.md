@@ -4,8 +4,16 @@ POELIO is developed openly, with deliberately separate **software readiness**, *
 
 ## [Unreleased]
 
-- Artistic editorial presentation, documentation navigation, explicit software/content licensing, contribution and citation guidance, and release preparation.
-- GitHub repository description, topics, and actual Release records are managed separately from source commits.
+- GitHub repository description and discovery topics remain a separate maintainer metadata task, tracked in issue #20.
+
+## 0.2.0-rc.2 — Editorial research-preview candidate (13 October 2026)
+
+- A cohesive literary visual system for both six-stage works, the separate mathematical companion and the printable workshop guide.
+- Improved manuscript measure, heading contrast, formal-evidence surfaces, mobile masthead layout, navigation and keyboard targets.
+- New narrow-screen, brand and tap-target browser regression checks.
+- Original public authored prose, scoped computations, copyright terms and embargoed manuscript boundaries are unchanged.
+- No public deployment, independent WCAG review, editorial approval or empirical educational effect claim.
+
 
 ## 0.2.0-rc.1 — Research-preview release candidate (13 October 2026)
 

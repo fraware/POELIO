@@ -33,6 +33,8 @@ The React build uses an original, in-repository public fixture only. Never repla
 
 The initial standalone mathematical explorer at the repository root is retained for backwards compatibility; this experience is the next milestone toward the product specification.
 
+The website follows the [editorial art direction](../docs/ART_DIRECTION.md). It uses locally available font families, honors reduced-motion and forced-color preferences, and introduces no third-party design assets. Visual polish does not establish literary or manual accessibility acceptance.
+
 ## Quality verification
 
 The browser suite now includes axe-core checks of multiple stages in both episodes, the printable facilitator guide, keyboard focus after stage changes, and HTML language reconciliation across episode transitions. Run it after building:
