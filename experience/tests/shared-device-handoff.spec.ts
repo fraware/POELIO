@@ -17,8 +17,9 @@ test('facilitator handoff removes both public drafts without erasing unrelated s
   await page.waitForFunction(()=>sessionStorage.getItem('poelio:session:v1:permutation:initial')==='Participant A second literary interpretation');
 
   page.once('dialog',dialog=>dialog.accept());
+  await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Effacer toutes mes réponses'}).click();
-  await expect(page.getByRole('heading',{name:'Avant la règle, le récit.'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
   const remaining=await page.evaluate(()=>({
     poelio:Object.keys(sessionStorage).filter(k=>k.startsWith('poelio:session:v1:')),
     unrelated:sessionStorage.getItem('independent:test-key')
@@ -38,6 +39,7 @@ test('declining shared-device handoff keeps writing without a reload',async({pag
     .getByRole('button',{name:/Questionner/}).click();
   await page.locator('#initial-answer').fill('Keep this reader’s text');
   page.once('dialog',dialog=>dialog.dismiss());
+  await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Effacer toutes mes réponses'}).click();
   await expect(page.locator('#initial-answer')).toHaveValue('Keep this reader’s text');
   await page.reload();
