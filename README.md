@@ -7,12 +7,14 @@ POELIO is an experimental environment for encountering literary works, investiga
 
 This repository is **an early-stage public codebase**, not a finished literary edition. Its first reference study is *La Relève*, an unpublished work with a finite constraint model. Only publication-safe code and documentation are held here.
 
-## Initial implementation
+## Current implementation
 
+- A bilingual **six-stage literary experience** in [`experience/`](experience/) using an independent, newly written French microfiction fixture, not the unpublished *La Relève* text.
 - A deterministic, exhaustive finite-model engine for the eight-position, two-person scheduling construction.
 - Regression tests for all 256 configurations, the impossibility of strict alternation plus recurrence, and the 14 labelled minimum repairs.
 - A scoped product specification in [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md) and explicit verification boundaries in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-- Private-edition code and complete unpublished literary realizations **are not included** in this initial public repository.
+- Twelve valid configurations deliberately have **no authored prose** in the public demonstration; the interface never fabricates literary text.
+- The unpublished literary realizations, original private catalog and blinded study material **are not included**.
 
 ## Get started
 
@@ -26,6 +28,19 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory dist
 ```
 
 Visit http://127.0.0.1:8765/ to use the publication-safe mathematical explorer.
+
+To run the **literature-first six-stage experience**:
+
+```sh
+cd experience
+npm install
+npm run typecheck
+npm test
+npm run build
+npm run preview
+```
+
+See [experience/README.md](experience/README.md) for the browser test procedure and content-rights limitations.
 
 The commands type-check the public TypeScript model, compile it, and exercise its mathematical invariants using Node's built-in test runner.
 
@@ -49,6 +64,6 @@ Literature first; computational structure on demand. Verified finite facts, exec
 
 ## Status
 
-**Public foundation — not production-ready.** We have not established full accessibility conformance, literary outcomes through user studies, publication rights for the first literary episode, or a release-ready public edition.
+**Research prototype — not production-ready.** A synthetic, release-safe literary experience exists alongside the original mathematical explorer. The complete *La Relève* edition, a reusable rights/SHA importer, full accessibility conformance, a workshop facilitator kit, and evaluation of literary outcomes remain pending. Full literary publication rights are not established.
 
 No license grant is asserted until a license is selected and added explicitly.
