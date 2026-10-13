@@ -1,5 +1,8 @@
 import {expect,test} from '@playwright/test';
 
+// CSP is bypassed only within this browser-test context for service-worker inspection.
+test.use({bypassCSP:true});
+
 test('complete six-stage experience, guide and reviewer paths work below /POELIO/',async({page,context})=>{
   await page.goto('./');
   await expect(page.getByRole('heading',{name:'Avant la règle, le récit.'})).toBeVisible();
