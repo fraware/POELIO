@@ -92,7 +92,8 @@ export function renderOfflineShell(dist = DEFAULT_DIST) {
     '  if (URLS.has(url.href)) {',
     '    event.respondWith((async () => {',
     '      const cache = await caches.open(CACHE);',
-    '      return (await cache.match(request)) || fetch(request);',
+    '      // Only approved exact asset URLs reach this branch; ignore host Vary metadata.',
+    '      return (await cache.match(url.href, {ignoreVary:true})) || fetch(request);',
     '    })());',
     '  }',
     '});'
