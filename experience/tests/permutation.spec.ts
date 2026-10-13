@@ -52,7 +52,7 @@ test('facilitator guide is a printable, publicly safe document', async ({page}) 
   await expect(page.getByRole('heading', {name:'Le Registre des clefs'})).toBeVisible();
   await expect(page.getByRole('heading', {name:'Les Quatre Témoins'})).toBeVisible();
   await expect(page.locator('tbody tr')).toHaveCount(6);
-  await expect(page.getByText('Une lecture littéraire', {exact:false})).toBeVisible();
+  await expect(page.getByText('Ce parcours propose une heure de lecture', {exact:false})).toBeVisible();
 });
 
 test('second mechanism permits English interface and does not overflow on mobile', async ({page}) => {
