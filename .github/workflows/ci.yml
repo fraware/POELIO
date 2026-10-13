@@ -17,6 +17,8 @@ jobs:
         run: npm install --ignore-scripts --no-audit --no-fund --no-save
       - name: Typecheck, compile and exhaustive model tests
         run: npm test
+      - name: Verify private importer with synthetic literary fixtures only
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
       - name: Verify repository filename embargo
         run: python3 scripts/check_public.py
       - name: Build publication-safe mathematical demo
