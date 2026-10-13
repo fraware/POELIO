@@ -62,6 +62,8 @@ jobs:
         run: npm --prefix experience run test:host-headers
       - name: Test fail-closed release evidence auditor
         run: npm --prefix experience run test:release
+      - name: Test fail-closed release candidate evidence comparison
+        run: npm --prefix experience run test:compare
       - name: Audit exact approved root-build bytes and source pins
         run: npm --prefix experience run audit:root
       - name: Archive approved public demo for local review
@@ -79,6 +81,8 @@ jobs:
         run: npm --prefix experience run build:subpath
       - name: Audit exact approved repository-subpath build bytes
         run: npm --prefix experience run audit:subpath
+      - name: Compare public provenance and dependencies across both deployment layouts
+        run: npm --prefix experience run compare:variants
       - name: Verify subpath build and offline navigation in desktop/mobile Chromium
         run: npm --prefix experience run test:subpath
       - name: Archive technical-only release evidence (not publication authorization)
