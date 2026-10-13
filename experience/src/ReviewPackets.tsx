@@ -27,13 +27,13 @@ export const packets: Readonly<Record<ReviewWork,ReadingPacket>> = {
     slug: 'register',
     label: 'Texte A',
     paragraphs: register.passages.map(p=>p.text),
-    notice: 'Texte de démonstration original, distinct de La Relève.'
+    notice: 'Texte original composé pour cet atelier.'
   },
   permutation: {
     slug: 'permutation',
     label: 'Texte B',
     paragraphs: passagesForOrder(ORIGINAL_ORDER).map(p=>p.text),
-    notice: 'Texte de démonstration original composé de quatre passages attribués.'
+    notice: 'Quatre fragments originaux composés pour cet atelier.'
   }
 };
 
