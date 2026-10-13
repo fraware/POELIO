@@ -1,10 +1,24 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App.js';
+import {
+  FirstReadingPacket, StaticReadingCompanion, isReviewWork
+} from './ReviewPackets.js';
 import './styles.css';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('POELIO root is missing');
-createRoot(container).render(
-  <React.StrictMode><App /></React.StrictMode>
-);
+
+const params = new URLSearchParams(window.location.search);
+const review = params.get('review');
+const staticWork = params.get('companion');
+
+// The links are editorial instruments; no participant response is uploaded.
+// Public fixture imports are the single source of every displayed passage.
+const content = isReviewWork(review)
+  ? <FirstReadingPacket work={review}/>
+  : isReviewWork(staticWork)
+    ? <StaticReadingCompanion work={staticWork}/>
+    : <App/>;
+
+createRoot(container).render(<React.StrictMode>{content}</React.StrictMode>);
