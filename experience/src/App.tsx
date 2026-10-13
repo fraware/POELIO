@@ -155,8 +155,8 @@ export function App(): ReactNode {
         </select>
         <ScheduleView schedule={selectedRepair.schedule} faultEdge={selectedRepair.faultEdge} language={language}/>
         <p className="model-result">{selectedRealization
-          ?tr('Cette configuration possède un passage littéraire rédigé dans cette démonstration.','This configuration has an authored literary passage in this demonstration.')
-          :tr('Cette configuration est mathématiquement admissible. Aucun texte n’a été rédigé pour elle dans cette démonstration.','This configuration is mathematically admissible. No literary passage was authored for it in this demonstration.')}</p>
+          ?tr('Cette configuration correspond à l’un des deux textes disponibles.','This arrangement corresponds to one of the two available texts.')
+          :tr('Cette configuration respecte les règles. Aucun texte n’a été rédigé pour cet arrangement.','This arrangement satisfies the rules. No literary passage was written for this arrangement.')}</p>
         <details className="details"><summary>{tr('Comprendre le calcul','Understand the calculation')}</summary>
           <p>{tr('Une répétition doit apparaître sur exactement l’un des sept relais ; chacun peut répéter Mira ou Noor. L’énumération vérifie les 256 attributions possibles. Elle ne vérifie ni le sens du récit ni sa valeur littéraire.',
             'Exactly one of seven transitions must repeat a participant; either Mira or Noor can be repeated. Exhaustive enumeration checks all 256 assignments. It does not verify narrative meaning or literary merit.')}</p>
@@ -183,7 +183,7 @@ export function App(): ReactNode {
           </label>
         </div>
         {left.id===right.id
-          ? <p className="model-result">{tr('Vous avez choisi deux fois la même réalisation : aucune différence de source.','You selected the same realization twice: no source difference.')}</p>
+          ? <p className="model-result">{tr('Vous avez choisi deux fois le même texte.','You selected the same text twice.')}</p>
           : <div className="comparison"><Manuscript realization={left} compareWith={right}/><Manuscript realization={right} compareWith={left}/></div>}
         <details className="details"><summary>{tr('Différences structurales et limites','Structural differences and limitations')}</summary>
           <p>{tr('Les deux configurations diffèrent dans '+left.schedule.filter((p,i)=>p!==right.schedule[i]).length+' positions sur huit. Les passages aux identifiants de module distincts sont marqués. Le logiciel ne déduit aucune lecture sémantique de ces différences.',
