@@ -23,7 +23,8 @@ The best starting point is the [main README](../README.md), followed by the **li
 | [Public content contract](PUBLIC_CONTENT_CONTRACT.md) | Allowlisted original texts, provenance, and scope of release |
 | [Content integrity](CONTENT_INTEGRITY.md) | Source hashes, private import gates, and formal state mapping |
 | [Release and candidate preflight](RELEASE_AND_CANDIDATE_PREFLIGHT.md) | Synthetic preflight, exact-byte builds and explicit nonauthorization |
-| [Hosting security contract](HOSTING_RESPONSE_HEADERS.md) | Requirements an eventual HTTPS provider must satisfy |
+| [Hosting security contract](HOSTING_RESPONSE_HEADERS.md) | Strict HTTP response requirements and host limitations |
+| [GitHub Pages deployment](GITHUB_PAGES.md) | CI-gated static publication, required Pages activation and repository metadata |
 
 ## III. Evidence and care
 
