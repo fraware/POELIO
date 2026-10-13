@@ -41,6 +41,17 @@ test('exact same release is identical without authorizing publication',()=>{
     result:'EXACT_PUBLIC_RELEASE_MATCH',variant:'root',changes:[],publicationAuthorized:false
   });
 });
+test('JSON property order alone is not an evidence change',()=>{
+  const a=fixture(),b=clone(a);
+  b.sourcePins[0]={
+    sha256:b.sourcePins[0].sha256,
+    gitBlobSha1:b.sourcePins[0].gitBlobSha1,
+    pin:b.sourcePins[0].pin,
+    source:b.sourcePins[0].source
+  };
+  b.artifacts[0]={sha256:b.artifacts[0].sha256,size:b.artifacts[0].size,path:b.artifacts[0].path};
+  assert.equal(compareCandidates(a,b).result,'EXACT_PUBLIC_RELEASE_MATCH');
+});
 test('artifact identity and cache modification always require independent review',()=>{
   const a=fixture(),b=clone(a);
   b.artifacts[2].sha256=h('9');
