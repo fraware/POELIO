@@ -69,3 +69,7 @@ POELIO's publication-safe build now installs a versioned offline cache of its ex
 ## Shared literary journey controls
 
 The six stages, French/English labels, keyboard focus transfer, and previous/next progression are implemented in one typed shared module (`experience/src/JourneyControls.tsx`). Both existing works use it. Their source passages, formal constructions, authored comparisons, and reader interpretations remain work-specific. Additional literary works must supply their own approved prose and rigorously scoped computation, not a newly improvised navigation system. Browser regression checks cover identical stage order and accessible focus in both works.
+
+## Approved public literary content registry
+
+The browser, first-reading editorial packets and noninteractive companions now use one versioned, strictly allowlisted content registry with separate validators for minimum-repair schedules and fixed-fragment permutations. Source identity is pinned, public release metadata is explicit, and absent authored text stays absent. The independent private importer remains disconnected. New works must undergo source approval, scoped model verification, provenance review and rights clearance before adding another registry entry. The two npm projects now use committed lockfiles and CI installs exactly those resolved dependency sets. See `docs/PUBLIC_CONTENT_CONTRACT.md` for the full acceptance contract.

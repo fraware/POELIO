@@ -6,10 +6,10 @@
  * A first-reading packet must never include a compositional explanation.
  */
 import {useRef, useState, type ReactNode} from 'react';
-import {demoEpisode} from './episode.js';
-import {
-  ORIGINAL_ORDER, COUNTER_ORDER, passagesForOrder
-} from './permutation.js';
+import {publicWorks} from './contentCatalog.js';
+const {episode:demoEpisode}=publicWorks.register;
+const {originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
+  passages:passagesForOrder}=publicWorks.permutation;
 
 export type ReviewWork = 'register'|'permutation';
 export type PacketKind = 'first-reading'|'static-companion';

@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from './JourneyControls.js';
 import { useSessionDraft } from './useSessionDraft.js';
-import { minimumRepairs, repeatedEdges, type Person, type Schedule } from '../../src/model.js';
-import { authoredForSchedule, demoEpisode, evidence, type Realization } from './episode.js';
+import { repeatedEdges, type Person, type Schedule } from '../../src/model.js';
+import {publicWorks} from './contentCatalog.js';
+import {type Realization} from './episode.js';
 import { PermutationExperience } from './PermutationExperience.js';
 
 const DAYS: Record<Language, string[]> = {
@@ -10,9 +11,8 @@ const DAYS: Record<Language, string[]> = {
   en: ['Mon₀','Tue','Wed','Thu','Fri','Sat','Sun','Mon₁']
 };
 const PEOPLE: Record<Person, string> = { A:'Mira', B:'Noor' };
-const REPAIRS = minimumRepairs();
-const FIRST = demoEpisode.realizations[0];
-const SECOND = demoEpisode.realizations[1];
+const {episode:demoEpisode,repairs:REPAIRS,reading:FIRST,evidence}=publicWorks.register;
+const SECOND=demoEpisode.realizations[1];
 
 function downloadText(filename: string, content: string): void {
   const blob = new Blob([content], { type:'text/plain;charset=utf-8' });
@@ -74,7 +74,7 @@ export function App(): ReactNode {
   const tr = (fr: string,en: string): string => language === 'fr' ? fr : en;
 
   const selectedRepair = useMemo(() => REPAIRS.find(r => r.schedule.join('')===selected) ?? REPAIRS[0], [selected]);
-  const selectedRealization = authoredForSchedule(demoEpisode, selectedRepair.schedule);
+  const selectedRealization = publicWorks.register.authored(selectedRepair.schedule);
   const left = demoEpisode.realizations.find(r => r.id===compareLeft) ?? FIRST;
   const right = demoEpisode.realizations.find(r => r.id===compareRight) ?? SECOND;
 
