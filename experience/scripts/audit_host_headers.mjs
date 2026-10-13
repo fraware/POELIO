@@ -5,7 +5,8 @@
  */
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {resolve,pathToFileURL} from 'node:url';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
 
 export const REQUIRED_DIRECTIVES={
   "default-src":"'none'",
