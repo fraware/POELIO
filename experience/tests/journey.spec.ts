@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('the full six-stage literary journey preserves authorial provenance and private writing', async ({page}) => {
-  await page.goto('/');
+  await page.goto('/?work=register');
   const steps = page.getByRole('navigation', {name:'Étapes de l’expérience'});
   await expect(page.getByRole('heading', {name:'Le Registre des clefs'})).toBeVisible();
   await expect(page.getByText('La salle des clefs possédait une table', {exact:false})).toBeVisible();
@@ -44,7 +44,7 @@ test('the full six-stage literary journey preserves authorial provenance and pri
 });
 
 test('language switching, comparison identity, and mobile dimensions work', async ({page}) => {
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.getByRole('button', {name:'Switch to English'}).click();
   await expect(page.getByRole('heading', {name:'Le Registre des clefs'})).toBeVisible();
   const steps = page.getByRole('navigation', {name:'Experience stages'});

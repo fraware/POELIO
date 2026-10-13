@@ -5,7 +5,7 @@ import {test,expect} from '@playwright/test';
  * Retain human review of typography, reading rhythm, and assistive technology.
  */
 test('both works use a restrained book-like layout and correct literary titles',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   await expect(page.locator('.brand')).toHaveText('POELIO');
   await expect(page.getByRole('heading',{level:1,name:'Le Registre des clefs'})).toBeVisible();
   await expect(page.locator('.manuscript')).toHaveCount(1);
@@ -21,9 +21,9 @@ test('both works use a restrained book-like layout and correct literary titles',
       privateReference:document.body.textContent?.includes('La Relève')
     };
   });
-  expect(style.header).toBe('rgb(255, 254, 250)');
-  expect(style.manuscript).toBe('rgb(255, 254, 250)');
-  expect(style.serif).toMatch(/Baskerville|Palatino|Georgia/);
+  expect(style.header).toBe('rgb(255, 255, 255)');
+  expect(style.manuscript).toBe('rgb(255, 255, 255)');
+  expect(style.serif).toMatch(/Source Sans 3/);
   expect(style.imageCount).toBe(0);
   expect(style.privateReference).toBe(false);
 
@@ -36,7 +36,7 @@ test('both works use a restrained book-like layout and correct literary titles',
 
 test('mobile reader keeps its content and controls legible at 320px',async({page})=>{
   await page.setViewportSize({width:320,height:640});
-  await page.goto('/');
+  await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for(const name of ['Lire','Questionner','Explorer','Comparer','Inventer','Revenir']){
     await nav.getByRole('button',{name:new RegExp(name)}).click();

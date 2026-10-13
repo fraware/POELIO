@@ -1,7 +1,7 @@
 import {expect, test} from '@playwright/test';
 
 test('permutation journey is literature-first, exhaustive and locally writable', async ({page}) => {
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.getByRole('button', {name:/Deuxième expérience/}).click();
   await expect(page.getByRole('heading', {name:'Les Quatre Témoins'})).toBeVisible();
   const stages = page.getByRole('navigation', {name:'Étapes de l’expérience'});
@@ -56,7 +56,7 @@ test('facilitator guide is a printable, publicly safe document', async ({page}) 
 });
 
 test('second mechanism permits English interface and does not overflow on mobile', async ({page}) => {
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.getByRole('button', {name:/Deuxième expérience/}).click();
   await page.getByRole('button', {name:'Switch to English'}).click();
   await expect(page.getByRole('heading', {name:'Les Quatre Témoins'})).toBeVisible();
