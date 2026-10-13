@@ -38,9 +38,9 @@ In the already-published, original teaching application:
     npm run build:subpath
     npm run audit:subpath
 
-The auditor verifies exactly five regular public files (index and facilitator HTML, compiled JS/CSS, service worker), approved hashed asset names, deployment-base-specific HTML references, strict reader and guide security/referrer policies, exact service-worker bytes, the two originally reviewed public source pins, and npm dependency lock identities.
+The auditor verifies exactly eight regular public files (index and facilitator HTML, compiled JS/CSS, service worker, two locally hosted WOFF2 fonts, and their OFL notice), approved hashed asset names, deployment-base-specific HTML references, strict reader and guide security/referrer policies, exact service-worker bytes, the two originally reviewed public source pins, and npm dependency lock identities.
 
-Both audits write deterministic technical reports **outside** the web root, under the ignored experience/release-audit directory. Each report contains the SHA-256 digest and length of five public files, lockfiles and already-reviewed PUBLIC literary source files. These records are suitable for technical comparisons, **never for proving rights permission, authored meaning, or artistic quality**. The exact public code's two source hashes are intentional; private manuscript fingerprints must never be placed in these reports.
+Both audits write deterministic technical reports **outside** the web root, under the ignored experience/release-audit directory. Each report contains the SHA-256 digest and length of eight public files, lockfiles and already-reviewed PUBLIC literary source files. These records are suitable for technical comparisons, **never for proving rights permission, authored meaning, or artistic quality**. The exact public code's two source hashes are intentional; private manuscript fingerprints must never be placed in these reports.
 
 Each report declares publicationStatus = TECHNICAL_ONLY_NO_PUBLICATION_CLEARANCE. GitHub CI archives the two audit reports as technical evidence, separately from the public demo site archive.
 

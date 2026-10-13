@@ -38,9 +38,12 @@ function build(variant='root'){
    +'<link href="'+prefix+'assets/index-BBB123.css" rel="stylesheet">';
   put(dist,'index.html',html);
   put(dist,'facilitator.html','<meta name="referrer" content="no-referrer">'
-    +'<meta http-equiv="Content-Security-Policy" content="default-src \'none\'">Public facilitator');
+    +'<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; font-src \'self\'">Public facilitator');
+  put(dist,'source-sans-3.woff2','wOF2TEST');
+  put(dist,'source-sans-3-italic.woff2','wOF2TEST');
+  put(dist,'source-sans-license.txt','Copyright 2010-2024 Adobe, SIL OPEN FONT LICENSE Version 1.1');
   put(dist,'assets/index-AAA123.js','console.log("test-only")');
-  put(dist,'assets/index-BBB123.css','body{color:#000}');
+  put(dist,'assets/index-BBB123.css','body{color:#000;src:url('+prefix+'source-sans-3.woff2) url('+prefix+'source-sans-3-italic.woff2)}');
   put(dist,'sw.js',renderOfflineShell(dist).worker);
   return {root,experience:exp,dist,variant,run:()=>auditPublicRelease({root,experience:exp,dist,variant})};
 }
@@ -49,13 +52,13 @@ function withBuild(fn,variant='root'){
   try{fn(x)}finally{rmSync(x.root,{recursive:true,force:true})}
 }
 
-test('records deterministic source, npm lock and five-artifact identities',()=>{
+test('records deterministic source, npm lock and eight-artifact identities',()=>{
   withBuild(x=>{
     const a=x.run(),b=x.run();
     assert.deepEqual(a,b);
     assert.equal(a.technicalStatus,'PASS');
     assert.equal(a.publicationStatus,PUBLICATION_STATUS);
-    assert.equal(a.artifacts.length,5);
+    assert.equal(a.artifacts.length,8);
     assert.equal(a.sourcePins.length,2);
     assert.equal(a.dependencyLocks.length,2);
     for(const item of a.artifacts)assert.match(item.sha256,/^[0-9a-f]{64}$/);

@@ -17,7 +17,7 @@ async function audit(page: import('@playwright/test').Page, context: string): Pr
 }
 
 test('register stages: reading, formal exploration, comparison and invention', async ({page}) => {
-  await page.goto('/');
+  await page.goto('/?work=register');
   await audit(page,'Register initial reading');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for (const [stage, label] of [
@@ -33,7 +33,7 @@ test('register stages: reading, formal exploration, comparison and invention', a
 });
 
 test('permutation reading, alternate rule, comparison and reflection', async ({page}) => {
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   await audit(page,'Permutation initial reading');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
@@ -56,7 +56,7 @@ test('facilitator document passes automated accessibility checks',async ({page})
 });
 
 test('navigation returns focus to the active literary reading stage', async ({page}) => {
-  await page.goto('/');
+  await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   await nav.getByRole('button',{name:/Questionner/}).click();
   await expect(page.locator('#stage-main')).toBeFocused();
@@ -68,7 +68,7 @@ test('navigation returns focus to the active literary reading stage', async ({pa
 });
 
 test('document language tracks the currently mounted reading experience', async ({page}) => {
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.getByRole('button',{name:'Switch to English'}).click();
   await expect(page.locator('html')).toHaveAttribute('lang','en');
   await page.getByRole('button',{name:/Second experience/}).click();

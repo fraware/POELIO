@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App.js';
+import {SitePages} from './SitePages.js';
 import {
   FirstReadingPacket, StaticReadingCompanion, isReviewWork
 } from './ReviewPackets.js';
@@ -15,11 +16,14 @@ const staticWork = params.get('companion');
 
 // The links are editorial instruments; no participant response is uploaded.
 // Public fixture imports are the single source of every displayed passage.
+const paramsView=params.get('view');
 const content = isReviewWork(review)
   ? <FirstReadingPacket work={review}/>
   : isReviewWork(staticWork)
     ? <StaticReadingCompanion work={staticWork}/>
-    : <App/>;
+    : isReviewWork(params.get('work'))
+      ? <App/>
+      : <SitePages view={paramsView==='works'||paramsView==='atelier'||paramsView==='about'?paramsView:'home'}/>;
 
 createRoot(container).render(<React.StrictMode>{content}</React.StrictMode>);
 

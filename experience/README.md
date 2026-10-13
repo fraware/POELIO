@@ -4,6 +4,8 @@ The POELIO reader is a static, bilingual application for exploring literary cons
 
 Built with React, TypeScript, and Vite. No account, backend, or generative writing service is needed.
 
+The site opens with an introduction at `/`. The catalogue is at `/?view=works`, with workshop and project information at `/?view=atelier` and `/?view=about`. The works are available at `/?work=register` and `/?work=permutation`. The entire site uses locally distributed Source Sans 3 with its SIL OFL license.
+
 ## Run locally
 
 Use Node.js 22.12 or later and npm. From the repository root:
@@ -39,7 +41,12 @@ The application also provides pages suited to first readings and facilitated dis
 
 | Route | Content |
 |---|---|
-| `/` | Interactive six-stage experience |
+| `/` | Project introduction |
+| `/?view=works` | Work catalogue |
+| `/?view=atelier` | Workshop orientation |
+| `/?view=about` | Project method and permissions |
+| `/?work=register` | Interactive six-stage experience for *Le Registre des clefs* |
+| `/?work=permutation` | Interactive six-stage experience for *Les Quatre Témoins* |
 | `/?review=register` | First reading of *Le Registre des clefs* |
 | `/?review=permutation` | First reading of *Les Quatre Témoins* |
 | `/?companion=register` | Written companion to *Le Registre des clefs* |

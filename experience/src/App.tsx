@@ -59,8 +59,8 @@ function ScheduleView({ schedule, faultEdge, language }: {
 }
 
 export function App(): ReactNode {
-  const [language,setLanguage] = useState<Language>('fr');
-  const [activeExperience,setActiveExperience] = useState<'register'|'permutation'>('register');
+  const [language,setLanguage] = useState<Language>(new URLSearchParams(window.location.search).get('lang')==='en'?'en':'fr');
+  const [activeExperience,setActiveExperience] = useState<'register'|'permutation'>(new URLSearchParams(window.location.search).get('work')==='permutation'?'permutation':'register');
   const {stage,current,mainRef,navigate,move} = useLiteraryJourney();
   const [initial,setInitial] = useSessionDraft('register','initial');
   const [revised,setRevised] = useSessionDraft('register','revised');
@@ -71,6 +71,26 @@ export function App(): ReactNode {
   const [compareRight,setCompareRight] = useState(SECOND.id);
   const [projector,setProjector] = useState(false);
   const tr = (fr: string,en: string): string => language === 'fr' ? fr : en;
+  function toggleLanguage():void{
+    const next=language==='fr'?'en':'fr';
+    setLanguage(next);
+    const url=new URL(window.location.href);
+    if(next==='fr')url.searchParams.delete('lang');
+    else url.searchParams.set('lang','en');
+    window.history.replaceState(null,'',url.pathname+url.search+url.hash);
+  }
+  function switchWork(work:'register'|'permutation'):void{
+    setActiveExperience(work);
+    const url=new URL(window.location.href);
+    url.searchParams.set('work',work);
+    url.searchParams.delete('view');
+    window.history.pushState(null,'',url.pathname+url.search);
+  }
+  useEffect(()=>{
+    const sync=()=>setActiveExperience(new URLSearchParams(window.location.search).get('work')==='permutation'?'permutation':'register');
+    window.addEventListener('popstate',sync);
+    return ()=>window.removeEventListener('popstate',sync);
+  },[]);
 
   const selectedRepair = useMemo(() => REPAIRS.find(r => r.schedule.join('')===selected) ?? REPAIRS[0], [selected]);
   const selectedRealization = publicWorks.register.authored(selectedRepair.schedule);
@@ -104,14 +124,14 @@ export function App(): ReactNode {
       ].join('\n'));
   }
   if (activeExperience==='permutation') {
-    return <PermutationExperience onReturn={()=>setActiveExperience('register')}
-      language={language} onToggleLanguage={()=>setLanguage(v=>v==='fr'?'en':'fr')}/>;
+    return <PermutationExperience onReturn={()=>switchWork('register')}
+      language={language} onToggleLanguage={toggleLanguage}/>;
   }
   return <div className={projector?'app projector':'app'}>
     <a href="#stage-main" className="skip-link">{tr('Aller au texte','Skip to the text')}</a>
     <ReaderHeader language={language} work="register"
-      onSwitch={()=>setActiveExperience('permutation')}
-      onLanguage={()=>setLanguage(v=>v==='fr'?'en':'fr')}
+      onSwitch={()=>switchWork('permutation')}
+      onLanguage={toggleLanguage}
       projector={projector} onProjector={()=>setProjector(v=>!v)}
       onReset={reset} onClear={clearForNextReader}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
@@ -230,6 +250,5 @@ export function App(): ReactNode {
       </>}
     </main>
     <JourneyFooter language={language} index={current} title={demoEpisode.title} onMove={move}/>
-    {(stage==='question'||stage==='invent'||stage==='reflect') && <div className="disclaimer">{tr('Vos écrits restent dans cet onglet. Exportez-les pour les conserver.','Your writing stays in this tab. Export it to keep a copy.')}</div>}
   </div>;
 }

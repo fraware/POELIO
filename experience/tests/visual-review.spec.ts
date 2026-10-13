@@ -13,6 +13,15 @@ test('capture desktop and mobile literary reading, structure and writing',async(
     await page.screenshot({path:resolve(dir,name+'.png'),fullPage:true,animations:'disabled'});
   }
   await page.goto('/');
+  await expect(page.locator('.site-content')).toBeVisible();
+  await page.screenshot({path:resolve(dir,'site-home-desktop.png'),fullPage:true,animations:'disabled'});
+  await page.setViewportSize({width:375,height:812});
+  await page.screenshot({path:resolve(dir,'site-home-mobile.png'),fullPage:true,animations:'disabled'});
+  await page.goto('/?view=works');
+  await page.screenshot({path:resolve(dir,'site-works-mobile.png'),fullPage:true,animations:'disabled'});
+  await page.goto('/?view=about');
+  await page.screenshot({path:resolve(dir,'site-about-mobile.png'),fullPage:true,animations:'disabled'});
+  await page.goto('/?work=register');
   await capture('register-reading-desktop',1440,900);
   await capture('register-reading-mobile',375,812);
   await capture('register-reading-320',320,720);

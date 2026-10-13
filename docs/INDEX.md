@@ -6,6 +6,8 @@ Start with the [project README](../README.md) or the [application guide](../expe
 
 ## Reading and teaching
 
+- [Site design system](SITE_DESIGN_SYSTEM.md) — architecture, typography and acceptance criteria for the public site.
+
 - [Product design](PRODUCT_SPEC.md) — the six-stage reading and writing experience.
 - [Editorial art direction](ART_DIRECTION.md) — typography, layout, and interaction principles.
 - [Workshop guide](WORKSHOP_PILOT.md) — a proposed 60-minute facilitated session.

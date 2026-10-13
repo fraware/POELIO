@@ -1,7 +1,7 @@
 import {expect,test} from '@playwright/test';
 
 test('facilitator handoff removes both public drafts without erasing unrelated same-origin storage',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.evaluate(()=>sessionStorage.setItem('independent:test-key','retain'));
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   await nav.getByRole('button',{name:/Questionner/}).click();
@@ -19,13 +19,14 @@ test('facilitator handoff removes both public drafts without erasing unrelated s
   page.once('dialog',dialog=>dialog.accept());
   await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Effacer toutes mes réponses'}).click();
-  await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Les Quatre Témoins'})).toBeVisible();
   const remaining=await page.evaluate(()=>({
     poelio:Object.keys(sessionStorage).filter(k=>k.startsWith('poelio:session:v1:')),
     unrelated:sessionStorage.getItem('independent:test-key')
   }));
   expect(remaining.poelio).toEqual([]);
   expect(remaining.unrelated).toBe('retain');
+  await page.getByRole('button',{name:/Registre des clefs/}).click();
   await nav.getByRole('button',{name:/Questionner/}).click();
   await expect(page.locator('#initial-answer')).toHaveValue('');
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
@@ -34,7 +35,7 @@ test('facilitator handoff removes both public drafts without erasing unrelated s
 });
 
 test('declining shared-device handoff keeps writing without a reload',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?work=register');
   await page.getByRole('navigation',{name:'Étapes de l’expérience'})
     .getByRole('button',{name:/Questionner/}).click();
   await page.locator('#initial-answer').fill('Keep this reader’s text');

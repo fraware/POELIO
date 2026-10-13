@@ -21,7 +21,7 @@ test('previously loaded approved literary readings and facilitator survive disco
       throw err;
     }
   }
-  await page.goto('/');
+  await page.goto('/?work=register');
   await expect(page.getByRole('heading',{name:'Le Registre des clefs'})).toBeVisible();
   await page.waitForFunction(()=>Boolean(navigator.serviceWorker?.controller),null,{timeout:20000});
   const urls=await page.evaluate(async()=>{
@@ -30,7 +30,7 @@ test('previously loaded approved literary readings and facilitator survive disco
     return {keys,all};
   });
   expect(urls.keys).toHaveLength(1);
-  expect(urls.all).toHaveLength(4);
+  expect(urls.all).toHaveLength(7);
   for(const url of urls.all)expect(url).not.toMatch(/catalog\.json|private-runtime|reading_\d\d\.md/i);
   await context.setOffline(true);
   try {
@@ -40,7 +40,7 @@ test('previously loaded approved literary readings and facilitator survive disco
     await assertOfflineHeading('Lire, comprendre, interpréter');
     await page.goto('/facilitator.html');
     await expect(page.getByRole('heading',{name:'Guide de séance — 60 minutes'})).toBeVisible();
-    await page.goto('/');
+    await page.goto('/?work=register');
     await page.getByRole('button',{name:/Deuxième expérience/}).click();
     await expect(page.getByRole('heading',{name:'Les Quatre Témoins'})).toBeVisible();
   } finally {await context.setOffline(false);}

@@ -51,11 +51,11 @@ jobs:
         run: npm audit --prefix experience --audit-level=high --no-fund
       - name: Verify original public sources and build for /POELIO/
         run: npm --prefix experience run build:subpath
-      - name: Audit the exact five public website files
+      - name: Audit the exact eight public website files
         run: |
           set -euo pipefail
           npm --prefix experience run audit:subpath
-          test "$(find experience/dist -type f | wc -l)" -eq 5
+          test "$(find experience/dist -type f | wc -l)" -eq 8
           test ! -e experience/dist/catalog.json
           test ! -e experience/dist/private-runtime
           test ! -e experience/dist/private-dist

@@ -6,6 +6,9 @@ import {auditHostedRelease,REQUIRED_DIRECTIVES,REQUIRED_POLICIES} from './audit_
 const files={
   'index.html':'<!doctype html><title>Approved public fixture</title>',
   'facilitator.html':'<!doctype html><title>Approved facilitator</title>',
+  'source-sans-3.woff2':'wOF2SYNTH',
+  'source-sans-3-italic.woff2':'wOF2SYNTH-ITALIC',
+  'source-sans-license.txt':'SIL OPEN FONT LICENSE Version 1.1',
   'sw.js':'self.addEventListener("fetch",()=>{});',
   'assets/index-DEMO123.js':'console.log("approved public test");',
   'assets/index-DEMO123.css':'body { color: black; }'
@@ -31,6 +34,8 @@ function responseHeaders(path,https=true){
   if(https)h.set('strict-transport-security','max-age=31536000; includeSubDomains');
   if(path.endsWith('.html'))h.set('content-type','text/html; charset=utf-8');
   else if(path.endsWith('.css'))h.set('content-type','text/css');
+  else if(path.endsWith('.woff2'))h.set('content-type','font/woff2');
+  else if(path.endsWith('.txt'))h.set('content-type','text/plain; charset=utf-8');
   else h.set('content-type','text/javascript');
   return h;
 }
@@ -46,15 +51,15 @@ function mockFetch({base='https://example.org/POELIO/',mutate=(path,body,h)=>({b
   };
   return {fn,requests};
 }
-test('checks all five approved bytes and hardened HTTPS headers under subpath',async()=>{
+test('checks all eight approved bytes and hardened HTTPS headers under subpath',async()=>{
   const mock=mockFetch();
   const result=await auditHostedRelease({
     baseUrl:'https://example.org/POELIO/',release:release('/POELIO/'),fetchImpl:mock.fn
   });
   assert.equal(result.status,'HOST_RESPONSES_MATCH_APPROVED_PUBLIC_BYTES');
   assert.equal(result.publicationAuthorized,false);
-  assert.equal(result.validated.length,5);
-  assert.equal(mock.requests.length,5);
+  assert.equal(result.validated.length,8);
+  assert.equal(mock.requests.length,8);
   assert.ok(mock.requests.every(x=>x.options.cache==='no-store'&&x.options.redirect==='manual'));
 });
 test('accepts localhost HTTP only for non-production tests',async()=>{
@@ -62,7 +67,7 @@ test('accepts localhost HTTP only for non-production tests',async()=>{
   const result=await auditHostedRelease({
     baseUrl:'http://127.0.0.1:4177/',release:release('/'),fetchImpl:mock.fn
   });
-  assert.equal(result.validated.length,5);
+  assert.equal(result.validated.length,8);
   await assert.rejects(auditHostedRelease({
     baseUrl:'http://example.org/POELIO/',release:release('/POELIO/'),fetchImpl:mock.fn
   }),/HTTPS/);
@@ -114,7 +119,7 @@ test('rejects redirects, unapproved inventory and false publication evidence',as
   const bad=release('/POELIO/');bad.artifacts.push({...bad.artifacts[0],path:'catalog.json'});
   await assert.rejects(auditHostedRelease({
     baseUrl:'https://example.org/POELIO/',release:bad,fetchImpl:mock.fn
-  }),/five public files/);
+  }),/eight public files/);
   const falseApproval=release('/POELIO/');falseApproval.publicationStatus='PUBLICATION_APPROVED';
   await assert.rejects(auditHostedRelease({
     baseUrl:'https://example.org/POELIO/',release:falseApproval,fetchImpl:mock.fn

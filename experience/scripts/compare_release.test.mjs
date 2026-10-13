@@ -29,6 +29,9 @@ function fixture(variant='root'){
       {path:'facilitator.html',size:128,sha256:h('2')},
       {path:'assets/index-SYNTH123.js',size:210,sha256:h(subpath?'f':'3')},
       {path:'assets/index-SYNTH123.css',size:150,sha256:h('4')},
+      {path:'source-sans-3.woff2',size:180,sha256:h('a')},
+      {path:'source-sans-3-italic.woff2',size:190,sha256:h('b')},
+      {path:'source-sans-license.txt',size:460,sha256:h('c')},
       {path:'sw.js',size:230,sha256:h(subpath?'e':'5')}
     ]
   };
