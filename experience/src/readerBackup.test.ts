@@ -80,7 +80,7 @@ describe('reader-owned backup format v1',()=>{
     expect(()=>parseReaderBackup(corrupt(reg(),j=>{j.drafts.writing='a'.repeat(150001);}),
       'register')).toThrow(/oversized/);
     expect(()=>serializeReaderBackup(createReaderBackup('register',{
-      ...drafts,initial:'😀'.repeat(100000),revised:'😀'.repeat(100000),writing:'😀'.repeat(150000)
+      ...drafts,initial:'😀'.repeat(50000),revised:'😀'.repeat(50000),writing:'😀'.repeat(75000)
     },{kind:'register',values:publicWorks.register.repairs[0].schedule}))).toThrow(/maximum/);
   });
   it('merge preserves all existing text and never changes either configuration',()=>{
