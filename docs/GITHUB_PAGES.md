@@ -10,6 +10,12 @@ The GitHub Pages site is built and deployed by `.github/workflows/pages.yml`, no
 
 The workflow uses the pinned Node 22/npm lockfile and `npm ci --ignore-scripts`, checks the whole dependency tree for high/critical known advisories, runs `build:subpath`, validates the exact `/POELIO/` eight-file public distribution using the deterministic release auditor, and uploads only `experience/dist`. GitHub's pinned Pages actions deploy that upload. No prose-generation endpoint, analytics service, database, account system, private candidate import or manuscript archive is shipped.
 
+## Post-deployment byte verification
+
+The CI-gated Pages workflow independently verifies the **served HTTPS bytes** of all eight allowlisted assets against the SHA-256 values in the exact build job's deterministic subpath audit. The audit manifest is passed between its build and deploy jobs; it never becomes a ninth public file. After publishing, a bounded CDN-propagation check fetches each deployed file with redirects refused and compares its size and digest. A stale or mismatched site is reported as a failed publication workflow, even if GitHub has already accepted the deployment.
+
+This is a reproducible automated network and content-integrity check, **not** a graphical browser review, accessibility certification, strict HTTP-response security-header acceptance, or a guarantee about a particular reader's browser cache. A subsequent direct reader-device inspection still belongs to [issue #20](https://github.com/fraware/POELIO/issues/20).
+
 ## Deployment and recovery
 
 GitHub reports Pages enabled and a successful `Publish public reading preview` deployment for the current reviewed mainline SHA. CI and deployment success establish the GitHub publication workflow result; direct browser inspection of the served site and independent accessibility testing remain separate acceptance steps.

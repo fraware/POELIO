@@ -21,6 +21,8 @@ The optional JSON v1 backup holds the reader's four response fields plus the cur
 
 The app itself has no accounts, analytics or participant-submission API. Requests for the static site still reach its hosting provider, which can observe normal request metadata such as IP addresses. External literary/scholarly links are opened only by deliberate user action and use referrer-suppressing link attributes.
 
+The GitHub Pages publication workflow also compares the eight **live-hosted** static asset digests with its audited source build. This check makes network deployment drift observable; it does not inspect a reader's device, prove full HTTP response-header compliance, or audit participant privacy at the hosting provider.
+
 ## Browser regression scope
 
 The Playwright security/privacy suite runs under the normal shipped Content Security Policy, without bypassing it, to verify:
