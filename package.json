@@ -12,7 +12,7 @@
     "check:public": "python3 scripts/check_public.py"
   },
   "devDependencies": {
-    "typescript": "5.8.3"
+    "typescript": "7.0.2"
   },
   "license": "MIT",
   "author": "Mateo Petel and POELIO contributors",
