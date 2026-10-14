@@ -21,7 +21,7 @@ REQUIRED = (
     "CHANGELOG.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md",
     "docs/INDEX.md", "docs/GITHUB_RELEASE_PLAYBOOK.md",
     "docs/RELEASE_NOTES_v0.2.0-rc.1.md", "docs/RELEASE_NOTES_v0.2.0-rc.2.md",
-    "docs/RELEASE_NOTES_v0.2.0-rc.3.md"
+    "docs/RELEASE_NOTES_v0.2.0-rc.3.md", "docs/CURRENT_STATUS.md", "docs/WORKSHOP_15_MIN.md"
 )
 
 def local_target(document: Path, reference: str, root: Path = ROOT) -> Path | None:
@@ -52,6 +52,41 @@ def check_links(root: Path = ROOT) -> list[str]:
             if target is not None and not target.exists():
                 failures.append(f"{document.relative_to(root)}: broken local link {ref}")
     return failures
+
+def check_indexed_docs(root: Path = ROOT) -> list[str]:
+    """Every docs Markdown page must be discoverable from docs/INDEX.md."""
+    folder = root / "docs"
+    index = folder / "INDEX.md"
+    if not index.is_file():
+        return ["Documentation index missing: docs/INDEX.md"]
+    indexed: set[Path] = set()
+    for ref in MARKDOWN_LINK.findall(index.read_text(encoding="utf-8")):
+        try:
+            destination = local_target(index, ref, root)
+        except ValueError:
+            continue
+        if destination is not None:
+            indexed.add(destination)
+    return [
+        f"docs/INDEX.md: unindexed document {page.name}"
+        for page in sorted(folder.glob("*.md"))
+        if page.name != "INDEX.md" and page.resolve() not in indexed
+    ]
+
+
+def check_escaped_code_markers(root: Path = ROOT) -> list[str]:
+    """Reject stray Markdown escapes that prevent intended inline code rendering."""
+    errors: list[str] = []
+    for document in root.rglob("*.md"):
+        if any(part in IGNORE for part in document.relative_to(root).parts):
+            continue
+        for lineno, line in enumerate(document.read_text(encoding="utf-8").splitlines(), 1):
+            if chr(92) + chr(96) in line:
+                errors.append(
+                    f"{document.relative_to(root)}:{lineno}: escaped Markdown code delimiter"
+                )
+    return errors
+
 
 def check_readme_markdown(text: str, name: str) -> list[str]:
     """Catch structural regressions in the two reader-facing Markdown files.
@@ -106,6 +141,8 @@ def check_readme_markdown(text: str, name: str) -> list[str]:
 def check_repository() -> list[str]:
     problems = [f"Missing required document: {p}" for p in REQUIRED if not (ROOT / p).is_file()]
     problems.extend(check_links())
+    problems.extend(check_indexed_docs())
+    problems.extend(check_escaped_code_markers())
     for relative in ("README.md", "experience/README.md"):
         try:
             document = (ROOT / relative).read_text(encoding="utf-8")
@@ -148,4 +185,4 @@ if __name__ == "__main__":
         print("DOCUMENTATION FAIL:", finding, file=sys.stderr)
     if findings:
         raise SystemExit(1)
-    print("Documentation verified: links, licensing, package versions and README structure.")
+    print("Documentation verified: links, complete docs index, Markdown code markers, licensing, versions and README structure.")
