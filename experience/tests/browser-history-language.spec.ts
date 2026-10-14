@@ -43,9 +43,9 @@ for(const width of [320,1120]){
     }));
     expect(data.location).not.toContain('private');
     expect(data.localKeys).toEqual([]);
-    expect(data.sessionKeys).toEqual([
-      'poelio:session:v1:register:initial',
-      'poelio:session:v1:permutation:initial'
+    expect(data.sessionKeys.sort()).toEqual([
+      'poelio:session:v1:permutation:initial',
+      'poelio:session:v1:register:initial'
     ]);
   });
 }
