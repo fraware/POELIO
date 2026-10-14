@@ -74,3 +74,22 @@ test('first-reading packets still separate literature from later explanation',as
   }));
   expect(values.scroll).toBeLessThanOrEqual(values.viewport+1);
 });
+
+test('printable facilitator guide uses only the locally hosted Source Sans 3 typographic family',async({page})=>{
+  const remote:string[]=[];
+  page.on('request',r=>{
+    if(!r.url().startsWith('http://127.0.0.1:4177/'))remote.push(r.url());
+  });
+  await page.goto('/facilitator.html');
+  await page.evaluate(()=>document.fonts.ready);
+  for(const tag of ['h1','h2','h3','p','th','td']){
+    const families=await page.locator(tag).first().evaluate(el=>getComputedStyle(el).fontFamily);
+    expect(families).toMatch(/^["']?Source Sans 3/);
+    expect(families).not.toMatch(/Iowan|Baskerville|Palatino/i);
+  }
+  await page.emulateMedia({media:'print'});
+  await expect(page.locator('.controls')).toBeHidden();
+  const titleFamily=await page.locator('h1').evaluate(el=>getComputedStyle(el).fontFamily);
+  expect(titleFamily).toContain('Source Sans 3');
+  expect(remote).toEqual([]);
+});
