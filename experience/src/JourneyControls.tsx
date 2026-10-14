@@ -1,4 +1,4 @@
-import {useEffect,useRef,useState,type ReactNode} from 'react';
+import {useRef,useState,type ReactNode} from 'react';
 
 /** Fixed literary progression; each work retains control of its authored content. */
 export type Stage = 'read'|'question'|'explore'|'compare'|'invent'|'reflect';
@@ -27,24 +27,28 @@ export function useLiteraryJourney(){
 export function JourneyNavigation({language,stage,onNavigate}:{
   language:Language;stage:Stage;onNavigate:(target:Stage)=>void;
 }):ReactNode{
-  const activeRef=useRef<HTMLButtonElement>(null);
-  useEffect(()=>{
-    const button=activeRef.current;
-    const track=button?.parentElement;
-    if(!track || !button)return;
-    const viewport=track.getBoundingClientRect();
-    const selected=button.getBoundingClientRect();
-    if(selected.left<viewport.left)track.scrollLeft-=viewport.left-selected.left+12;
-    else if(selected.right>viewport.right)track.scrollLeft+=selected.right-viewport.right+12;
-  },[stage]);
-  return <nav className="progress-shell" aria-label={language==='fr'?'Étapes de l’expérience':'Experience stages'}>
+  const fr=language==='fr';
+  const current=STAGES.indexOf(stage);
+  return <nav className="progress-shell" aria-label={fr?'Étapes de l’expérience':'Experience stages'}>
     <div className="steps">{STAGES.map((s,i)=><button key={s} type="button"
-      ref={s===stage?activeRef:undefined}
       className={s===stage?'step current':'step'}
       aria-current={s===stage?'step':undefined} onClick={()=>onNavigate(s)}>
       <span className="step-number">{String(i+1).padStart(2,'0')}</span>
-      <span>{LABELS[s][language==='fr'?0:1]}</span>
+      <span>{LABELS[s][fr?0:1]}</span>
     </button>)}</div>
+    <div className="mobile-stage-navigation">
+      <label htmlFor="mobile-stage-select" className="mobile-stage-current">
+        {fr?'Étape':'Stage'} {String(current+1).padStart(2,'0')} / 06
+        <span>{LABELS[stage][fr?0:1]}</span>
+      </label>
+      <select id="mobile-stage-select" className="mobile-stage-select"
+        aria-label={fr?'Choisir une étape':'Choose a stage'}
+        value={stage} onChange={event=>onNavigate(event.currentTarget.value as Stage)}>
+        {STAGES.map((s,i)=><option value={s} key={s}>
+          {String(i+1).padStart(2,'0')} · {LABELS[s][fr?0:1]}
+        </option>)}
+      </select>
+    </div>
   </nav>;
 }
 
