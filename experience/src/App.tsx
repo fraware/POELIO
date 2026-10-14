@@ -225,7 +225,7 @@ export function App(): ReactNode {
         </div>
         <p className="schedule-feedback" role="status" aria-live="polite">{scheduleFeedback}</p>
         <section className="schedule-diagnosis" aria-label={tr('Diagnostic du modèle','Model diagnosis')}>
-          <h2>{tr('Résultat pour cet arrangement','Result for this assignment')}</h2>
+          <h2>{tr('Cette configuration : résultats du calcul','This assignment: computational results')}</h2>
           <p>{recurrent
             ?tr('Récurrence respectée : les deux lundis correspondent.','Recurrence satisfied: both Mondays match.')
             :tr('Récurrence non respectée : les deux lundis diffèrent.','Recurrence violated: the two Mondays differ.')}</p>
