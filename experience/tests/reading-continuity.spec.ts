@@ -28,7 +28,7 @@ for(const work of ['register','permutation'] as const){
     await expect(main).toBeFocused();
     await goToStage(nav,'Questionner');
     await expect(page.locator(initialId)).toHaveValue(note);
-    await expect(page.evaluate(()=>Object.keys(localStorage))).toEqual([]);
+    await expect(await page.evaluate(()=>Object.keys(localStorage))).toEqual([]);
   });
 }
 
