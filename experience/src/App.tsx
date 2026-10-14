@@ -11,6 +11,8 @@ import { PermutationExperience } from './PermutationExperience.js';
 import { ReaderHeader } from './ReaderHeader.js';
 import {PortableBackupPanel,type RestoreMode} from './PortableBackupPanel.js';
 import {ComparisonSpace} from './ComparisonSpace.js';
+import {ReaderWritingDesk,ReaderArchiveActions} from './ReaderWritingDesk.js';
+import {useBackupDisclosure} from './useBackupDisclosure.js';
 import {mergeReaderDrafts,type ReaderBackupV1,type ReaderDrafts} from './readerBackup.js';
 
 const DAYS: Record<Language, string[]> = {
@@ -91,7 +93,7 @@ export function App(): ReactNode {
   const [compareLeft,setCompareLeft] = useState(FIRST.id);
   const [compareRight,setCompareRight] = useState(SECOND.id);
   const [projector,setProjector] = useState(false);
-  const [backupOpen,setBackupOpen] = useState(false);
+  const {backupOpen,openBackup,closeBackup,dismissBackup}=useBackupDisclosure();
   const drafts:ReaderDrafts={initial,revised,rule,writing};
   const tr = (fr: string,en: string): string => language === 'fr' ? fr : en;
   function toggleLanguage():void{
@@ -154,7 +156,7 @@ export function App(): ReactNode {
     if (!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?'))) return;
     setInitial(''); setRevised(''); setWriting(''); setRule('');
     setScheduleState(createChoiceState<Person>(['A','B'],REPAIRS[0].schedule)); setScheduleFeedback(''); setCompareLeft(FIRST.id); setCompareRight(SECOND.id);
-    setBackupOpen(false);
+    dismissBackup();
     navigate('read');
   }
   function restoreReaderBackup(backup:ReaderBackupV1,mode:RestoreMode):void {
@@ -186,11 +188,11 @@ export function App(): ReactNode {
       onSwitch={()=>switchWork('permutation')}
       onLanguage={toggleLanguage}
       projector={projector} onProjector={()=>setProjector(v=>!v)}
-      onReset={reset} onClear={clearForNextReader} onBackup={()=>setBackupOpen(true)}/>
+      onReset={reset} onClear={clearForNextReader} onBackup={openBackup}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
     {backupOpen&&<PortableBackupPanel work="register" language={language}
       drafts={drafts} configuration={{kind:'register',values:schedule}}
-      onRestore={restoreReaderBackup} onClose={()=>setBackupOpen(false)}/>}
+      onRestore={restoreReaderBackup} onClose={closeBackup}/>}
     <main id="stage-main" className="main-content" tabIndex={-1} ref={mainRef}>
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / Lecture','01 / Reading')}</p>
@@ -206,7 +208,7 @@ export function App(): ReactNode {
           'Un détail, un geste, un silence vous a-t-il retenu ? Notez votre lecture avant de découvrir la contrainte.',
           'Was there a detail, a gesture, or a silence that stayed with you? Record your reading before exploring the constraint.')}</p>
         <label htmlFor="initial-answer" className="field-label">{tr('Votre première interprétation (facultative)','Your first interpretation (optional)')}</label>
-        <textarea id="initial-answer" rows={7} value={initial} onChange={e=>setInitial(e.target.value)}
+        <textarea id="initial-answer" rows={7} maxLength={100000} value={initial} onChange={e=>setInitial(e.target.value)}
           placeholder={tr('Décrivez un détail que vous avez remarqué…','Describe a detail you noticed…')}/>
         <p className="discreet">{tr(
           'Votre réponse reste dans cet onglet. Vous pourrez la relire à la fin du parcours.',
@@ -317,11 +319,9 @@ export function App(): ReactNode {
         <label className="field-label" htmlFor="own-rule">{tr('Nom ou description de votre contrainte','Name or describe your constraint')}</label>
         <input id="own-rule" maxLength={300} value={rule} onChange={e=>setRule(e.target.value)}
           placeholder={tr('Une règle à inventer…','A rule you invent…')}/>
-        <label className="field-label" htmlFor="writing">{tr('Votre texte','Your text')}</label>
-        <textarea id="writing" rows={9} value={writing} onChange={e=>setWriting(e.target.value)}
-          placeholder={tr('Écrivez votre propre passage…','Write your own passage…')}/>
-        <div className="editor-footer"><span>{writing.trim()?writing.trim().split(/\s+/u).length:0} {tr('mots','words')}</span>
-          <button type="button" className="outline-button" onClick={exportWriting}>{tr('Exporter mon travail','Export my work')}</button></div>
+        <ReaderWritingDesk language={language} id="writing"
+          label={tr('Votre texte','Your text')} value={writing} onChange={setWriting}
+          onExport={exportWriting} onBackup={openBackup}/>
       </>}
 
       {stage==='reflect' && <>
@@ -334,7 +334,7 @@ export function App(): ReactNode {
           <section><h2>{tr('Votre première lecture','Your first reading')}</h2>
             <blockquote>{initial||tr('Aucune réponse saisie.','No response entered.')}</blockquote></section>
           <section><label htmlFor="revised" className="field-label">{tr('Votre lecture maintenant','Your reading now')}</label>
-            <textarea id="revised" rows={6} value={revised} onChange={e=>setRevised(e.target.value)}/></section>
+            <textarea id="revised" rows={6} maxLength={100000} value={revised} onChange={e=>setRevised(e.target.value)}/></section>
         </div>
         <div className="history"><h2>{tr('Un héritage à explorer','A tradition to explore')}</h2>
           <p>{tr(
@@ -343,7 +343,7 @@ export function App(): ReactNode {
           <p><a href="https://www.oulipo.net/" target="_blank" rel="noopener noreferrer">oulipo.net</a> · <a href="https://digitalhumanities.org/dhq/vol/11/3/000325/000325.html" target="_blank" rel="noopener noreferrer">Natalie Berkman, Digital Oulipo (2017)</a></p>
 
         </div>
-        <button className="primary-button" type="button" onClick={exportWriting}>{tr('Conserver mon travail','Keep my work')}</button>
+        <ReaderArchiveActions language={language} onExport={exportWriting} onBackup={openBackup}/>
       </>}
     </main>
     <JourneyFooter language={language} index={current} title={demoEpisode.title} onMove={move}/>

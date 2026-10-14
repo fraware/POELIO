@@ -602,3 +602,18 @@ textarea,input,select {background:#fff;color:#171717;border-color:#8a8a8a;border
   .backup-header h2 {font-size:1.17rem}
 }
 @media(forced-colors:active){.backup-panel,.backup-confirm,.backup-import {border-color:CanvasText}}
+
+/* Reader-owned composition: identical controls across both literary works. */
+.reader-writing-desk {max-width:760px}
+.reader-writing-desk textarea {display:block;min-height:16rem;max-width:100%;width:100%}
+.reader-writing-count {font-size:.82rem;color:#555;text-align:right;margin:.55rem 0 0;
+  font-variant-numeric:tabular-nums}
+.reader-archive {max-width:760px;border-top:1px solid #dedede;padding-top:1.2rem;margin:1.5rem 0 0}
+.reader-archive-actions {display:flex;flex-wrap:wrap;align-items:center;gap:.75rem}
+.reader-archive-actions button {min-height:44px;max-width:100%;white-space:normal;text-align:center}
+.reader-archive .discreet {margin:1rem 0 0}
+@media(max-width:600px){
+  .reader-archive-actions {align-items:stretch;flex-direction:column}
+  .reader-archive-actions button {width:100%}
+}
+@media(forced-colors:active){.reader-archive {border-color:CanvasText}}

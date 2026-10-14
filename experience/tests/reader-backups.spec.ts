@@ -4,7 +4,7 @@ const SENTINEL='POELIO_PORTABLE_LOCAL_87EC_NEVER_SEND';
 
 async function openBackup(page:Page):Promise<void>{
   await page.locator('details.reader-options > summary').click();
-  await page.getByRole('button',{name:'Sauvegarder ou restaurer'}).click();
+  await page.locator('details.reader-options').getByRole('button',{name:'Sauvegarder ou restaurer',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Sauvegarder mon travail'})).toBeVisible();
 }
 async function saveBackup(page:Page):Promise<{text:string;name:string}>{
@@ -179,7 +179,7 @@ test('at 320 pixels the backup panel reflows with English controls and blocked s
     .getByRole('button',{name:/Invent/}).click();
   await page.locator('#writing').fill(SENTINEL+' memory only');
   await page.locator('details.reader-options > summary').click();
-  await page.getByRole('button',{name:'Back up or restore'}).click();
+  await page.locator('details.reader-options').getByRole('button',{name:'Back up or restore',exact:true}).click();
   const download=page.waitForEvent('download');
   await page.getByRole('button',{name:'Export JSON backup'}).click();
   const file=await download;
@@ -188,7 +188,7 @@ test('at 320 pixels the backup panel reflows with English controls and blocked s
   await page.getByRole('button',{name:'Close',exact:true}).click();
   await page.locator('#writing').fill('');
   await page.locator('details.reader-options > summary').click();
-  await page.getByRole('button',{name:'Back up or restore'}).click();
+  await page.locator('details.reader-options').getByRole('button',{name:'Back up or restore',exact:true}).click();
   await page.locator('input[type=file][id^=backup-file]').setInputFiles({
     name:'memory-only.json',mimeType:'application/json',buffer:Buffer.from(text,'utf8')
   });

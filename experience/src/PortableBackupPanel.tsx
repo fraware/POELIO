@@ -20,7 +20,6 @@ export function PortableBackupPanel({work,language,drafts,configuration,onRestor
   useEffect(()=>{heading.current?.focus();},[]);
   function finish():void{
     onClose();
-    requestAnimationFrame(()=>document.querySelector<HTMLElement>('details.reader-options > summary')?.focus());
   }
   function exportBackup():void{
     setError('');setStatus('');

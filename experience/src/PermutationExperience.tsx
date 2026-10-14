@@ -11,6 +11,8 @@ import {publicWorks} from './contentCatalog.js';
 import {ReaderHeader} from './ReaderHeader.js';
 import {PortableBackupPanel,type RestoreMode} from './PortableBackupPanel.js';
 import {ComparisonSpace} from './ComparisonSpace.js';
+import {ReaderWritingDesk,ReaderArchiveActions} from './ReaderWritingDesk.js';
+import {useBackupDisclosure} from './useBackupDisclosure.js';
 import {mergeReaderDrafts,type ReaderBackupV1,type ReaderDrafts} from './readerBackup.js';
 const {orders:ALL,originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
   fragments:authoredFragments}=publicWorks.permutation;
@@ -58,7 +60,7 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
   const [rule,setRule]=useSessionDraft('permutation','rule');
   const [writing,setWriting]=useSessionDraft('permutation','writing');
   const [projector,setProjector]=useState(false);
-  const [backupOpen,setBackupOpen]=useState(false);
+  const {backupOpen,openBackup,closeBackup,dismissBackup}=useBackupDisclosure();
   const drafts:ReaderDrafts={initial,revised,rule,writing};
   const tr=(fr:string,en:string)=>language==='fr'?fr:en;
   const orders=useMemo(()=>limited?ALL.filter(questionBeforeLetter):ALL,[limited]);
@@ -107,7 +109,7 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
     if(!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?')))return;
     setInitial('');setRevised('');setRule('');setWriting('');
     setOrderState(createOrderState(FRAGMENT_IDS,COUNTER_ORDER));setLimited(false);setFeedback('');
-    setBackupOpen(false);
+    dismissBackup();
     navigate('read');
   }
   function restoreReaderBackup(backup:ReaderBackupV1,mode:RestoreMode):void {
@@ -136,11 +138,11 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
     <ReaderHeader language={language} work="permutation" onSwitch={onReturn}
       onLanguage={onToggleLanguage}
       projector={projector} onProjector={()=>setProjector(v=>!v)}
-      onReset={reset} onClear={clearForNextReader} onBackup={()=>setBackupOpen(true)}/>
+      onReset={reset} onClear={clearForNextReader} onBackup={openBackup}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
     {backupOpen&&<PortableBackupPanel work="permutation" language={language}
       drafts={drafts} configuration={{kind:'permutation',order:current,limited}}
-      onRestore={restoreReaderBackup} onClose={()=>setBackupOpen(false)}/>}
+      onRestore={restoreReaderBackup} onClose={closeBackup}/>}
     <main id="permutation-main" className="main-content" tabIndex={-1} ref={main}>
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / Lecture','01 / Reading')}</p>
@@ -156,7 +158,7 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
           'In what sequence do you imagine the events occurred? Record your impression before rearranging the fragments.'
         )}</p>
         <label className="field-label" htmlFor="permutation-first">{tr('Première lecture (facultative)','First reading (optional)')}</label>
-        <textarea id="permutation-first" rows={7} value={initial} onChange={e=>setInitial(e.target.value)}/>
+        <textarea id="permutation-first" rows={7} maxLength={100000} value={initial} onChange={e=>setInitial(e.target.value)}/>
         <p className="discreet">{tr('Votre réponse reste dans cet onglet pour la relecture.','Your answer stays in this tab for the final rereading.')}</p>
       </>}
       {stage==='explore' && <>
@@ -246,12 +248,9 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
         <label htmlFor="permutation-rule" className="field-label">{tr('Votre règle','Your rule')}</label>
         <input id="permutation-rule" value={rule} maxLength={400} onChange={e=>setRule(e.target.value)}
           placeholder={tr('Par exemple : la cloche précède toute question…','For example: the bell precedes every question…')}/>
-        <label htmlFor="permutation-writing" className="field-label">{tr('Votre fragment littéraire','Your literary fragment')}</label>
-        <textarea id="permutation-writing" rows={9} value={writing} onChange={e=>setWriting(e.target.value)}/>
-        <div className="editor-footer">
-          <span>{writing.trim()?writing.trim().split(/\s+/u).length:0} {tr('mots','words')}</span>
-          <button className="outline-button" type="button" onClick={exportResponse}>{tr('Exporter ma création','Export my writing')}</button>
-        </div>
+        <ReaderWritingDesk language={language} id="permutation-writing"
+          label={tr('Votre fragment littéraire','Your literary fragment')}
+          value={writing} onChange={setWriting} onExport={exportResponse} onBackup={openBackup}/>
       </>}
       {stage==='reflect' && <>
         <p className="eyebrow">{tr('06 / Relecture','06 / Rereading')}</p>
@@ -263,7 +262,7 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
         <div className="reflection">
           <section><h2>{tr('Votre première hypothèse','Your first hypothesis')}</h2><blockquote>{initial||tr('Aucune réponse.','No response.')}</blockquote></section>
           <section><label className="field-label" htmlFor="permutation-revised">{tr('Votre interprétation maintenant','Your interpretation now')}</label>
-            <textarea id="permutation-revised" rows={6} value={revised} onChange={e=>setRevised(e.target.value)}/></section>
+            <textarea id="permutation-revised" rows={6} maxLength={100000} value={revised} onChange={e=>setRevised(e.target.value)}/></section>
         </div>
         <div className="history">
           <h2>{tr('Une méthode, plusieurs écritures','One method, multiple forms')}</h2>
@@ -272,7 +271,7 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
             'Reordering fragments without changing their words belongs to a long tradition of combinatorial literature. POELIO explores that practice through four original passages.'
           )}</p>
         </div>
-        <button className="primary-button" type="button" onClick={exportResponse}>{tr('Conserver ma création','Keep my writing')}</button>
+        <ReaderArchiveActions language={language} onExport={exportResponse} onBackup={openBackup}/>
       </>}
     </main>
     <JourneyFooter language={language} index={index} title="Les Quatre Témoins" onMove={step}/>
