@@ -4,6 +4,8 @@
 
 **Point de départ vérifié :** site GitHub Pages public, deux œuvres publiques approuvées, six étapes par œuvre, modèles finis testés, registre de contenus contrôlé, guide de séance, lectures indépendantes et comparateurs statiques. L'expérience utilisateur n'a pas encore été évaluée indépendamment.
 
+**Mise à jour du 13 octobre 2026 :** les livrables techniques A à D décrits ci-dessous sont désormais implémentés sur `main` ([PR #39](https://github.com/fraware/POELIO/pull/39), [#40](https://github.com/fraware/POELIO/pull/40), [#41](https://github.com/fraware/POELIO/pull/41) et [#42](https://github.com/fraware/POELIO/pull/42)). Les fenêtres indiquées dans le tableau sont des objectifs historiques de planification, et non des échéances encore applicables aux livrables fusionnés. Les essais de lecteurs, la revue éditoriale indépendante, l'acceptation humaine en accessibilité et la transmission effective aux animateurs demeurent à réaliser.
+
 ## 1. Étoile polaire
 
 > Donner aux lecteurs et aux animateurs un environnement littéraire qu'ils prennent plaisir à explorer, puis leur permettre de réutiliser les expériences, les outils et les méthodes dans d'autres contextes, sans dépendance au créateur du projet.

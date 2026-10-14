@@ -2,7 +2,7 @@
 
 ## Scope of the public architecture
 
-The root includes a text-free mathematical explorer and its deterministic tests. The React/Vite application in `experience/` implements two original six-stage literary demonstrations and a static facilitator guide. The unpublished *La Relève* edition is not distributed here and is not consumed by the public frontend. There are no accounts, prose-generating models or participant-data services.
+The root includes a text-free mathematical explorer and its deterministic tests. The React/Vite application in `experience/` implements two original six-stage literary demonstrations and a static facilitator guide. Unpublished literary works and their research materials are outside the public frontend and deployment artifacts. There are no accounts, prose-generating models or participant-data services.
 
 ## Model
 
@@ -14,11 +14,11 @@ The TypeScript module `src/model.ts` is deterministic. Its regression tests esta
 
 ## Trust boundaries
 
-1. `public/` and compiled TypeScript are safe to publish; they contain no manuscript.
-2. The static build script copies only four allowlisted files to `dist/`.
+1. The approved public explorer and application bundles contain only authorized demonstration prose and code. They are not general-purpose manuscript publication channels.
+2. The mathematical explorer uses a separate asset allowlist. The GitHub Pages reading application publishes exactly eight audited static files, not the whole repository.
 3. Published repository content is never an authenticated place for an unpublished manuscript.
 4. A private edition, if used, imports exact SHA-checked literary passages from a separately held research archive. Its output must be restricted to local or otherwise properly authorized access; copying it into a public branch would release the complete text.
-5. Participant writing is not collected by the public explorer.
+5. Reader drafts stay in per-tab browser storage (with a memory fallback). Voluntary TXT and JSON downloads are reader-managed; the site has no submission endpoint.
 
 The tracked-filename guard checks common leakage paths, **not arbitrary strings or all possible secret data**. Code review remains necessary.
 
@@ -28,9 +28,9 @@ The standalone Python importer in tools/private_content.py validates a strict ma
 
 ## Design intent
 
-Each prototype episode combines authored prose, interpretive questions, constraint exploration, comparison, original composition, and reflection. A future fully editorialized episode will deepen these experiences. It must preserve provenance and distinguish executable findings from interpretation. The complete literary edition cannot be public until rights and study-integrity decisions are resolved.
+Each prototype episode combines authored prose, interpretive questions, constraint exploration, comparison, original composition, and reflection. A future fully editorialized episode will deepen these experiences. It must preserve provenance and distinguish executable findings from interpretation. Future literary editions need separate author authorization, provenance checks, rights clearance and any applicable study-integrity review before publication.
 
-No official affiliation with Oulipo is claimed. The reusable software has an MIT license; existing literary demonstration prose retains separate rights under LICENSE-CONTENT.md. No license is granted for unpublished La Relève material.
+No official affiliation with Oulipo is claimed. The reusable software has an MIT license; existing literary demonstration prose retains separate rights under LICENSE-CONTENT.md. Unpublished works receive no rights grant through the repository's software license.
 
 ## Single public literary work registry
 
@@ -40,10 +40,10 @@ Root and literary-app npm lockfiles are committed separately; both CI jobs insta
 
 ## Static deployment portability
 
-The existing strict public asset builder supports a second verified Vite base (`/POELIO/`) for repository-scoped static hosting. The browser interface constructs workshop-guide links from the configured base, and the service worker uses its registration scope to find approved cache entries. The independent root and subpath browser suites exercise reading, comparison, reviewer packets, guide navigation, and offline fallbacks. No deployment action or public GitHub Pages service is configured by the CI workflow.
+The existing strict public asset builder supports a second verified Vite base (`/POELIO/`) for repository-scoped static hosting. The browser interface constructs workshop-guide links from the configured base, and the service worker uses its registration scope to find approved cache entries. The independent root and subpath browser suites exercise reading, comparison, reviewer packets, guide navigation, and offline fallbacks. The separate GitHub Pages workflow publishes only the audited public reader following successful `main` CI. The deployment is a teaching research preview; GitHub Pages does not meet the stricter customizable HTTP-header contract for production hosting.
 
 ## Technical release evidence and future work intake
 
-The public Vite distribution now has a deterministic, fail-closed release auditor in experience/scripts/audit_release.mjs. It compares five approved build files, checks source-identity pins and CSP/referrer rules, matches the service worker to its generated cache, verifies deployment-base references and records SHA-256 values of the public assets and npm lockfiles. Root and /POELIO/ builds generate separate reports outside the web bundle. These reports explicitly cannot establish publication rights or artistic quality.
+The public Vite distribution now has a deterministic, fail-closed release auditor in experience/scripts/audit_release.mjs. It checks eight approved reading-site files, checks source-identity pins and CSP/referrer rules, matches the service worker to its generated cache, verifies deployment-base references and records SHA-256 values of the public assets and npm lockfiles. Root and /POELIO/ builds generate separate reports outside the web bundle. These reports explicitly cannot establish publication rights or artistic quality.
 
 The unrelated private intake gate tools/preflight_candidate.py only inspects author-supplied source material outside this Git checkout. It accepts two declared finite model families and verifies exact UTF-8 source bytes and source-module identities before returning a content-free unverified summary. It has no public promotion mode or runtime connection to React. Independent publishing and editorial gates remain.

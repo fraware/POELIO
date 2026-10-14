@@ -2,7 +2,7 @@
 
 The engine in [\`experience/src/orderEngine.ts\`](../experience/src/orderEngine.ts) provides deterministic, immutable ordering transitions for interface components. It is designed to be reused by interactive literary works, sequencing exercises and workshop tools. Its input consists **only of stable item IDs**. It has no access to prose, publication rights, browser storage or the network.
 
-Status: **core library, verified by unit tests; no drag-and-drop UI is implemented in this release**. The next consumer is [#35](https://github.com/fraware/POELIO/issues/35).
+Status: **core library integrated into the public four-fragment interaction board**. `experience/src/FragmentBoard.tsx` provides pointer/touch movement and visible keyboard-operable up/down controls. The literary experience owns undo/redo. Automated browser tests are present; independent assistive-technology review and novice-reader testing remain pending.
 
 ## Invariants
 

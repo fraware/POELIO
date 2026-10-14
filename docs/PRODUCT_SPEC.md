@@ -41,7 +41,7 @@ The six-stage sequence, literary primacy, human authorship, and strict distincti
 
 Private literary manuscripts are excluded from the public branch, test fixtures, build artifacts and any website deployment. Distribution rights, attribution, archival provenance, and effects on blinded evaluation must be settled before a literary episode goes public.
 
-The initial public build intentionally copies only \`index.html\`, \`style.css\`, \`explorer.js\` and \`model.js\`. An unlisted file cannot be deployed by the build script.
+The independent mathematical explorer uses its own explicit asset inventory. The literary GitHub Pages build is audited against exactly eight approved website files, including the facilitator guide, offline service worker, locally hosted font assets and license notice. No private manuscript or arbitrary repository file is copied into the public website.
 
 ## Editorial validation milestone
 
