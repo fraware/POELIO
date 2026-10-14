@@ -30,7 +30,7 @@ The second episode is deliberately not another version of the scheduling model: 
 | 36–52 | Invent | Define a novel constraint and compose a short response | Value invention and authorial judgment, not compliance alone |
 | 52–60 | Reflect | Revise the first interpretation and discuss as a group | Clarify remaining uncertainties and source attribution |
 
-The static facilitator handout is built into the public web distribution. Participants need not register and their text is not transmitted by the browser experience; individual drafts are held in memory and downloadable only by an explicit command.
+The static facilitator handout is built into the public web distribution. Participants need not register and their text is not transmitted by the browser experience; interactive drafts use per-tab session storage with an in-memory fallback, while first-reading packet responses remain memory-only; downloads are initiated explicitly by the reader.
 
 ## Preliminary observation protocol (not yet conducted)
 

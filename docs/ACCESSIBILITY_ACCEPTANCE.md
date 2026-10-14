@@ -12,7 +12,7 @@ At narrow screen widths, a native HTML select replaces the previously clipped ho
 
 Axe is injected only during testing with a CSP bypass. The built application keeps its original Content Security Policy. Passing these automated tests cannot establish full accessibility, nor does this repository claim certification.
 
-## Manual verification required before public release
+## Manual verification still required for human accessibility acceptance
 
 - [ ] Full keyboard-only journey through both six-stage episodes: Tab, Shift+Tab, Enter, Space, arrows, native selects; no focus traps and visible focus.
 - [ ] NVDA + Chrome and VoiceOver + Safari on actual devices: heading structure, active stage, literary text pronunciation, interactive results, and downloads.
