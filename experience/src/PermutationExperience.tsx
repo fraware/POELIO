@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from './JourneyControls.js';
 import { useSessionDraft, clearAllPublicDrafts } from './useSessionDraft.js';
-import {isFragmentOrder,orderKey,type FragmentOrder} from './permutation.js';
+import {FRAGMENT_IDS,isFragmentOrder,orderKey,type FragmentOrder,type FragmentId} from './permutation.js';
+import {
+  createOrderState,reorderItems,undoOrder,redoOrder,resetOrder,type OrderTransition,
+  type OrderRule
+} from './orderEngine.js';
+import {FragmentBoard} from './FragmentBoard.js';
 import {publicWorks} from './contentCatalog.js';
 import {ReaderHeader} from './ReaderHeader.js';
 const {orders:ALL,originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
@@ -42,7 +47,8 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
   onReturn:()=>void;language:Language;onToggleLanguage:()=>void
 }): ReactNode {
   const {stage,current:index,mainRef:main,navigate,move:step}=useLiteraryJourney();
-  const [selected,setSelected]=useState(orderKey(COUNTER_ORDER));
+  const [orderState,setOrderState]=useState(()=>createOrderState(FRAGMENT_IDS,COUNTER_ORDER));
+  const [feedback,setFeedback]=useState('');
   const [limited,setLimited]=useState(false);
   const [initial,setInitial]=useSessionDraft('permutation','initial');
   const [revised,setRevised]=useSessionDraft('permutation','revised');
@@ -51,17 +57,38 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
   const [projector,setProjector]=useState(false);
   const tr=(fr:string,en:string)=>language==='fr'?fr:en;
   const orders=useMemo(()=>limited?ALL.filter(questionBeforeLetter):ALL,[limited]);
-  const current=BY_KEY.get(selected)??COUNTER_ORDER;
+  if(!isFragmentOrder(orderState.order))throw new Error('Invalid controlled fragment order');
+  const current=orderState.order;
+  const selected=orderKey(current);
   const permitted=questionBeforeLetter(current);
+  const activeRule:OrderRule<FragmentId>|undefined=limited
+    ?candidate=>isFragmentOrder(candidate)&&questionBeforeLetter(candidate)
+    :undefined;
 
   useEffect(()=>{document.documentElement.lang=language;},[language]);
   function setConstraint(enabled:boolean):void {
     setLimited(enabled);
-    if(enabled && !permitted){
-      const next=ALL.find(questionBeforeLetter);
-      if(!next)throw new Error('Expected a valid constrained arrangement');
-      setSelected(orderKey(next));
+    setFeedback(enabled
+      ?(permitted
+        ?tr('Contrainte activée. Les déplacements contraires à la règle sont refusés.',
+            'Rule enabled. Moves that break it are rejected.')
+        :tr('Cet ordre ne satisfait pas la règle. Déplacez la question avant l’enveloppe.',
+            'This order does not satisfy the rule. Move the question before the envelope.'))
+      :tr('Contrainte désactivée. Les 24 ordres sont accessibles.',
+          'Rule disabled. All 24 arrangements are available.'));
+  }
+  function applyTransition(result:OrderTransition<FragmentId>,description:string):void {
+    if(!result.accepted){
+      setFeedback(tr('Déplacement refusé : la question doit précéder l’enveloppe.',
+        'Move rejected: the question must precede the envelope.'));
+      return;
     }
+    if(!result.changed){
+      setFeedback(tr('L’ordre est déjà ainsi.','The order is already in this position.'));
+      return;
+    }
+    setOrderState(result.state);
+    setFeedback(tr('Ordre modifié : '+description+'.','Order changed: '+description+'.'));
   }
   function clearForNextReader():void {
     if(!window.confirm(tr(
@@ -74,7 +101,7 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
   function reset():void {
     if(!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?')))return;
     setInitial('');setRevised('');setRule('');setWriting('');
-    setSelected(orderKey(COUNTER_ORDER));setLimited(false);
+    setOrderState(createOrderState(FRAGMENT_IDS,COUNTER_ORDER));setLimited(false);setFeedback('');
     navigate('read');
   }
   function exportResponse():void {
@@ -133,11 +160,37 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
             className="inline-checkbox"/>
           {tr('Imposer que la question précède l’enveloppe','Require the question to precede the envelope')}
         </label>
-        <label htmlFor="permutation-select" className="field-label">{tr('Choisir un ordre de lecture','Choose a reading order')}</label>
+        <p className="discreet">{tr(
+          'Glissez les fragments par la poignée ou utilisez les flèches pour changer leur ordre.',
+          'Drag fragments by their handle or use the arrow buttons to change their order.'
+        )}</p>
+        <FragmentBoard items={FRAGMENT_IDS.map(id=>authoredFragments[id])}
+          state={orderState} language={language} rule={activeRule} onTransition={applyTransition}/>
+        <div className="board-actions" aria-label={tr('Historique de l’ordre','Order history')}>
+          <button type="button" className="outline-button"
+            disabled={orderState.past.length===0}
+            onClick={()=>applyTransition(undoOrder(orderState,activeRule),tr('Annuler','Undo'))}>
+            {tr('Annuler','Undo')}
+          </button>
+          <button type="button" className="outline-button"
+            disabled={orderState.future.length===0}
+            onClick={()=>applyTransition(redoOrder(orderState,activeRule),tr('Rétablir','Redo'))}>
+            {tr('Rétablir','Redo')}
+          </button>
+          <button type="button" className="outline-button"
+            onClick={()=>applyTransition(resetOrder(orderState,activeRule),tr('Ordre initial','Initial order'))}>
+            {tr('Ordre initial','Initial order')}
+          </button>
+        </div>
+        <p className="board-feedback" role="status" aria-live="polite">{feedback ||
+          tr('Les mots du texte restent inchangés.','The words of the text remain unchanged.')}</p>
+        <label htmlFor="permutation-select" className="field-label">{tr('Autre méthode : choisir un ordre dans la liste','Alternative: choose an order from the list')}</label>
         <select id="permutation-select" value={selected} onChange={e=>{
-          if(!BY_KEY.has(e.target.value))throw new Error('Unrecognized literary arrangement');
-          setSelected(e.target.value);
+          const order=BY_KEY.get(e.target.value);
+          if(!order)throw new Error('Unrecognized literary arrangement');
+          applyTransition(reorderItems(orderState,order,activeRule),tr('Sélection directe','Direct selection'));
         }}>
+          {limited&&!permitted&&<option value={selected}>{tr('Ordre actuel, hors contrainte','Current order, outside the rule')}</option>}
           {orders.map(o=><option key={orderKey(o)} value={orderKey(o)}>
             {o.map(id=>authoredFragments[id].title).join(' → ')}
           </option>)}
