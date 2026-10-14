@@ -4,7 +4,7 @@
 
 ## For readers
 
-Open an approved literary work and choose **Options → Sauvegarder ou restaurer** (in English: **Options → Back up or restore**).
+Open an approved literary work and choose **Sauvegarder ou restaurer (JSON)** from the writing or reflection stage. The same action is also available under **Options → Sauvegarder ou restaurer** (in English: **Options → Back up or restore**). Closing the panel returns keyboard focus to the control used to open it.
 
 - **Export JSON backup** downloads a \`poelio-register-backup-v1.json\` or \`poelio-permutation-backup-v1.json\` file. It contains the four reader-authored fields and the active formal arrangement. Keep it in a location under your control.
 - **Restore from a JSON file** opens a local file picker. The application reads and validates the file inside the browser. Nothing is submitted to a server.
