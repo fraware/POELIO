@@ -29,7 +29,7 @@ test('the full six-stage literary journey preserves authorial provenance and pri
   await expect(page.getByText('Mira peut comparer deux visites.')).toBeVisible();
   await page.locator('#revised').fill('Ma lecture a changé.');
   const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', {name:'Conserver mon travail'}).click();
+  await page.getByRole('button', {name:'Exporter le texte (TXT)'}).click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe('poelio-ma-creation.txt');
   await page.waitForFunction(()=>sessionStorage.getItem('poelio:session:v1:register:initial')==='Mira peut comparer deux visites.');
