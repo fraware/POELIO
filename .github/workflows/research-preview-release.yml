@@ -10,7 +10,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: poelio-research-preview-v0.2.0-rc.2
+  group: poelio-research-preview-v0.2.0-rc.3
   cancel-in-progress: false
 jobs:
   prerelease:
@@ -30,11 +30,12 @@ jobs:
           set -euo pipefail
           CURRENT="$(gh api "repos/${GITHUB_REPOSITORY}/commits/main" --jq '.sha')"
           test "${CURRENT}" = "${EXPECTED_COMMIT}"
-          test "$(node -p "require('./package.json').version")" = "0.2.0-rc.2"
-          test "$(node -p "require('./experience/package.json').version")" = "0.2.0-rc.2"
+          test "$(node -p "require('./package.json').version")" = "0.2.0-rc.3"
+          test "$(node -p "require('./experience/package.json').version")" = "0.2.0-rc.3"
           test -f LICENSE
           test -f LICENSE-CONTENT.md
-          test -f docs/RELEASE_NOTES_v0.2.0-rc.2.md
+          test -f docs/RELEASE_NOTES_v0.2.0-rc.3.md
+          node -e "for (const f of ['package-lock.json','experience/package-lock.json']) { const v = require('./'+f); if (v.version !== '0.2.0-rc.3' || v.packages[''].version !== '0.2.0-rc.3') throw new Error('Release version mismatch: '+f); }"
           test ! -e catalog.json
           test ! -e experience/catalog.json
           ! git ls-files | grep -Ei '(^|/)(private-runtime|private-dist|catalog\.json|La_Releve.*\.zip)(/|$)'
@@ -42,7 +43,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EXPECTED_COMMIT: ${{ github.event.workflow_run.head_sha }}
-          TAG: v0.2.0-rc.2
+          TAG: v0.2.0-rc.3
         run: |
           set -euo pipefail
           if gh release view "${TAG}" >/dev/null 2>&1; then
@@ -52,7 +53,7 @@ jobs:
           gh release create "${TAG}" \
             --target "${EXPECTED_COMMIT}" \
             --prerelease \
-            --title "POELIO v0.2.0-rc.2 | Literary research preview" \
-            --notes-file docs/RELEASE_NOTES_v0.2.0-rc.2.md
+            --title "POELIO v0.2.0-rc.3 | Literary research preview" \
+            --notes-file docs/RELEASE_NOTES_v0.2.0-rc.3.md
           gh release view "${TAG}" --json isPrerelease,isDraft,tagName,url \
             --jq '{tag:.tagName,prerelease:.isPrerelease,draft:.isDraft,url:.url}'
