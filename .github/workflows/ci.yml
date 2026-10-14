@@ -21,6 +21,8 @@ jobs:
         run: npm test
       - name: Verify private importer with synthetic literary fixtures only
         run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Unit-test live-site byte auditor against synthetic HTTP responses
+        run: node --test experience/scripts/verify_live_public_site.test.mjs
       - name: Verify editorial documentation, licensing and links
         run: python3 tools/check_docs.py
       - name: Verify repository filename embargo

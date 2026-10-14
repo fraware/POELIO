@@ -20,6 +20,8 @@ concurrency:
 
 jobs:
   build:
+    outputs:
+      public_manifest_b64: ${{ steps.export_manifest.outputs.public_manifest_b64 }}
     if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
@@ -59,6 +61,12 @@ jobs:
           test ! -e experience/dist/catalog.json
           test ! -e experience/dist/private-runtime
           test ! -e experience/dist/private-dist
+      - name: Export exact audited public-file evidence to deployment verifier
+        id: export_manifest
+        run: |
+          set -euo pipefail
+          test -s experience/release-audit/subpath.json
+          echo "public_manifest_b64=$(base64 -w0 experience/release-audit/subpath.json)" >> "$GITHUB_OUTPUT"
       - name: Upload GitHub Pages site without unrelated repository files
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
@@ -89,3 +97,17 @@ jobs:
       - name: Publish only the audited public teaching site
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+      - name: Check out the exact live-site auditor source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - name: Use pinned Node toolchain for public-site check
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: '22'
+      - name: Verify live GitHub Pages against all eight audited public file digests
+        env:
+          POELIO_PUBLIC_SITE_URL: ${{ steps.deployment.outputs.page_url }}
+          POELIO_PUBLIC_MANIFEST_B64: ${{ needs.build.outputs.public_manifest_b64 }}
+        run: node experience/scripts/verify_live_public_site.mjs
