@@ -40,7 +40,7 @@ Start with the [project README](../README.md) or the [application guide](../expe
 - [Hosting requirements](HOSTING_RESPONSE_HEADERS.md) — response-header security expectations.
 - [Release verification](RELEASE_AND_CANDIDATE_PREFLIGHT.md) — build and source checks.
 - [Releases](GITHUB_RELEASE_PLAYBOOK.md) — repository publication procedures.
-- [Release notes](RELEASE_NOTES_v0.2.0-rc.2.md) — latest published source prerelease.
+- [Release notes](RELEASE_NOTES_v0.2.0-rc.3.md) — reviewed rc.3 source prerelease; verify tag availability on GitHub Releases.
 - [Changelog](../CHANGELOG.md) — software history.
 
 For contributing code or editorial improvements, read [Contributing](../CONTRIBUTING.md). The application code and literary material have separate terms described in [Copyright and permissions](../LICENSE-CONTENT.md).
