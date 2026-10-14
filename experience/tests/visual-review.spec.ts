@@ -35,6 +35,11 @@ test('capture desktop and mobile literary reading, structure and writing',async(
   await page.getByRole('button',{name:'Annuler',exact:true}).click();
   await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Comparer');
   await capture('register-compare-desktop',1440,900);
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Questionner');
+  await page.locator('#initial-answer').fill('Une première lecture à réexaminer.');
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Comparer');
+  await page.locator('.first-reading-note summary').click();
+  await capture('register-continuity-mobile',375,812);
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   await capture('permutation-reading-desktop',1440,900);
   await capture('permutation-reading-mobile',375,812);
@@ -44,6 +49,11 @@ test('capture desktop and mobile literary reading, structure and writing',async(
   await capture('permutation-board-320',320,720);
   await page.getByRole('button',{name:'Descendre La question'}).click();
   await capture('permutation-board-moved-mobile',375,812);
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Questionner');
+  await page.locator('#permutation-first').fill('Une chronologie en suspens.');
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Comparer');
+  await page.locator('.first-reading-note summary').click();
+  await capture('permutation-continuity-mobile',375,812);
   await page.goto('/?work=register');
   await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Inventer');
   await capture('register-writing-desktop',1440,900);

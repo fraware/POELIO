@@ -11,6 +11,7 @@ import { PermutationExperience } from './PermutationExperience.js';
 import { ReaderHeader } from './ReaderHeader.js';
 import {PortableBackupPanel,type RestoreMode} from './PortableBackupPanel.js';
 import {ComparisonSpace} from './ComparisonSpace.js';
+import {FirstReadingNote,ExplorationBridge} from './ReaderContinuity.js';
 import {ReaderWritingDesk,ReaderArchiveActions} from './ReaderWritingDesk.js';
 import {useBackupDisclosure} from './useBackupDisclosure.js';
 import {mergeReaderDrafts,type ReaderBackupV1,type ReaderDrafts} from './readerBackup.js';
@@ -221,6 +222,7 @@ export function App(): ReactNode {
         <p className="lede">{tr(
           'Le premier et le dernier lundi doivent revenir à la même personne. Touchez chaque jour pour changer son affectation. Explorez les contradictions, puis les réparations minimales.',
           'The first and last Mondays must belong to the same person. Select any day to change its assignment. Explore the contradictions, then the minimum repairs.')}</p>
+        <FirstReadingNote language={language} text={initial}/>
         <div className="factline"><span>256 {tr('configurations','configurations')}</span><span>0 {tr('sans exception admissible','admissible without an exception')}</span><span>14 {tr('réparations minimales','minimum repairs')}</span></div>
         <p className="discreet">{tr(
           'Appuyez sur un jour pour choisir Mira ou Noor. Les passages répétés sont mis en évidence.',
@@ -289,6 +291,19 @@ export function App(): ReactNode {
         <p className="lede">{tr(
           'Lisez ces deux versions du récit. Les passages marqués diffèrent dans leur composition.',
           'Read these two versions of the story. Shaded passages differ in their composition.')}</p>
+        <ExplorationBridge language={language} onReturn={()=>navigate('explore')}>
+          {selectedRealization
+            ?tr('Votre affectation explorée correspond au '+(selectedRealization.id===FIRST.id?'Texte I':'Texte II')+'.',
+                'Your explored assignment corresponds to '+(selectedRealization.id===FIRST.id?'Text I':'Text II')+'.')
+            :isMinimum
+              ?tr('Votre affectation fait partie des quatorze réparations minimales, sans texte rédigé pour elle.',
+                  'Your assignment is one of the fourteen minimum repairs, without an authored text for it.')
+              :tr('Votre affectation explorée ne fait pas partie des quatorze réparations minimales.',
+                  'Your explored assignment is not one of the fourteen minimum repairs.')}
+          {' '}{tr('La comparaison présente les deux réalisations rédigées.',
+                   'This comparison presents the two authored realizations.')}
+        </ExplorationBridge>
+        <FirstReadingNote language={language} text={initial}/>
         <div className="compare-controls">
           <label>{tr('Premier texte','First text')}
             <select value={compareLeft} onChange={e=>setCompareLeft(e.target.value)}>

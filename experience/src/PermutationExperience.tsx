@@ -11,6 +11,7 @@ import {publicWorks} from './contentCatalog.js';
 import {ReaderHeader} from './ReaderHeader.js';
 import {PortableBackupPanel,type RestoreMode} from './PortableBackupPanel.js';
 import {ComparisonSpace} from './ComparisonSpace.js';
+import {FirstReadingNote,ExplorationBridge} from './ReaderContinuity.js';
 import {ReaderWritingDesk,ReaderArchiveActions} from './ReaderWritingDesk.js';
 import {useBackupDisclosure} from './useBackupDisclosure.js';
 import {mergeReaderDrafts,type ReaderBackupV1,type ReaderDrafts} from './readerBackup.js';
@@ -168,6 +169,7 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
           'Les quatre fragments restent identiques. Choisissez un ordre de lecture et observez comment le récit se transforme.',
           'The four fragments stay unchanged. Choose a reading order and consider how the story changes.'
         )}</p>
+        <FirstReadingNote language={language} text={initial}/>
         <div className="factline">
           <span>4 {tr('fragments attribués','attributed fragments')}</span>
           <span>24 {tr('permutations complètes','complete permutations')}</span>
@@ -232,6 +234,14 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
           'À gauche, l’ordre initial. À droite, votre arrangement. Lisez les deux versions et comparez leurs effets.',
           'The original order is on the left, your arrangement on the right. Read both and compare their effects.'
         )}</p>
+        <ExplorationBridge language={language} onReturn={()=>navigate('explore')}>
+          {selected===orderKey(ORIGINAL_ORDER)
+            ?tr('Vous avez conservé l’ordre initial. Les deux colonnes présentent le même texte.',
+                'You retained the original order. Both columns present the same text.')
+            :tr('À droite figure l’ordre que vous avez choisi dans Explorer. Les quatre fragments sont inchangés.',
+                'The right column shows the order you chose in Explore. All four fragments are unchanged.')}
+        </ExplorationBridge>
+        <FirstReadingNote language={language} text={initial}/>
         <ComparisonSpace language={language}>
           <Fragments order={ORIGINAL_ORDER} comparedTo={current}/>
           <Fragments order={current} comparedTo={ORIGINAL_ORDER}/>
