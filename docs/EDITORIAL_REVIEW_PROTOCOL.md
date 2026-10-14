@@ -21,6 +21,8 @@ Each packet displays the source verbatim via imports from the pinned public fixt
 
 **Important distinction:** the page conceals the formal mechanism in its initial interface; it does not technically prevent a reviewer from examining the repository, prior publications, or JavaScript bundle. This is an *unprimed first-reading procedure*, not cryptographic blinding.
 
+**Execution materials:** the [independent reader field kit](INDEPENDENT_READER_FIELD_KIT.md) provides an invitation that reveals no mechanism, precise sequencing for the public first-reading and companion routes, and a separate prospective novice-reader trial. The [blank field records](READER_FIELD_RECORDS.md) document critiques and permissions outside the public repository. Neither the invitation nor a first-reading URL should carry this methodological document or a technical explanation.
+
 ## Review sequence
 
 1. Recruit a writer or editor who has not read the demonstration or the technical explanation. Disclose that they are reviewing a short fictional text; seek consent for any retained notes separately.
