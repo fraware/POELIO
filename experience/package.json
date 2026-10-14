@@ -29,7 +29,7 @@
     "@types/react": "19.0.12",
     "@types/react-dom": "19.0.4",
     "typescript": "5.8.3",
-    "vite": "7.3.7",
+    "vite": "8.3.4",
     "vitest": "5.0.4",
     "@playwright/test": "1.64.0",
     "@axe-core/playwright": "4.13.0"
