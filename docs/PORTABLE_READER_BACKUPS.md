@@ -14,7 +14,7 @@ Open an approved literary work and choose **Sauvegarder ou restaurer (JSON)** fr
 
 The existing human-readable \`.txt\` export remains available from the writing and reflection stages. A TXT document is meant for reading and archiving; it is **not** the machine-restorable backup.
 
-Backups are **plain text JSON**. Anyone with access to a downloaded file may read its content. Protect and delete these files using your device's own facilities. POELIO does not delete exported files. Drafts still reside in the current tab's \`sessionStorage\` with a memory-only fallback if storage is blocked; importing updates that same local session. There are no accounts, telemetry, cloud inference, or document uploads.
+Backups are **plain text JSON**. Anyone with access to a downloaded file may read its content. Protect and delete these files using your device's own facilities. POELIO does not delete exported files or drafts in other tabs. Duplicating a tab or opening a same-origin window with an opener can also copy the initial sessionStorage draft values. Drafts still reside in the current tab's \`sessionStorage\` with a memory-only fallback if storage is blocked; importing updates that same local session. There are no accounts, telemetry, cloud inference, or document uploads.
 
 ## Format contract
 
