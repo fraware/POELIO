@@ -37,7 +37,7 @@ L’accueil donne une introduction, puis la liste des œuvres. Les autres entré
 
 ## Interaction
 
-La littérature précède l’exploration formelle. Le parcours conserve Lire → Questionner → Explorer → Comparer → Inventer → Revenir. La conception future privilégie le déplacement direct des fragments et des contraintes, avec commandes alternatives accessibles, historique local et annulation.
+La littérature précède l’exploration formelle. Le parcours conserve Lire → Questionner → Explorer → Comparer → Inventer → Revenir. Le déplacement des fragments et la modification des affectations sont désormais implémentés, avec commandes alternatives au clavier, historique local et annulation. La réception par des lecteurs extérieurs est encore attendue.
 
 Les deux œuvres d’origine restent les seules sources de textes autorisées. Les possibilités calculées ne deviennent jamais des passages littéraires inventés par le logiciel.
 

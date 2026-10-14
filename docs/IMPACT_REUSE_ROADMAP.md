@@ -4,7 +4,7 @@
 
 **Point de départ vérifié :** site GitHub Pages public, deux œuvres publiques approuvées, six étapes par œuvre, modèles finis testés, registre de contenus contrôlé, guide de séance, lectures indépendantes et comparateurs statiques. L'expérience utilisateur n'a pas encore été évaluée indépendamment.
 
-**Mise à jour du 13 octobre 2026 :** les livrables techniques A à D décrits ci-dessous sont désormais implémentés sur `main` ([PR #39](https://github.com/fraware/POELIO/pull/39), [#40](https://github.com/fraware/POELIO/pull/40), [#41](https://github.com/fraware/POELIO/pull/41) et [#42](https://github.com/fraware/POELIO/pull/42)). Les fenêtres indiquées dans le tableau sont des objectifs historiques de planification, et non des échéances encore applicables aux livrables fusionnés. Les essais de lecteurs, la revue éditoriale indépendante, l'acceptation humaine en accessibilité et la transmission effective aux animateurs demeurent à réaliser.
+**Situation consolidée au 14 octobre 2026 :** les livrables techniques A à D sont implémentés sur `main` (PR [#39](https://github.com/fraware/POELIO/pull/39), [#40](https://github.com/fraware/POELIO/pull/40), [#41](https://github.com/fraware/POELIO/pull/41) et [#42](https://github.com/fraware/POELIO/pull/42), puis améliorations jusqu'à [#54](https://github.com/fraware/POELIO/pull/54)). Le chantier E dispose maintenant d'un [kit de terrain](INDEPENDENT_READER_FIELD_KIT.md), de [fiches vierges](READER_FIELD_RECORDS.md), d'une [procédure manuelle d'accessibilité](ACCESSIBILITY_FIELD_RUNBOOK.md) et de séances proposées de [15](WORKSHOP_15_MIN.md) et [60 minutes](WORKSHOP_PILOT.md). Aucun essai indépendant ni atelier réel n'a été réalisé. Les fenêtres du tableau ci-dessous sont des **prévisions historiques** et non des dates à attendre pour des livrables déjà fusionnés. Les chantiers F et la réception humaine de G demeurent ouverts. Voir [l'état consolidé](CURRENT_STATUS.md).
 
 ## 1. Étoile polaire
 
@@ -95,7 +95,7 @@ Ne pas créer de protocoles concurrents. Réutiliser et réviser les documents e
 - `docs/ACCESSIBILITY_ACCEPTANCE.md` pour les validations réelles ;
 - `experience/public/facilitator.html` pour la fiche imprimable.
 
-**Kit à produire :** une fiche « animer en 15 minutes », une séance de 60 minutes, des consignes de lecture sans dévoilement préalable, une grille d'observation, une fiche de retour facultatif et un journal vierge de séance. Versions source modifiables (Markdown/HTML) et fiches imprimables. Les modèles sont diffusés sous les droits adaptés ; les extraits littéraires intégrés suivent `LICENSE-CONTENT.md`.
+**Kit préparé, non éprouvé humainement :** [parcours de 15 minutes](WORKSHOP_15_MIN.md), [séance de 60 minutes](WORKSHOP_PILOT.md), [lecture indépendante](INDEPENDENT_READER_FIELD_KIT.md), [grilles vierges d'observation et de permission](READER_FIELD_RECORDS.md) et [vérifications humaines d'accessibilité](ACCESSIBILITY_FIELD_RUNBOOK.md). Le guide imprimable `experience/public/facilitator.html` est publié. Il reste à vérifier la transmission du kit à des animateurs extérieurs, les adaptations réelles et sa valeur pédagogique. Les textes littéraires intégrés suivent `LICENSE-CONTENT.md`.
 
 **Pilote en deux temps :**
 1. 12–15 essais individuels avec lecteurs qui ne connaissent pas l'interface. Observer les actions et obstacles, sans collecter leurs textes automatiquement. Séparer facilité d'usage, compréhension formelle, intérêt esthétique et production écrite.

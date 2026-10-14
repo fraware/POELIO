@@ -9,7 +9,7 @@ Explain what is modified, especially authored text, model states, source provena
 ## Evidence
 
 - [ ] Relevant automated tests pass.
-- [ ] Root and \`/POELIO/\` deployment variants are unaffected or independently tested.
+- [ ] Root and `/POELIO/` deployment variants are unaffected or independently tested.
 - [ ] Keyboard, accessible labels and narrow-screen behavior are considered.
 - [ ] No participant data, credentials, unpublished manuscripts or private catalogs are included.
 - [ ] No newly authored literary passage enters the public catalog without explicit rights clearance.

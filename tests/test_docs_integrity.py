@@ -3,7 +3,7 @@ from __future__ import annotations
 import tempfile
 import unittest
 from pathlib import Path
-from tools.check_docs import local_target, check_readme_markdown
+from tools.check_docs import local_target, check_readme_markdown, check_indexed_docs, check_escaped_code_markers
 
 class DocumentationLinkTests(unittest.TestCase):
     def test_relative_link_points_to_file_without_external_network(self):
@@ -45,6 +45,36 @@ class PublicReadmeMarkupTests(unittest.TestCase):
         findings = self.check(sample)
         self.assertTrue(any("image" in issue for issue in findings))
         self.assertTrue(any("manuscript" in issue for issue in findings))
+
+
+
+class DocumentationInventoryTests(unittest.TestCase):
+    def test_missing_index_entry_is_rejected_until_documented(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            docs = root / "docs"
+            docs.mkdir()
+            (docs / "INDEX.md").write_text("# Documentation\n\n- [One](ONE.md)\n", encoding="utf-8")
+            (docs / "ONE.md").write_text("# One\n", encoding="utf-8")
+            (docs / "TWO.md").write_text("# Two\n", encoding="utf-8")
+            self.assertEqual(check_indexed_docs(root),
+                             ["docs/INDEX.md: unindexed document TWO.md"])
+            (docs / "INDEX.md").write_text(
+                "# Documentation\n\n- [One](ONE.md)\n- [Two](TWO.md)\n", encoding="utf-8")
+            self.assertEqual(check_indexed_docs(root), [])
+
+    def test_markdown_code_escape_detection(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            path = root / "guide.md"
+            tick = chr(96)
+            path.write_text("# Guide\n\nUse " + tick + "npm ci" + tick + ".\n", encoding="utf-8")
+            self.assertEqual(check_escaped_code_markers(root), [])
+            path.write_text("# Guide\n\nUse " + chr(92) + tick + "npm ci" +
+                            chr(92) + tick + ".\n", encoding="utf-8")
+            findings = check_escaped_code_markers(root)
+            self.assertEqual(len(findings), 1)
+            self.assertIn("escaped Markdown code delimiter", findings[0])
 
 
 if __name__=="__main__":unittest.main()

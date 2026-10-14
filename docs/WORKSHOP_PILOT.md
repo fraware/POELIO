@@ -3,7 +3,7 @@
 **Status:** proposed observational pilot, not a completed user study.
 **Audience:** 10–25 people, ideally arranged in groups of two to four.
 **Timing:** 60 minutes, facilitator-controlled; no automatic advancement.
-**Materials:** public POELIO experience, one projected screen, writing materials, optionally participants' own browsers, and the printable guide at /facilitator.html.
+**Materials:** public POELIO experience, one projected screen, writing materials, optionally participants' own browsers, and the printable guide at /facilitator.html. A separate [15-minute proposal](WORKSHOP_15_MIN.md) is available; neither format has yet been tested independently.
 
 ## Objective and limits
 

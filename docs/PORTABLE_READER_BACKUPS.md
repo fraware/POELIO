@@ -6,21 +6,21 @@
 
 Open an approved literary work and choose **Sauvegarder ou restaurer (JSON)** from the writing or reflection stage. The same action is also available under **Options → Sauvegarder ou restaurer** (in English: **Options → Back up or restore**). Closing the panel returns keyboard focus to the control used to open it.
 
-- **Export JSON backup** downloads a \`poelio-register-backup-v1.json\` or \`poelio-permutation-backup-v1.json\` file. It contains the four reader-authored fields and the active formal arrangement. Keep it in a location under your control.
+- **Export JSON backup** downloads a `poelio-register-backup-v1.json` or `poelio-permutation-backup-v1.json` file. It contains the four reader-authored fields and the active formal arrangement. Keep it in a location under your control.
 - **Restore from a JSON file** opens a local file picker. The application reads and validates the file inside the browser. Nothing is submitted to a server.
 - **Merge without overwriting** copies imported answers **only into empty text fields**. It leaves every existing nonempty answer and the current model configuration unchanged.
 - **Replace this work** explicitly asks for confirmation. On approval, it restores all four imported fields and the work-specific configuration. A cancellation leaves current content alone.
 - A backup belongs to **one** work and to the **exact pinned source revision** of its public teaching text. A file for the other work, a different revision, a future incompatible schema, unknown fields or invalid arrangement is rejected before any state changes.
 
-The existing human-readable \`.txt\` export remains available from the writing and reflection stages. A TXT document is meant for reading and archiving; it is **not** the machine-restorable backup.
+The existing human-readable `.txt` export remains available from the writing and reflection stages. A TXT document is meant for reading and archiving; it is **not** the machine-restorable backup.
 
-Backups are **plain text JSON**. Anyone with access to a downloaded file may read its content. Protect and delete these files using your device's own facilities. POELIO does not delete exported files or drafts in other tabs. Duplicating a tab or opening a same-origin window with an opener can also copy the initial sessionStorage draft values. Drafts still reside in the current tab's \`sessionStorage\` with a memory-only fallback if storage is blocked; importing updates that same local session. There are no accounts, telemetry, cloud inference, or document uploads.
+Backups are **plain text JSON**. Anyone with access to a downloaded file may read its content. Protect and delete these files using your device's own facilities. POELIO does not delete exported files or drafts in other tabs. Duplicating a tab or opening a same-origin window with an opener can also copy the initial sessionStorage draft values. Drafts still reside in the current tab's `sessionStorage` with a memory-only fallback if storage is blocked; importing updates that same local session. There are no accounts, telemetry, cloud inference, or document uploads.
 
 ## Format contract
 
-\`experience/src/readerBackup.ts\` contains the canonical types and the fail-closed parser. The following TypeScript excerpt shows the structure without including literary prose:
+`experience/src/readerBackup.ts` contains the canonical types and the fail-closed parser. The following TypeScript excerpt shows the structure without including literary prose:
 
-\`\`\`ts
+```ts
 type ReaderBackupV1 = {
   format: 'poelio-reader-backup';
   version: 1;
@@ -42,13 +42,13 @@ type ReaderBackupV1 = {
                                     'door'|'letter'|'question'|'bell'];
        limited: boolean};
 };
-\`\`\`
+```
 
 For the permutation branch, the parser checks **all four distinct fragment IDs** and their exact count, not just the tuple shape. The register branch checks **eight binary assignments**. Non-minimum schedules and arrangements that disagree with an enabled order rule are preserved as selected, since the existing interaction explicitly allows those current states. No imported configuration is automatically repaired.
 
-The \`sourceRevision\` includes each source's reviewed Git blob ID, imported from the same \`approved-*.blobsha\` files used by the fixture-verification release gate. These IDs identify the bundled public prose; they are not a digital signature of the exported draft or proof that a reader authored it.
+The `sourceRevision` includes each source's reviewed Git blob ID, imported from the same `approved-*.blobsha` files used by the fixture-verification release gate. These IDs identify the bundled public prose; they are not a digital signature of the exported draft or proof that a reader authored it.
 
-Limits: maximum JSON file size **512 KiB**; text field limits \`initial\` 100,000 characters, \`revised\` 100,000, \`rule\` 400 and \`writing\` 150,000. UTF-8 decoding rejects malformed bytes; file size is checked **before** reading the contents. Strict records and source identities reject unexpected keys or unsupported versions. Neither importing nor exporting installs executable code.
+Limits: maximum JSON file size **512 KiB**; text field limits `initial` 100,000 characters, `revised` 100,000, `rule` 400 and `writing` 150,000. UTF-8 decoding rejects malformed bytes; file size is checked **before** reading the contents. Strict records and source identities reject unexpected keys or unsupported versions. Neither importing nor exporting installs executable code.
 
 ## Boundaries and acceptance
 
@@ -61,6 +61,6 @@ Limits: maximum JSON file size **512 KiB**; text field limits \`initial\` 100,00
 
 ## Implementation guide
 
-Use \`createReaderBackup(work,drafts,configuration)\` and \`serializeReaderBackup\` for exports. Use \`parseReaderBackup(text,expectedWork)\` after a size-limited, strict UTF-8 file read. Use \`mergeReaderDrafts(current,incoming)\` only for a reader-selected, non-destructive merge. The UI is \`PortableBackupPanel.tsx\`; the two experiences remain responsible for their own state and model-specific restoration. These helpers perform no network or storage actions.
+Use `createReaderBackup(work,drafts,configuration)` and `serializeReaderBackup` for exports. Use `parseReaderBackup(text,expectedWork)` after a size-limited, strict UTF-8 file read. Use `mergeReaderDrafts(current,incoming)` only for a reader-selected, non-destructive merge. The UI is `PortableBackupPanel.tsx`; the two experiences remain responsible for their own state and model-specific restoration. These helpers perform no network or storage actions.
 
 This architecture permits another application or authorized teaching experience to adopt the *format principles* and parser pattern without reusing POELIO's copyrighted demonstration prose. Any third-party app must define and review its own scope, source identity, rights and migration policy.
