@@ -8,6 +8,8 @@ The Playwright suite at experience/tests/accessibility.spec.ts runs the pinned a
 
 Tests also check navigation focus, correct HTML language on return from one episode to another, and English-language interface switching while original French prose retains its source language.
 
+At narrow screen widths, a native HTML select replaces the previously clipped horizontal stage tab strip. Browser regressions verify the selected stage, all six destinations, 320–390 CSS-pixel reflow, focus transfer and draft preservation across both works. Wider layouts keep the six original buttons. Native controls reduce bespoke interaction code; manual NVDA, VoiceOver and high-zoom acceptance remains separately required.
+
 Axe is injected only during testing with a CSP bypass. The built application keeps its original Content Security Policy. Passing these automated tests cannot establish full accessibility, nor does this repository claim certification.
 
 ## Manual verification required before public release

@@ -2,6 +2,8 @@
 
 The POELIO reader is a static, bilingual application for exploring literary constraints through reading, comparison, and original writing. It contains two authored demonstration works and follows a consistent six-stage journey: **Read → Question → Explore → Compare → Invent → Reflect**.
 
+On narrow screens, the current stage appears above a native six-stage selector. On wider screens, all six stages appear as direct navigation buttons. The Previous/Next controls continue to work in either layout. Changing stages leaves the reader's writing and chosen formal configuration unchanged.
+
 Built with React, TypeScript, and Vite. No account, backend, or generative writing service is needed.
 
 The site opens with an introduction at `/`. The catalogue is at `/?view=works`, with workshop and project information at `/?view=atelier` and `/?view=about`. The works are available at `/?work=register` and `/?work=permutation`. The entire site uses locally distributed Source Sans 3 with its SIL OFL license.
