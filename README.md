@@ -8,6 +8,8 @@ The project is open source, independent, and designed for readers, writers, educ
 
 [Open POELIO](https://fraware.github.io/POELIO/) · [Get started](#get-started) · [The reading experience](#the-reading-experience) · [Development](#development) · [Documentation](docs/INDEX.md)
 
+See [Current status and human handoff](docs/CURRENT_STATUS.md) for the difference between the public website, the immutable source prerelease, and independent evaluations that are still pending.
+
 ## The reading experience
 
 Each work unfolds through six connected movements.

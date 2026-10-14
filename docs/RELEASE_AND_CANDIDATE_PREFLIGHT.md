@@ -48,4 +48,4 @@ Each report declares publicationStatus = TECHNICAL_ONLY_NO_PUBLICATION_CLEARANCE
 
 A maintainer with write access could deliberately change a verifier or a source pin. Independent source review and branch protection are needed for actual release governance. The auditor is not a substitute for independent editorial review, provenance and rights-holder verification, manual screen-reader tests, or a decision about the earlier blinded study. This milestone enables disciplined prehuman preparation; it does not initiate a literary publication.
 
-No public deployment workflow, external upload, AI prose generation, manuscript distribution, or human recruitment is introduced.
+This private-candidate validator and technical release auditor introduce no mechanism for publishing candidate texts, uploading private sources, generating literary prose, distributing manuscripts or recruiting humans. A separate CI-gated [GitHub Pages workflow](GITHUB_PAGES.md) now publishes only the two previously approved public teaching works and checks their hosted bytes.

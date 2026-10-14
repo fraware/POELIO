@@ -2,7 +2,7 @@
 
 POELIO combines literary reading, constrained composition, and a small, verifiable computational model. The guides below describe the application, its editorial approach, and its implementation.
 
-Start with the [project README](../README.md) or the [application guide](../experience/README.md).
+Start with the [project README](../README.md) or the [application guide](../experience/README.md). For live-site status, the immutable prerelease and independent human review, consult [current status and handoff](CURRENT_STATUS.md).
 
 ## Strategy and reuse
 
@@ -19,6 +19,7 @@ Start with the [project README](../README.md) or the [application guide](../expe
 - [Product design](PRODUCT_SPEC.md) — the six-stage reading and writing experience.
 - [Editorial art direction](ART_DIRECTION.md) — typography, layout, and interaction principles.
 - [Workshop guide](WORKSHOP_PILOT.md) — a proposed 60-minute facilitated session.
+- [Short workshop](WORKSHOP_15_MIN.md) — a proposed 15-minute six-stage route, not yet reader-tested.
 - [Independent reader field kit](INDEPENDENT_READER_FIELD_KIT.md) — practical first-contact, unprimed reading, interaction observation, and decision rules.
 - [Field record templates](READER_FIELD_RECORDS.md) — blank independent review, post-reveal, defect, permissions, and decision records.
 - [Human accessibility walkthrough](ACCESSIBILITY_FIELD_RUNBOOK.md) — keyboard, NVDA, VoiceOver, zoom, and contrast acceptance steps.
@@ -40,7 +41,8 @@ Start with the [project README](../README.md) or the [application guide](../expe
 - [Hosting requirements](HOSTING_RESPONSE_HEADERS.md) — response-header security expectations.
 - [Release verification](RELEASE_AND_CANDIDATE_PREFLIGHT.md) — build and source checks.
 - [Releases](GITHUB_RELEASE_PLAYBOOK.md) — repository publication procedures.
-- [Release notes](RELEASE_NOTES_v0.2.0-rc.3.md) — reviewed rc.3 source prerelease; verify tag availability on GitHub Releases.
+- [Release notes](RELEASE_NOTES_v0.2.0-rc.3.md) — immutable rc.3 source prerelease, verified on GitHub; newer `main` fixes are separate.
+- Historical release notes: [rc.1](RELEASE_NOTES_v0.2.0-rc.1.md) and [rc.2](RELEASE_NOTES_v0.2.0-rc.2.md). Their deployment statements describe earlier snapshots.
 - [Changelog](../CHANGELOG.md) — software history.
 
 For contributing code or editorial improvements, read [Contributing](../CONTRIBUTING.md). The application code and literary material have separate terms described in [Copyright and permissions](../LICENSE-CONTENT.md).

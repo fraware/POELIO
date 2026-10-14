@@ -1,6 +1,6 @@
 # POELIO — Référentiel de conception du site
 
-Date de départ : 13 octobre 2026. Portée de cette première livraison : audit, identité, accueil, catalogue et navigation commune.
+Date de départ : 13 octobre 2026. Ce référentiel retrace la direction initiale du site et son évolution. Pour l'état du code, du site public et des validations humaines, voir [l'état actuel](CURRENT_STATUS.md).
 
 ## Intention
 
