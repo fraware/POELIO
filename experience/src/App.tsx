@@ -151,8 +151,8 @@ export function App(): ReactNode {
   }, [language, activeExperience]);
   function clearForNextReader():void {
     if(!window.confirm(tr(
-      'Effacer les textes et les réponses des deux œuvres de cet onglet ? Exportez d’abord ce que vous souhaitez conserver.',
-      'Erase drafts and interpretations for BOTH works in this tab? Export any writing you want to keep first.'
+      'Effacer les textes et les réponses des deux œuvres dans cet onglet ? Les autres onglets et les fichiers déjà exportés ne seront pas effacés. Exportez d’abord ce que vous souhaitez conserver.',
+      'Erase drafts and interpretations for BOTH works in this tab? Other tabs and previously exported files will not be erased. Export anything you want to keep first.'
     )))return;
     clearAllPublicDrafts();
     window.location.reload();
