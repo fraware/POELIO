@@ -43,7 +43,7 @@ CI now performs a second advisory gate on the **entire** locked root and literar
 
 Human editorial acceptance, manual screen-reader accessibility checks, rights-holder approval and prior-publication assessment for any real work, participant-consent procedure for human research, hosted-site security headers and data-retention policy are **not complete**.
 
-The current security gates support a narrowly scoped public teaching prototype. They do not enable public deployment, private manuscript release, user accounts or research-data collection. Read the release and candidate preflight and public content-contract documents before adding any literary material.
+The current security gates support a narrowly scoped public teaching deployment on GitHub Pages. They do not establish production-host security certification, authorize private manuscript release, create user accounts or permit research-data collection. Read the release and candidate preflight and public content-contract documents before adding any literary material.
 
 ## Prospective host HTTP requirements
 
