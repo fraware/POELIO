@@ -30,7 +30,7 @@ for(const work of ['register','permutation'] as const){
       const element=document.querySelector<HTMLElement>('.comparison');
       if(!element)throw new Error('Comparison missing');
       return {
-        columns:getComputedStyle(element).gridTemplateColumns.trim().split(/\\s+/).length,
+        columns:getComputedStyle(element).gridTemplateColumns.trim().split(/\s+/).length,
         scroll:document.documentElement.scrollWidth,
         viewport:document.documentElement.clientWidth
       };
