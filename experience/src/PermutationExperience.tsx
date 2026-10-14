@@ -9,6 +9,8 @@ import {
 import {FragmentBoard} from './FragmentBoard.js';
 import {publicWorks} from './contentCatalog.js';
 import {ReaderHeader} from './ReaderHeader.js';
+import {PortableBackupPanel,type RestoreMode} from './PortableBackupPanel.js';
+import {mergeReaderDrafts,type ReaderBackupV1,type ReaderDrafts} from './readerBackup.js';
 const {orders:ALL,originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
   fragments:authoredFragments}=publicWorks.permutation;
 const passagesForOrder=publicWorks.permutation.passages;
@@ -55,6 +57,8 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
   const [rule,setRule]=useSessionDraft('permutation','rule');
   const [writing,setWriting]=useSessionDraft('permutation','writing');
   const [projector,setProjector]=useState(false);
+  const [backupOpen,setBackupOpen]=useState(false);
+  const drafts:ReaderDrafts={initial,revised,rule,writing};
   const tr=(fr:string,en:string)=>language==='fr'?fr:en;
   const orders=useMemo(()=>limited?ALL.filter(questionBeforeLetter):ALL,[limited]);
   if(!isFragmentOrder(orderState.order))throw new Error('Invalid controlled fragment order');
@@ -102,7 +106,19 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
     if(!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?')))return;
     setInitial('');setRevised('');setRule('');setWriting('');
     setOrderState(createOrderState(FRAGMENT_IDS,COUNTER_ORDER));setLimited(false);setFeedback('');
+    setBackupOpen(false);
     navigate('read');
+  }
+  function restoreReaderBackup(backup:ReaderBackupV1,mode:RestoreMode):void {
+    if(backup.work!=='permutation'||backup.configuration.kind!=='permutation')
+      throw new Error('Wrong backup work');
+    const next=mode==='merge'?mergeReaderDrafts(drafts,backup.drafts):backup.drafts;
+    setInitial(next.initial);setRevised(next.revised);setRule(next.rule);setWriting(next.writing);
+    if(mode==='replace'){
+      setOrderState(createOrderState(FRAGMENT_IDS,backup.configuration.order));
+      setLimited(backup.configuration.limited);
+      setFeedback('');
+    }
   }
   function exportResponse():void {
     saveLocally([
@@ -119,8 +135,11 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
     <ReaderHeader language={language} work="permutation" onSwitch={onReturn}
       onLanguage={onToggleLanguage}
       projector={projector} onProjector={()=>setProjector(v=>!v)}
-      onReset={reset} onClear={clearForNextReader}/>
+      onReset={reset} onClear={clearForNextReader} onBackup={()=>setBackupOpen(true)}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
+    {backupOpen&&<PortableBackupPanel work="permutation" language={language}
+      drafts={drafts} configuration={{kind:'permutation',order:current,limited}}
+      onRestore={restoreReaderBackup} onClose={()=>setBackupOpen(false)}/>}
     <main id="permutation-main" className="main-content" tabIndex={-1} ref={main}>
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / Lecture','01 / Reading')}</p>

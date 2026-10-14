@@ -4,9 +4,9 @@ import {SiteHeader} from './SiteHeader.js';
 
 type Work='register'|'permutation';
 
-export function ReaderHeader({language,work,onSwitch,onLanguage,projector,onProjector,onReset,onClear}:{
+export function ReaderHeader({language,work,onSwitch,onLanguage,projector,onProjector,onReset,onClear,onBackup}:{
   language:Language;work:Work;onSwitch:()=>void;onLanguage:()=>void;
-  projector:boolean;onProjector:()=>void;onReset:()=>void;onClear:()=>void;
+  projector:boolean;onProjector:()=>void;onReset:()=>void;onClear:()=>void;onBackup:()=>void;
 }):ReactNode{
   const fr=language==='fr';
   const menuRef=useRef<HTMLDetailsElement>(null);
@@ -50,6 +50,9 @@ export function ReaderHeader({language,work,onSwitch,onLanguage,projector,onProj
               <a className="menu-guide" href={import.meta.env.BASE_URL+'facilitator.html'} target="_blank" rel="noopener noreferrer">{fr?'Guide d’atelier':'Workshop guide'}</a>
               <button type="button" onClick={()=>{closeMenu();onProjector();}} aria-pressed={projector}>
                 {projector?(fr?'Mode normal':'Normal view'):(fr?'Mode projection':'Projector mode')}
+              </button>
+              <button type="button" onClick={()=>{closeMenu();onBackup();}}>
+                {fr?'Sauvegarder ou restaurer':'Back up or restore'}
               </button>
               <button type="button" onClick={()=>{closeMenu();onReset();}}>{fr?'Recommencer':'Reset'}</button>
               <button type="button" className="danger-action" onClick={()=>{closeMenu();onClear();}}>

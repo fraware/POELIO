@@ -12,9 +12,12 @@ The public application exposes exactly two original literary demonstrations. Unp
 | Interpretations and original writing in the two six-stage episodes | Per-tab sessionStorage, with React-memory fallback | Refresh-resilient in that tab; browser lifecycle dependent |
 | Pre-reveal editorial review notes | React memory only | Cleared by page reload |
 | Voluntary TXT export | Local browser download | Controlled by reader and operating system |
+| Voluntary JSON v1 reader backup | Local browser download and optional in-browser import | Controlled by reader; strict source-revision and size checks, no network upload |
 | Public release evidence | CI technical artifact, outside the website | Artifact retention policy |
 
 **Browser sessionStorage is neither encryption nor guaranteed secure erasure.** Browser session restore, extensions, a shared device profile, malicious same-origin code and downloaded TXT files remain relevant threats. Reset clears the selected episode only. The separate “Effacer toutes mes réponses” / “Erase all my drafts” command confirms and removes all eight recognized draft fields across both public works in the current tab, then reloads to discard in-memory state. This is a shared-device handoff convenience, not secure deletion of exported files, other tabs, browser backups or restored sessions. When using shared devices, use Reset, remove exported files where appropriate and prefer a separate browsing profile. Same-origin code has technical access to session-scoped data; this must not be portrayed as an encrypted secret vault.
+
+The optional JSON v1 backup holds the reader's four response fields plus the current configuration of one public work. It is **not encrypted** and imported files are never sent over the network. The reader chooses between filling empty fields without overwriting existing answers and a separately confirmed replacement. A successful export does not imply that the operating system retained the downloaded file. The imported backup must match the current work, pinned public literary source, schema and size constraints. See [Portable reader backups](PORTABLE_READER_BACKUPS.md).
 
 The app itself has no accounts, analytics or participant-submission API. Requests for the static site still reach its hosting provider, which can observe normal request metadata such as IP addresses. External literary/scholarly links are opened only by deliberate user action and use referrer-suppressing link attributes.
 

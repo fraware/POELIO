@@ -46,4 +46,14 @@ test('capture desktop and mobile literary reading, structure and writing',async(
   await capture('permutation-board-320',320,720);
   await page.getByRole('button',{name:'Descendre La question'}).click();
   await capture('permutation-board-moved-mobile',375,812);
+  await page.goto('/?work=register');
+  await page.locator('details.reader-options > summary').click();
+  await page.getByRole('button',{name:'Sauvegarder ou restaurer'}).click();
+  await capture('register-backup-desktop',1440,900);
+  await capture('register-backup-mobile',375,812);
+  await capture('register-backup-320',320,720);
+  await page.goto('/?work=permutation');
+  await page.locator('details.reader-options > summary').click();
+  await page.getByRole('button',{name:'Sauvegarder ou restaurer'}).click();
+  await capture('permutation-backup-mobile',375,812);
 });
