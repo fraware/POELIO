@@ -4,7 +4,18 @@ POELIO is developed openly, with deliberately separate **software readiness**, *
 
 ## [Unreleased]
 
-- GitHub repository description and discovery topics remain a separate maintainer metadata task, tracked in issue #20.
+- Independent human literary and accessibility evaluations remain tracked in issue #3; additional repository-discovery topics and device acceptance are tracked in issue #20.
+
+## 0.2.0-rc.3 — CI-gated literary research preview (14 October 2026)
+
+- Two reversible, directly manipulable finite-composition models, with accessible pointer/keyboard interactions and explicit authored-text boundaries.
+- Reader-owned source-pinned JSON v1 backups and local TXT export; stronger tests for privacy, shared-device erasure and browser drafting.
+- Shared literary comparison and unprimed first encounter; native six-stage mobile navigation, reader-authored first-impression recall and preserved interpretation freedom.
+- Independent reader field kit, blank permission/observation records and manual accessibility runbook. No human validation is claimed.
+- Live GitHub Pages exact-byte verification against the eight approved public build assets and historical copyright/source identity gates.
+- The two public authored works and protected private literary research remain unchanged.
+
+Human literary acceptance, device accessibility, actual learning impacts and full hosting security remain unestablished.
 
 ## 0.2.0-rc.2 — Editorial research-preview candidate (13 October 2026)
 

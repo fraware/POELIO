@@ -13,9 +13,11 @@ This file makes the repository's GitHub metadata and release decisions explicit.
 
 **Website**
 
-Set **https://fraware.github.io/POELIO/** only once GitHub Pages serves the verified public reading preview. The [GitHub Pages publishing guide](GITHUB_PAGES.md) documents CI-gated deployment and the necessary administrator activation. Until the URL is live, keep the About website empty and use the repository README as the starting point.
+**Verified public homepage:** https://fraware.github.io/POELIO/. GitHub Pages is enabled and the SHA-guarded deployment workflow has published reviewed mainline builds. The [GitHub Pages guide](GITHUB_PAGES.md) documents the automated hosted-byte audit and the project's stricter, unmet HTTP-header requirements. Independent device testing remains pending.
 
-**Topics** (GitHub's lowercase, hyphenated repository topics)
+**Actually configured topics:** `constrained-writing`, `creative-writing`, `digital-humanities`, `electronic-literature`, `formal-methods`. The extended list below is a proposal rather than the present GitHub metadata.
+
+**Possible additional topics** (GitHub's lowercase, hyphenated repository topics)
 
 \`\`\`text
 digital-humanities
@@ -47,12 +49,12 @@ See [LICENSE](../LICENSE) and [LICENSE-CONTENT.md](../LICENSE-CONTENT.md). The G
 
 ## Prerelease decision
 
-**Current candidate source tag:** \`v0.2.0-rc.2\`  
-**Display title:** \`POELIO v0.2.0-rc.2 · Literary research preview\`  
+**Current candidate source tag:** \`v0.2.0-rc.3\`  
+**Display title:** \`POELIO v0.2.0-rc.3 · Literary research preview\`  
 **GitHub classification:** **Pre-release**, not "latest stable" and not "production-ready".  
-**Release notes:** [RELEASE_NOTES_v0.2.0-rc.2.md](RELEASE_NOTES_v0.2.0-rc.2.md)
+**Release notes:** [RELEASE_NOTES_v0.2.0-rc.3.md](RELEASE_NOTES_v0.2.0-rc.3.md)
 
-The root and \`experience/\` package manifests intentionally use the same \`0.2.0-rc.2\` prerelease version and remain **private npm packages**. No npm publication is authorized.
+The root and \`experience/\` package manifests intentionally use the same \`0.2.0-rc.3\` prerelease version and remain **private npm packages**. No npm publication is authorized.
 
 Before creating a GitHub Release, verify the intended \`main\` SHA, the relevant successful root/subpath CI runs, the published license boundaries, and any issues with disclosure or prior publication. Release the **normal GitHub source archive only**; never attach a private edition, manuscript ZIP, generated \`catalog.json\`, or research record.
 
@@ -60,7 +62,7 @@ A Release or tag cannot turn a research preview into an editorially approved pub
 
 ## Checklist for maintainers
 
-- [ ] Repository description and topics agree with this document.
+- [x] Verified GitHub repository description, homepage and actual five configured topics. Additional suggested topics await a separate maintainer decision.
 - [ ] MIT license and literary-content notice appear prominently.
 - [ ] All relative README/documentation links resolve.
 - [ ] Both npm package and lockfile versions match the proposed tag.
@@ -69,7 +71,7 @@ A Release or tag cannot turn a research preview into an editorially approved pub
 - [ ] Privacy, offline reading, keyboard, reflow, and security regression tests pass.
 - [ ] No private material is added to source archives or attachments.
 - [ ] Proposed \`rc\` release clearly discloses unverified human and legal acceptance gates.
-- [ ] The GitHub Pages website is actually enabled and deployed, with its hosting-security limitations recorded separately from the strict HTTP-header acceptance contract.
+- [x] GitHub Pages enabled and deployed, with the strict HTTP response-header gap documented. A live byte-matching gate and human browser/device acceptance remain distinct.
 
 ## What is not ready for a final release
 
@@ -77,4 +79,4 @@ Independent editorial assessment of the prose, manual screen-reader/accessibilit
 
 ## Release automation
 
-The narrowly scoped `.github/workflows/research-preview-release.yml` watches successful push-to-main completion of `Public source CI`. It creates the single `v0.2.0-rc.2` **prerelease** only if the completed commit still equals the current `main` head and the code/license/source-boundary checks pass. It never attaches private manuscripts or compiled private editions, and refuses to rewrite an existing release. This job has `contents:write` solely for Git tag/release creation; the main CI stays read-only. Verify the actual GitHub Release after the workflow runs. Failed creation must be reported rather than assumed successful.
+The narrowly scoped `.github/workflows/research-preview-release.yml` watches successful push-to-main completion of `Public source CI`. It creates the single `v0.2.0-rc.3` **prerelease** only if the completed commit still equals the current `main` head and the code/license/source-boundary checks pass. It never attaches private manuscripts or compiled private editions, and refuses to rewrite an existing release. This job has `contents:write` solely for Git tag/release creation; the main CI stays read-only. Verify the actual GitHub Release after the workflow runs. Failed creation must be reported rather than assumed successful.
