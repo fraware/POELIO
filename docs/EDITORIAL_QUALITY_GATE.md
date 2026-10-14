@@ -31,6 +31,8 @@ Not all 24 sequences are necessarily coherent or aesthetically effective. Comput
 | Authorship and publication rights are respected | Channel-specific permissions review | Pending for unpublished work |
 | Users can participate through accessible interfaces | Automated and human accessibility evaluation | Automated gate added; manual pending |
 
+Operational templates for external literary critique, independent novice observations and accessibility checks are available in the [reader field kit](INDEPENDENT_READER_FIELD_KIT.md), [field records](READER_FIELD_RECORDS.md) and [accessibility runbook](ACCESSIBILITY_FIELD_RUNBOOK.md). Their presence constitutes readiness of materials, not editorial acceptance, recruitment, observations or participant consent.
+
 ## Proposed evaluation (not yet conducted)
 
 Invite an experimental writer, a literary-creation teacher, and a digital-literature scholar to review the two public examples independently. Ask for specific evidence about diction, tension, interpretation, and whether the constraint enriches or overwhelms the work. Avoid averaging subjective scores into a purported literary-quality number.

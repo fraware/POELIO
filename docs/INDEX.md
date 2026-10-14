@@ -19,6 +19,9 @@ Start with the [project README](../README.md) or the [application guide](../expe
 - [Product design](PRODUCT_SPEC.md) — the six-stage reading and writing experience.
 - [Editorial art direction](ART_DIRECTION.md) — typography, layout, and interaction principles.
 - [Workshop guide](WORKSHOP_PILOT.md) — a proposed 60-minute facilitated session.
+- [Independent reader field kit](INDEPENDENT_READER_FIELD_KIT.md) — practical first-contact, unprimed reading, interaction observation, and decision rules.
+- [Field record templates](READER_FIELD_RECORDS.md) — blank independent review, post-reveal, defect, permissions, and decision records.
+- [Human accessibility walkthrough](ACCESSIBILITY_FIELD_RUNBOOK.md) — keyboard, NVDA, VoiceOver, zoom, and contrast acceptance steps.
 - [Reading review](EDITORIAL_REVIEW_PROTOCOL.md) — independent first-reading procedure.
 - [Literary evaluation](EDITORIAL_QUALITY_GATE.md) — qualitative review criteria.
 - [Static comparison](STATIC_COMPARISON_PROTOCOL.md) — comparison with a written explanation.

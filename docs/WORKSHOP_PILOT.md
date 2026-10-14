@@ -30,7 +30,7 @@ The second episode is deliberately not another version of the scheduling model: 
 | 36–52 | Invent | Define a novel constraint and compose a short response | Value invention and authorial judgment, not compliance alone |
 | 52–60 | Reflect | Revise the first interpretation and discuss as a group | Clarify remaining uncertainties and source attribution |
 
-The static facilitator handout is built into the public web distribution. Participants need not register and their text is not transmitted by the browser experience; individual drafts are held in memory and downloadable only by an explicit command.
+The static facilitator handout is built into the public web distribution. Participants need not register and their text is not transmitted by the browser experience; interactive drafts use per-tab session storage with an in-memory fallback, while first-reading packet responses remain memory-only; downloads are initiated explicitly by the reader.
 
 ## Preliminary observation protocol (not yet conducted)
 
@@ -44,6 +44,8 @@ Potential observations, with participants informed in advance, include:
 - Which interactions are confusing, inaccessible, or interrupt reading.
 
 A future comparison study requires a high-quality static explanation control, counterbalancing, independent evaluators of writing, a preregistered analysis plan where appropriate, and enough participants for its proposed inference. The pilot above alone establishes none of those causal results.
+
+For independent first-read contacts and novice observations, use the [reader field kit](INDEPENDENT_READER_FIELD_KIT.md) and its [empty record forms](READER_FIELD_RECORDS.md). Verify manual keyboard and screen-reader access using [the human accessibility walkthrough](ACCESSIBILITY_FIELD_RUNBOOK.md). Those documents prepare a session; they do not constitute participant recruitment, consent, an accessibility certification or completed data collection.
 
 ## Operational checklist
 

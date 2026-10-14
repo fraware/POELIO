@@ -55,7 +55,7 @@ The application also provides pages suited to first readings and facilitated dis
 | `/?companion=permutation` | Written companion to *Les Quatre Témoins* |
 | `/facilitator.html` | Printable workshop guide |
 
-For an independent first reading, share the review route before the explanatory companion.
+For an independent first reading, share the review route before the explanatory companion. The [reader field kit](../docs/INDEPENDENT_READER_FIELD_KIT.md) separates invitation, first-response, later revelation, novice observation and independent accessibility checks. No reader data is gathered automatically.
 
 ## Reader data
 
