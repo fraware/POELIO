@@ -1,9 +1,9 @@
+import {goToStage} from './stage-navigation.js';
 import {expect,test,type Page} from '@playwright/test';
 
 async function openRegister(page:Page):Promise<void>{
   await page.goto('/?work=register');
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Explorer/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Explorer');
   await expect(page.locator('.day-toggle')).toHaveCount(8);
 }
 
@@ -55,8 +55,7 @@ test('minimum-repair catalogue stays exact and shows prose only for two authoriz
     }
   }
   expect(authored).toBe(2);
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Comparer/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Comparer');
   await expect(page.locator('.comparison article')).toHaveCount(2);
   await expect(page.getByText('Mira inscrivit une question',{exact:false})).toBeVisible();
   await expect(page.getByText('Noor trouva une question',{exact:false})).toBeVisible();
@@ -67,7 +66,7 @@ test('keyboard and English labels allow changing assignments at mobile reflow wi
   await page.goto('/?work=register');
   await page.getByRole('button',{name:'Switch to English'}).click();
   const nav=page.getByRole('navigation',{name:'Experience stages'});
-  await nav.getByRole('button',{name:/Explore/}).click();
+  await goToStage(nav,'Explore');
   const first=page.locator('.day-toggle[data-day-index="0"]');
   await expect(first).toHaveAttribute('aria-label',/Change Mon₀ : Mira\. Choose Noor/);
   await first.focus();

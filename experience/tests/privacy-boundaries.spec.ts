@@ -1,3 +1,4 @@
+import {goToStage} from './stage-navigation.js';
 import {expect,test,type BrowserContext,type Page} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 
@@ -40,12 +41,12 @@ test('literary reading, interpretation, composition and exports send no particip
   const requests=watchNetwork(context);
   await page.goto('/?work=register');
   const stages=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await stages.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(stages,'Questionner');
   await page.locator('#initial-answer').fill(SENTINEL+' A');
-  await stages.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(stages,'Inventer');
   await page.locator('#own-rule').fill('Write only from human choices.');
   await page.locator('#writing').fill(SENTINEL+' Writer-drafted prose.');
-  await stages.getByRole('button',{name:/Revenir/}).click();
+  await goToStage(stages,'Revenir');
   await page.locator('#revised').fill(SENTINEL+' Revision.');
   await page.waitForFunction(s=>sessionStorage.getItem('poelio:session:v1:register:writing')?.includes(s),SENTINEL);
   const download=page.waitForEvent('download');
@@ -69,9 +70,9 @@ test('literary reading, interpretation, composition and exports send no particip
 
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   const second=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await second.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(second,'Questionner');
   await page.locator('#permutation-first').fill(SENTINEL+' B');
-  await second.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(second,'Inventer');
   await page.locator('#permutation-writing').fill(SENTINEL+' Different original writing.');
   await page.waitForFunction(s=>sessionStorage.getItem('poelio:session:v1:permutation:writing')?.includes(s),SENTINEL);
   stores=await browserStores(page);
@@ -106,11 +107,11 @@ test('private editorial notes are memory-only, including a subsequent review pas
 test('reset clears public writing without deleting the unrelated literary work',async({page})=>{
   await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await page.locator('#initial-answer').fill(SENTINEL+' register');
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   const second=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await second.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(second,'Questionner');
   await page.locator('#permutation-first').fill(SENTINEL+' permutation');
   await page.waitForFunction(s=>sessionStorage.getItem('poelio:session:v1:permutation:initial')?.includes(s),SENTINEL);
   page.once('dialog',dialog=>dialog.accept());
@@ -121,7 +122,7 @@ test('reset clears public writing without deleting the unrelated literary work',
   expect(stores.session).toContain('poelio:session:v1:register:initial');
   expect(stores.session).not.toContain('poelio:session:v1:permutation:initial');
   await page.getByRole('button',{name:/Registre des clefs/}).click();
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await expect(page.locator('#initial-answer')).toHaveValue(SENTINEL+' register');
 });
 
@@ -134,13 +135,13 @@ test('blocked sessionStorage still permits temporary original composition',async
   });
   await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await page.locator('#writing').fill(SENTINEL+' In-memory-only composition.');
   await expect(page.locator('#writing')).toHaveValue(SENTINEL+' In-memory-only composition.');
   const download=page.waitForEvent('download');
   await page.getByRole('button',{name:'Exporter le texte (TXT)'}).click();
   expect((await readFile(await (await download).path(),'utf8'))).toContain(SENTINEL);
   await page.reload();
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await expect(page.locator('#writing')).toHaveValue('');
 });
