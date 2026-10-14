@@ -1,3 +1,4 @@
+import {goToStage} from './stage-navigation.js';
 import {test,expect} from '@playwright/test';
 
 /**
@@ -39,7 +40,7 @@ test('mobile reader keeps its content and controls legible at 320px',async({page
   await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for(const name of ['Lire','Questionner','Explorer','Comparer','Inventer','Revenir']){
-    await nav.getByRole('button',{name:new RegExp(name)}).click();
+    await goToStage(nav,name);
     const values=await page.evaluate(()=>({
       viewport:document.documentElement.clientWidth,
       scroll:document.documentElement.scrollWidth,
@@ -48,7 +49,7 @@ test('mobile reader keeps its content and controls legible at 320px',async({page
     expect(values.scroll,'document overflow on '+name).toBeLessThanOrEqual(values.viewport+1);
     expect(values.body,'body overflow on '+name).toBeLessThanOrEqual(values.viewport+1);
   }
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await page.locator('#writing').fill('Une lecture engage une autre phrase.');
 
   const taps=await page.locator('.topbar button, .topbar summary, .journey-footer button')

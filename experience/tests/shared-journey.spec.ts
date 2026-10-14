@@ -1,3 +1,4 @@
+import {goToStage,expectSixStages,expectStageReachable,expectStageActive} from './stage-navigation.js';
 import {expect,test} from '@playwright/test';
 
 test('both works expose the same six literary stages with bounded navigation',async({page})=>{
@@ -5,25 +6,25 @@ test('both works expose the same six literary stages with bounded navigation',as
   const stages=['Lire','Questionner','Explorer','Comparer','Inventer','Revenir'];
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for(const label of stages){
-    await expect(nav.getByRole('button',{name:new RegExp(label)})).toBeVisible();
+    await expectStageReachable(nav,label);
   }
-  expect(await nav.getByRole('button').count()).toBe(6);
+  await expectSixStages(nav);
   await expect(page.getByRole('button',{name:'← Retour'})).toBeDisabled();
   await page.getByRole('button',{name:'Continuer →'}).click();
   await expect(page.locator('#stage-main')).toBeFocused();
-  await expect(nav.getByRole('button',{name:/Questionner/})).toHaveAttribute('aria-current','step');
-  await nav.getByRole('button',{name:/Revenir/}).click();
+  await expectStageActive(nav,'Questionner');
+  await goToStage(nav,'Revenir');
   await expect(page.getByRole('button',{name:'Continuer →'})).toBeDisabled();
 
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   const second=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  expect(await second.getByRole('button').count()).toBe(6);
+  await expectSixStages(second);
   await expect(page.getByRole('button',{name:'← Retour'})).toBeDisabled();
-  await second.getByRole('button',{name:/Comparer/}).click();
+  await goToStage(second,'Comparer');
   await expect(page.locator('#permutation-main')).toBeFocused();
-  await expect(second.getByRole('button',{name:/Comparer/})).toHaveAttribute('aria-current','step');
+  await expectStageActive(second,'Comparer');
   await page.getByRole('button',{name:'Continuer →'}).click();
-  await expect(second.getByRole('button',{name:/Inventer/})).toHaveAttribute('aria-current','step');
+  await expectStageActive(second,'Inventer');
 });
 
 test('French and English stage labels are centralized and consistent',async({page})=>{
@@ -31,10 +32,10 @@ test('French and English stage labels are centralized and consistent',async({pag
   await page.getByRole('button',{name:'Switch to English'}).click();
   let nav=page.getByRole('navigation',{name:'Experience stages'});
   for(const label of ['Read','Question','Explore','Compare','Invent','Reflect'])
-    await expect(nav.getByRole('button',{name:new RegExp(label)})).toBeVisible();
+    await expectStageReachable(nav,label);
   await page.getByRole('button',{name:/Second experience/}).click();
   nav=page.getByRole('navigation',{name:'Experience stages'});
   await expect(page.getByRole('button',{name:'Passer en français'})).toBeVisible();
   for(const label of ['Read','Question','Explore','Compare','Invent','Reflect'])
-    await expect(nav.getByRole('button',{name:new RegExp(label)})).toBeVisible();
+    await expectStageReachable(nav,label);
 });

@@ -1,11 +1,11 @@
+import {goToStage} from './stage-navigation.js';
 import {expect,test,type Page} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 
 const SENTINEL='POELIO_READER_LOCAL_8B53_NEVER_UPLOAD';
 
 async function openStage(page:Page,stage:'Inventer'|'Revenir'):Promise<void>{
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:new RegExp(stage)}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),stage);
 }
 
 for(const work of ['register','permutation'] as const){

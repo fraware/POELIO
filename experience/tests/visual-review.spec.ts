@@ -1,3 +1,4 @@
+import {goToStage} from './stage-navigation.js';
 import {expect,test} from '@playwright/test';
 import {mkdirSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -25,42 +26,35 @@ test('capture desktop and mobile literary reading, structure and writing',async(
   await capture('register-reading-desktop',1440,900);
   await capture('register-reading-mobile',375,812);
   await capture('register-reading-320',320,720);
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Explorer/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Explorer');
   await capture('register-explore-mobile',375,812);
   await capture('register-explore-desktop',1440,900);
   await capture('register-explore-320',320,720);
   await page.locator('.day-toggle[data-day-index="0"]').click();
   await capture('register-explore-invalid-mobile',375,812);
   await page.getByRole('button',{name:'Annuler',exact:true}).click();
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Comparer/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Comparer');
   await capture('register-compare-desktop',1440,900);
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   await capture('permutation-reading-desktop',1440,900);
   await capture('permutation-reading-mobile',375,812);
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Explorer/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Explorer');
   await capture('permutation-board-desktop',1440,900);
   await capture('permutation-board-mobile',375,812);
   await capture('permutation-board-320',320,720);
   await page.getByRole('button',{name:'Descendre La question'}).click();
   await capture('permutation-board-moved-mobile',375,812);
   await page.goto('/?work=register');
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Inventer/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Inventer');
   await capture('register-writing-desktop',1440,900);
   await capture('register-writing-mobile',375,812);
   await capture('register-writing-320',320,720);
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Revenir/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Revenir');
   await capture('register-reflect-mobile',375,812);
   await page.goto('/?work=permutation');
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Inventer/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Inventer');
   await capture('permutation-writing-mobile',375,812);
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Revenir/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Revenir');
   await capture('permutation-reflect-mobile',375,812);
   await page.goto('/?work=register');
   await page.locator('details.reader-options > summary').click();

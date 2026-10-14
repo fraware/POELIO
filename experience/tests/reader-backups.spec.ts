@@ -1,3 +1,4 @@
+import {goToStage} from './stage-navigation.js';
 import {expect,test,type Page} from '@playwright/test';
 import {readFile} from 'node:fs/promises';
 const SENTINEL='POELIO_PORTABLE_LOCAL_87EC_NEVER_SEND';
@@ -27,12 +28,12 @@ test('register JSON backup restores writing and chosen eight-day arrangement, no
   });
   await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await page.locator('#initial-answer').fill(SENTINEL+' première lecture\nΩ');
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await page.locator('#own-rule').fill('Une règle inédite');
   await page.locator('#writing').fill('Premier vers\n\nSecond vers 😀');
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   await page.locator('.day-toggle[data-day-index="7"]').click();
   const chosen=await page.locator('.day-toggle strong').allTextContents();
   await openBackup(page);
@@ -49,7 +50,7 @@ test('register JSON backup restores writing and chosen eight-day arrangement, no
   page.once('dialog',dialog=>dialog.accept());
   await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Recommencer'}).click();
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   expect(await page.locator('.day-toggle strong').allTextContents()).not.toEqual(chosen);
   await openBackup(page);
   await uploadBackup(page,backup.text);
@@ -58,9 +59,9 @@ test('register JSON backup restores writing and chosen eight-day arrangement, no
   await page.getByRole('button',{name:'Remplacer cette œuvre'}).click();
   await expect(page.getByText('Sauvegarde restaurée', {exact:false})).toBeVisible();
   expect(await page.locator('.day-toggle strong').allTextContents()).toEqual(chosen);
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await expect(page.locator('#initial-answer')).toHaveValue(SENTINEL+' première lecture\nΩ');
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await expect(page.locator('#writing')).toHaveValue('Premier vers\n\nSecond vers 😀');
   await page.waitForFunction(s=>sessionStorage.getItem('poelio:session:v1:register:initial')?.includes(s),SENTINEL);
   expect(requests).toEqual([]);
@@ -72,45 +73,45 @@ test('register JSON backup restores writing and chosen eight-day arrangement, no
 test('merge never overwrites existing responses or arrangement, replacement asks first',async({page})=>{
   await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await page.locator('#initial-answer').fill('Réponse importée');
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await page.locator('#writing').fill('Poème venu du fichier');
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   await openBackup(page);
   const saved=await saveBackup(page);
   await page.getByRole('button',{name:'Fermer',exact:true}).click();
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await page.locator('#initial-answer').fill('Texte actuel à conserver');
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await page.locator('#writing').fill('');
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   await page.locator('.day-toggle[data-day-index="3"]').click();
   const before=await page.locator('.day-toggle strong').allTextContents();
   await openBackup(page);
   await uploadBackup(page,saved.text);
   await page.getByRole('button',{name:'Fusionner sans écraser'}).click();
   expect(await page.locator('.day-toggle strong').allTextContents()).toEqual(before);
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await expect(page.locator('#initial-answer')).toHaveValue('Texte actuel à conserver');
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await expect(page.locator('#writing')).toHaveValue('Poème venu du fichier');
   await uploadBackup(page,saved.text);
   page.once('dialog',dialog=>dialog.dismiss());
   await page.getByRole('button',{name:'Remplacer cette œuvre'}).click();
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await expect(page.locator('#initial-answer')).toHaveValue('Texte actuel à conserver');
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   expect(await page.locator('.day-toggle strong').allTextContents()).toEqual(before);
 });
 
 test('permutation backup restores chosen order and active precedence filter',async({page})=>{
   await page.goto('/?work=permutation');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   await page.locator('#permutation-select').selectOption('question/bell/door/letter');
   await page.locator('#order-filter').check();
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await page.locator('#permutation-writing').fill(SENTINEL+' fragment original');
   await openBackup(page);
   const saved=await saveBackup(page);
@@ -120,7 +121,7 @@ test('permutation backup restores chosen order and active precedence filter',asy
     kind:'permutation',order:['question','bell','door','letter'],limited:true
   });
   await page.getByRole('button',{name:'Fermer',exact:true}).click();
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   page.once('dialog',dialog=>dialog.accept());
   await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Recommencer'}).click();
@@ -128,17 +129,17 @@ test('permutation backup restores chosen order and active precedence filter',asy
   await uploadBackup(page,saved.text);
   page.once('dialog',dialog=>dialog.accept());
   await page.getByRole('button',{name:'Remplacer cette œuvre'}).click();
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   await expect(page.locator('#order-filter')).toBeChecked();
   await expect(page.locator('#permutation-select')).toHaveValue('question/bell/door/letter');
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await expect(page.locator('#permutation-writing')).toHaveValue(SENTINEL+' fragment original');
 });
 
 test('corrupt and cross-work imports are refused with no mutation',async({page})=>{
   await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await page.locator('#initial-answer').fill('Texte à conserver');
   await openBackup(page);
   const saved=await saveBackup(page);
@@ -163,7 +164,7 @@ test('corrupt and cross-work imports are refused with no mutation',async({page})
     name:'large.json',mimeType:'application/json',buffer:Buffer.alloc(512*1024+1,97)
   });
   await expect(page.getByRole('alert')).toContainText('Fichier refusé');
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await expect(page.locator('#initial-answer')).toHaveValue('Texte à conserver');
 });
 
@@ -175,8 +176,7 @@ test('at 320 pixels the backup panel reflows with English controls and blocked s
   });
   await page.goto('/?work=register');
   await page.getByRole('button',{name:'Switch to English'}).click();
-  await page.getByRole('navigation',{name:'Experience stages'})
-    .getByRole('button',{name:/Invent/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Experience stages'}),'Invent');
   await page.locator('#writing').fill(SENTINEL+' memory only');
   await page.locator('details.reader-options > summary').click();
   await page.locator('details.reader-options').getByRole('button',{name:'Back up or restore',exact:true}).click();
@@ -199,7 +199,6 @@ test('at 320 pixels the backup panel reflows with English controls and blocked s
   const w=await page.evaluate(()=>({viewport:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
   expect(w.scroll).toBeLessThanOrEqual(w.viewport+1);
   await page.reload();
-  await page.getByRole('navigation',{name:'Experience stages'})
-    .getByRole('button',{name:/Invent/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Experience stages'}),'Invent');
   await expect(page.locator('#writing')).toHaveValue('');
 });

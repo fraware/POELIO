@@ -1,9 +1,9 @@
+import {goToStage} from './stage-navigation.js';
 import {expect,test,type Page} from '@playwright/test';
 
 async function openBoard(page:Page):Promise<void>{
   await page.goto('/?work=permutation');
-  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-    .getByRole('button',{name:/Explorer/}).click();
+  await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Explorer');
   await expect(page.locator('.fragment-board .fragment-card')).toHaveCount(4);
 }
 

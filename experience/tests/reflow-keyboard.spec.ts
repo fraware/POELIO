@@ -1,3 +1,4 @@
+import {goToStage,expectStageActive} from './stage-navigation.js';
 import {expect,test} from '@playwright/test';
 
 /**
@@ -21,13 +22,13 @@ test('both six-stage works and the literary-only packets reflow at 320 CSS pixel
   const stages=['Lire','Questionner','Explorer','Comparer','Inventer','Revenir'];
   const first=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for(const stage of stages){
-    await first.getByRole('button',{name:new RegExp(stage)}).click();
+    await goToStage(first,stage);
     await noHorizontalOverflow(page,'Register stage '+stage);
   }
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   const second=page.getByRole('navigation',{name:'Étapes de l’expérience'});
   for(const stage of stages){
-    await second.getByRole('button',{name:new RegExp(stage)}).click();
+    await goToStage(second,stage);
     await noHorizontalOverflow(page,'Permutation stage '+stage);
   }
   for(const route of [
@@ -39,19 +40,29 @@ test('both six-stage works and the literary-only packets reflow at 320 CSS pixel
   }
 });
 
-test('keyboard-only entry preserves meaningful skip link and focus progression',async({page})=>{
+test('keyboard-only entry preserves skip-link focus and navigates both layouts',async({page})=>{
   await page.goto('/?work=register');
   await page.keyboard.press('Tab');
   await expect(page.locator('a.skip-link')).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.locator('#stage-main')).toBeFocused();
+
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Questionner/}).focus();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('#stage-main')).toBeFocused();
-  await expect(nav.getByRole('button',{name:/Questionner/})).toHaveAttribute('aria-current','step');
-  await nav.getByRole('button',{name:/Inventer/}).focus();
-  await page.keyboard.press('Enter');
+  const select=nav.locator('.mobile-stage-select');
+  if(await select.isVisible()){
+    await select.focus();
+    await page.keyboard.press('ArrowDown');
+    await expectStageActive(nav,'Questionner');
+    await expect(page.locator('#stage-main')).toBeFocused();
+    await goToStage(nav,'Inventer');
+  } else {
+    await nav.getByRole('button',{name:/Questionner/}).focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#stage-main')).toBeFocused();
+    await expectStageActive(nav,'Questionner');
+    await nav.getByRole('button',{name:/Inventer/}).focus();
+    await page.keyboard.press('Enter');
+  }
   await expect(page.locator('#stage-main')).toBeFocused();
   await expect(page.locator('#writing')).toBeVisible();
 });
@@ -60,15 +71,17 @@ test('forced-colors and reduced-motion preferences preserve visible keyboard foc
   await page.emulateMedia({forcedColors:'active',reducedMotion:'reduce'});
   await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  const question=nav.getByRole('button',{name:/Questionner/});
-  await question.focus();
-  const focus=await question.evaluate((el)=>{
+  const select=nav.locator('.mobile-stage-select');
+  const mobile=await select.isVisible();
+  const control=mobile?select:nav.getByRole('button',{name:/Questionner/});
+  await control.focus();
+  const focus=await control.evaluate(el=>{
     const style=getComputedStyle(el);
     return {outlineStyle:style.outlineStyle,outlineWidth:style.outlineWidth};
   });
   expect(focus.outlineStyle).not.toBe('none');
   expect(parseFloat(focus.outlineWidth)).toBeGreaterThanOrEqual(2);
-  await page.keyboard.press('Enter');
+  await page.keyboard.press(mobile?'ArrowDown':'Enter');
   await expect(page.locator('#stage-main')).toBeFocused();
-  await expect(question).toHaveAttribute('aria-current','step');
+  await expectStageActive(nav,'Questionner');
 });

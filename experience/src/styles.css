@@ -121,6 +121,9 @@ a {color:var(--green);text-underline-offset:.2em}
 .step.current {color:var(--ink);border-bottom-color:var(--green);font-weight:650}
 .step-number {color:#5a5a5a;font-size:.69rem;letter-spacing:.02em}
 .step.current .step-number {color:var(--green)}
+/* Native stage chooser is reserved for narrow reading widths. */
+.mobile-stage-navigation {display:none}
+
 /* Typography and a restrained reading measure. */
 .main-content {
   max-width:960px;margin:0 auto;min-height:68vh;
@@ -291,12 +294,26 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
   .work-nav {gap:1.2rem;min-height:45px}
   .work-nav span[aria-current="page"],.work-nav button {min-height:45px;padding:.5rem .02rem;font-size:.76rem;white-space:normal;text-align:left}
   .options-panel {min-width:212px}
-  .steps {
-    display:flex;gap:1rem;overflow-x:auto;overflow-y:hidden;
-    scrollbar-width:thin;overscroll-behavior-x:contain;padding:0 1rem
+  .steps {display:none}
+  .mobile-stage-navigation {
+    display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;width:100%;max-width:1030px;margin:0 auto;
+    min-height:62px;padding:.7rem 1.15rem;
   }
-  .step {flex:0 0 auto;min-height:43px;font-size:.73rem}
-  .step-number {font-size:.64rem}
+  .mobile-stage-current {
+    display:flex;flex-direction:column;gap:.2rem;flex:1;min-width:0;
+    font-size:.7rem;letter-spacing:.04em;color:#5a5a5a;
+  }
+  .mobile-stage-current span {
+    color:#171717;font-size:.96rem;letter-spacing:0;font-weight:600;
+    overflow-wrap:anywhere;
+  }
+  .mobile-stage-select {
+    flex:0 1 160px;width:160px;max-width:52%;min-width:0;min-height:44px;
+    margin:0;padding:.5rem .55rem;
+    border:1px solid #777;border-radius:2px;background:#fff;color:#171717;
+    font-size:.85rem;
+  }
   .main-content {padding:2.7rem 1.15rem 3.5rem}
   h1 {font-size:clamp(2.1rem,8vw,2.85rem)}
   .lede {font-size:.99rem;margin-bottom:1.9rem}
@@ -320,7 +337,8 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
   .brand-desc {display:none}
   .work-nav {gap:.5rem}
   .work-nav span[aria-current="page"],.work-nav button {font-size:.7rem}
-  .step-number {display:none}
+  .mobile-stage-navigation {gap:.5rem;padding-inline:1rem}
+  .mobile-stage-select {flex-basis:145px}
 }
 @media(prefers-reduced-motion:reduce) {
   *,*::before,*::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -617,3 +635,7 @@ textarea,input,select {background:#fff;color:#171717;border-color:#8a8a8a;border
   .reader-archive-actions button {width:100%}
 }
 @media(forced-colors:active){.reader-archive {border-color:CanvasText}}
+
+@media(forced-colors:active){
+  .mobile-stage-select {border-color:CanvasText;background:Canvas;color:CanvasText}
+}
