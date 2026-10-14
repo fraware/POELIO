@@ -1,3 +1,4 @@
+import {goToStage} from './stage-navigation.js';
 import {expect, test} from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -27,7 +28,7 @@ test('register stages: reading, formal exploration, comparison and invention', a
     ['Inventer','Register creative response'],
     ['Revenir','Register reflection']
   ] as const) {
-    await nav.getByRole('button',{name:new RegExp(stage)}).click();
+    await goToStage(nav,stage);
     await audit(page,label);
   }
 });
@@ -37,16 +38,16 @@ test('permutation reading, alternate rule, comparison and reflection', async ({p
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   await audit(page,'Permutation initial reading');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await audit(page,'Permutation first interpretation');
-  await nav.getByRole('button',{name:/Explorer/}).click();
+  await goToStage(nav,'Explorer');
   await page.locator('#order-filter').check();
   await audit(page,'Filtered permutation exploration');
-  await nav.getByRole('button',{name:/Comparer/}).click();
+  await goToStage(nav,'Comparer');
   await audit(page,'Permutation comparison');
-  await nav.getByRole('button',{name:/Inventer/}).click();
+  await goToStage(nav,'Inventer');
   await audit(page,'Permutation creative response');
-  await nav.getByRole('button',{name:/Revenir/}).click();
+  await goToStage(nav,'Revenir');
   await audit(page,'Permutation reflection');
 });
 
@@ -58,12 +59,12 @@ test('facilitator document passes automated accessibility checks',async ({page})
 test('navigation returns focus to the active literary reading stage', async ({page}) => {
   await page.goto('/?work=register');
   const nav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await nav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(nav,'Questionner');
   await expect(page.locator('#stage-main')).toBeFocused();
   await expect(page.getByRole('heading',{level:1,name:'Une première impression'})).toBeVisible();
   await page.getByRole('button',{name:/Deuxième expérience/}).click();
   const permNav=page.getByRole('navigation',{name:'Étapes de l’expérience'});
-  await permNav.getByRole('button',{name:/Questionner/}).click();
+  await goToStage(permNav,'Questionner');
   await expect(page.locator('#permutation-main')).toBeFocused();
 });
 

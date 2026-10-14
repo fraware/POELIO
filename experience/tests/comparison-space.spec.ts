@@ -1,3 +1,4 @@
+import {goToStage} from './stage-navigation.js';
 import {expect,test} from '@playwright/test';
 
 for(const work of ['register','permutation'] as const){
@@ -9,8 +10,7 @@ for(const work of ['register','permutation'] as const){
 
   test(work+' comparison adjusts by keyboard and stacks cleanly on mobile',async({page,isMobile})=>{
     await page.goto('/?work='+work);
-    await page.getByRole('navigation',{name:'Étapes de l’expérience'})
-      .getByRole('button',{name:/Comparer/}).click();
+    await goToStage(page.getByRole('navigation',{name:'Étapes de l’expérience'}),'Comparer');
 
     const comparison=page.locator('.comparison-space .comparison');
     await expect(comparison.locator('article.manuscript')).toHaveCount(2);
