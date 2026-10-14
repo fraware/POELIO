@@ -6,35 +6,35 @@ POELIO's central unit is an **explorable literary work**. The browser applicatio
 
 ## Single source of authored material
 
-- \`experience/src/episode.ts\` is the existing, reviewed source for *Le Registre des clefs*: two distinct, authored realizations, fourteen minimum-repair schedules. Twelve schedules have **no prose**.
-- \`experience/src/permutation.ts\` is the existing, reviewed source for *Les Quatre Témoins*: four immutable, attributed fragments, 24 orders, twelve satisfying a declared ordering rule. A permutation is a presentation order of *the same original writing*, not a newly authored realization.
-- The editorial first-reading packets, noninteractive companions and six-stage reading interfaces all obtain their underlying source passages through \`experience/src/contentCatalog.ts\`. There is no duplicated manuscript copy.
+- `experience/src/episode.ts` is the existing, reviewed source for *Le Registre des clefs*: two distinct, authored realizations, fourteen minimum-repair schedules. Twelve schedules have **no prose**.
+- `experience/src/permutation.ts` is the existing, reviewed source for *Les Quatre Témoins*: four immutable, attributed fragments, 24 orders, twelve satisfying a declared ordering rule. A permutation is a presentation order of *the same original writing*, not a newly authored realization.
+- The editorial first-reading packets, noninteractive companions and six-stage reading interfaces all obtain their underlying source passages through `experience/src/contentCatalog.ts`. There is no duplicated manuscript copy.
 
 ## Runtime validation
 
-\`createPublicCatalog\` accepts a fixed, versioned, explicit allowlist of public works. Each definition specifies:
+`createPublicCatalog` accepts a fixed, versioned, explicit allowlist of public works. Each definition specifies:
 
 | Field | Meaning |
 |---|---|
-| \`schemaVersion\` | Exact supported catalog schema; currently 1 |
-| \`slug\`, \`kind\` | Identifies the work and its declared finite model |
-| \`title\`, \`language\` | Reviewed title and original literary language |
-| \`release\` | Channel, approved public-source identity and provenance claim |
-| \`fixture\` **or** \`fragments\` | Reference to the actual reviewed authored source |
-| \`originalOrder\`, \`comparisonOrder\` | For fragment permutation, two real, valid source arrangements |
+| `schemaVersion` | Exact supported catalog schema; currently 1 |
+| `slug`, `kind` | Identifies the work and its declared finite model |
+| `title`, `language` | Reviewed title and original literary language |
+| `release` | Channel, approved public-source identity and provenance claim |
+| `fixture` **or** `fragments` | Reference to the actual reviewed authored source |
+| `originalOrder`, `comparisonOrder` | For fragment permutation, two real, valid source arrangements |
 
 The validator rejects unrecognized works, model drift, missing or unexpected fields, unapproved release channels, foreign source objects, unsupported reading orders, noncanonical schedules, duplicate works, and conflicting source-module identities. Each model has its own deterministic enumeration.
 
-For the existing reviewed fixtures, it compares the **actual imported module/object identity** to the release allowlist, not just the text of a user-supplied \`approved: true\` field. Future works have to add their authored source, dedicated model validator, catalog registration, tests and a distinct reviewed source pin. A forged "public" rights record alone is insufficient.
+For the existing reviewed fixtures, it compares the **actual imported module/object identity** to the release allowlist, not just the text of a user-supplied `approved: true` field. Future works have to add their authored source, dedicated model validator, catalog registration, tests and a distinct reviewed source pin. A forged "public" rights record alone is insufficient.
 
-The release source identifiers are linked to \`experience/approved-demo.blobsha\` and \`experience/approved-permutation.blobsha\`, enforced by the build script. These are change-control records. They **do not legally establish copyright permission or independent editorial approval**. Source hashes identify exactly which text was admitted, not its artistic quality.
+The release source identifiers are linked to `experience/approved-demo.blobsha` and `experience/approved-permutation.blobsha`, enforced by the build script. These are change-control records. They **do not legally establish copyright permission or independent editorial approval**. Source hashes identify exactly which text was admitted, not its artistic quality.
 
 ## Epistemic discipline
 
-- \`EXECUTABLY_CHECKED\` means finite enumeration or an executable test within its recorded scope.
-- \`COMPUTED_IN_SESSION\` means a computation in the current interface.
-- \`EDITORIAL_INTERPRETATION\` identifies human interpretation, not a theorem.
-- \`NOT_ESTABLISHED\` explicitly records an evidential boundary.
+- `EXECUTABLY_CHECKED` means finite enumeration or an executable test within its recorded scope.
+- `COMPUTED_IN_SESSION` means a computation in the current interface.
+- `EDITORIAL_INTERPRETATION` identifies human interpretation, not a theorem.
+- `NOT_ESTABLISHED` explicitly records an evidential boundary.
 
 The archived Lean evidence related to unpublished *La Relève* is a separate scientific record. No Lean proof is rerun by the browser. The compiler cannot establish a narrative's meaning, formal correctness of French semantics, or literary merit.
 
