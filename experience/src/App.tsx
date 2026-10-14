@@ -113,7 +113,11 @@ export function App(): ReactNode {
     window.history.pushState(null,'',url.pathname+url.search);
   }
   useEffect(()=>{
-    const sync=()=>setActiveExperience(new URLSearchParams(window.location.search).get('work')==='permutation'?'permutation':'register');
+    const sync=()=>{
+      const params=new URLSearchParams(window.location.search);
+      setActiveExperience(params.get('work')==='permutation'?'permutation':'register');
+      setLanguage(params.get('lang')==='en'?'en':'fr');
+    };
     window.addEventListener('popstate',sync);
     return ()=>window.removeEventListener('popstate',sync);
   },[]);
