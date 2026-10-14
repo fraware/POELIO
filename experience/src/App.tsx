@@ -10,6 +10,7 @@ import {type Realization} from './episode.js';
 import { PermutationExperience } from './PermutationExperience.js';
 import { ReaderHeader } from './ReaderHeader.js';
 import {PortableBackupPanel,type RestoreMode} from './PortableBackupPanel.js';
+import {ComparisonSpace} from './ComparisonSpace.js';
 import {mergeReaderDrafts,type ReaderBackupV1,type ReaderDrafts} from './readerBackup.js';
 
 const DAYS: Record<Language, string[]> = {
@@ -194,9 +195,6 @@ export function App(): ReactNode {
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / Lecture','01 / Reading')}</p>
         <h1 lang="fr">Le Registre des clefs</h1>
-        <p className="lede">{tr(
-          'Lisez le texte à votre rythme. Vous en explorerez la construction dans la suite du parcours.',
-          'Read at your own pace. The next steps explore how the story is constructed.')}</p>
         <div className="reading-column"><Manuscript realization={FIRST}/></div>
 
       </>}
@@ -303,7 +301,7 @@ export function App(): ReactNode {
         </div>
         {left.id===right.id
           ? <p className="model-result">{tr('Vous avez choisi deux fois le même texte.','You selected the same text twice.')}</p>
-          : <div className="comparison"><Manuscript realization={left} compareWith={right}/><Manuscript realization={right} compareWith={left}/></div>}
+          : <ComparisonSpace language={language}><Manuscript realization={left} compareWith={right}/><Manuscript realization={right} compareWith={left}/></ComparisonSpace>}
         <details className="details"><summary>{tr('Différences structurales et limites','Structural differences and limitations')}</summary>
           <p>{tr('Les deux configurations diffèrent dans '+left.schedule.filter((p,i)=>p!==right.schedule[i]).length+' positions sur huit. Les passages aux identifiants de module distincts sont marqués. Le logiciel ne déduit aucune lecture sémantique de ces différences.',
             'The configurations differ in '+left.schedule.filter((p,i)=>p!==right.schedule[i]).length+' of eight positions. Passages with different source-module identifiers are marked. The software does not infer semantic conclusions.')}</p>
