@@ -13,23 +13,23 @@ async function assignments(page:Page):Promise<string[]>{
 
 test('eight positions are directly editable, reversible and preserve the two-source boundary',async({page})=>{
   await openRegister(page);
-  expect(await assignments(page)).toEqual(['Mira','Mira','Noor','Mira','Noor','Mira','Noor','Mira']);
+  expect(await assignments(page)).toEqual(['Mira','Noor','Mira','Noor','Mira','Noor','Mira','Mira']);
   await expect(page.getByText('Réparation minimale : une répétition', {exact:false})).toBeVisible();
-  await expect(page.getByText('Une réalisation littéraire rédigée existe', {exact:false})).toBeVisible();
-  await page.locator('.day-toggle[data-day-index="0"]').click();
-  expect(await assignments(page)).toEqual(['Noor','Mira','Noor','Mira','Noor','Mira','Noor','Mira']);
+  await expect(page.getByText('Aucun texte n’a été rédigé', {exact:false})).toBeVisible();
+  await page.locator('.day-toggle[data-day-index="7"]').click();
+  expect(await assignments(page)).toEqual(['Mira','Noor','Mira','Noor','Mira','Noor','Mira','Noor']);
   await expect(page.getByText('Récurrence non respectée', {exact:false})).toBeVisible();
   await expect(page.getByText('Aucun relais répété.')).toBeVisible();
   await expect(page.getByText('Hors des 14 réparations minimales.')).toBeVisible();
-  await expect(page.getByText('Aucun texte littéraire n’a été rédigé', {exact:false})).toBeVisible();
+  await expect(page.getByText('Aucun texte n’a été rédigé', {exact:false})).toBeVisible();
   await expect(page.locator('#schedule-choice option')).toHaveCount(15);
   await page.getByRole('button',{name:'Annuler',exact:true}).click();
-  expect(await assignments(page)).toEqual(['Mira','Mira','Noor','Mira','Noor','Mira','Noor','Mira']);
+  expect(await assignments(page)).toEqual(['Mira','Noor','Mira','Noor','Mira','Noor','Mira','Mira']);
   await expect(page.locator('#schedule-choice option')).toHaveCount(14);
   await page.getByRole('button',{name:'Rétablir',exact:true}).click();
   await expect(page.getByText('Récurrence non respectée', {exact:false})).toBeVisible();
   await page.getByRole('button',{name:'Configuration initiale'}).click();
-  expect(await assignments(page)).toEqual(['Mira','Mira','Noor','Mira','Noor','Mira','Noor','Mira']);
+  expect(await assignments(page)).toEqual(['Mira','Noor','Mira','Noor','Mira','Noor','Mira','Mira']);
   await page.getByRole('button',{name:'Annuler',exact:true}).click();
   await expect(page.getByText('Récurrence non respectée', {exact:false})).toBeVisible();
   await page.getByRole('button',{name:'Configuration initiale'}).click();
@@ -51,7 +51,7 @@ test('minimum-repair catalogue stays exact and shows prose only for two authoriz
     if(await page.getByText('Une réalisation littéraire rédigée existe', {exact:false}).isVisible()){
       authored++;
     } else {
-      await expect(page.getByText('Aucun texte littéraire n’a été rédigé', {exact:false})).toBeVisible();
+      await expect(page.getByText('Aucun texte n’a été rédigé', {exact:false})).toBeVisible();
     }
   }
   expect(authored).toBe(2);
