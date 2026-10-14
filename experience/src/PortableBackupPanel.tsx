@@ -61,12 +61,17 @@ export function PortableBackupPanel({work,language,drafts,configuration,onRestor
     if(mode==='replace'&&!window.confirm(fr
       ?'Remplacer les quatre réponses et la configuration actuelle de cette œuvre ? Cette action ne modifie pas l’autre œuvre. Exportez votre travail auparavant si nécessaire.'
       :'Replace all four answers and this work’s current configuration? The other work is unaffected. Export your current writing first if needed.'))return;
-    onRestore(pending,mode);
-    setPending(null);setError('');
-    setStatus(mode==='merge'
-      ?(fr?'Champs vides complétés. Les réponses existantes et la configuration actuelle sont conservées.':
-        'Blank fields filled. Existing answers and the current configuration were preserved.')
-      :(fr?'Sauvegarde restaurée pour cette œuvre.':'Backup restored for this work.'));
+    try{
+      onRestore(pending,mode);
+      setPending(null);setError('');
+      setStatus(mode==='merge'
+        ?(fr?'Fusion terminée. Les réponses existantes et la configuration actuelle sont conservées.':
+          'Merge completed. Existing answers and the current configuration were preserved.')
+        :(fr?'Sauvegarde restaurée pour cette œuvre.':'Backup restored for this work.'));
+    }catch{
+      setError(fr?'Restauration refusée : les réponses actuelles dépassent les limites autorisées.':
+        'Restore rejected: the current answers exceed supported limits.');
+    }
   }
   const answered=(['initial','revised','rule','writing'] as const).filter(key=>drafts[key].length>0).length;
   return <section className="backup-panel" aria-labelledby="backup-title" data-work={work}>
