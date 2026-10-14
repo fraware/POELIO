@@ -185,6 +185,17 @@ test('at 320 pixels the backup panel reflows with English controls and blocked s
   const file=await download;
   const text=await readFile(await file.path(),'utf8');
   expect(text).toContain(SENTINEL);
+  await page.getByRole('button',{name:'Close',exact:true}).click();
+  await page.locator('#writing').fill('');
+  await page.locator('details.reader-options > summary').click();
+  await page.getByRole('button',{name:'Back up or restore'}).click();
+  await page.locator('input[type=file][id^=backup-file]').setInputFiles({
+    name:'memory-only.json',mimeType:'application/json',buffer:Buffer.from(text,'utf8')
+  });
+  await expect(page.getByText('Backup validated.',{exact:false})).toBeVisible();
+  page.once('dialog',dialog=>dialog.accept());
+  await page.getByRole('button',{name:'Replace this work'}).click();
+  await expect(page.locator('#writing')).toHaveValue(SENTINEL+' memory only');
   const w=await page.evaluate(()=>({viewport:document.documentElement.clientWidth,scroll:document.documentElement.scrollWidth}));
   expect(w.scroll).toBeLessThanOrEqual(w.viewport+1);
   await page.reload();
