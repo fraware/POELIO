@@ -33,7 +33,7 @@ Readers encounter a short literary work, propose an interpretation, and explore 
 
 Readers work with four authored narrative fragments. The interface explores all twenty-four possible orders and the twelve arrangements satisfying a specified precedence rule. Comparisons preserve every word of the source fragments.
 
-Both works include optional writing prompts, a free composition stage, reflection, and local TXT export. The surrounding controls have French and English translations; the literary passages remain in French.
+Both works include optional writing prompts, a free composition stage, reflection, and local TXT export. In the writing and reflection stages, readers can also open a locally managed, restorable JSON backup for that work and its selected formal configuration. The surrounding controls have French and English translations; the literary passages remain in French.
 
 ## Reading and workshop routes
 
