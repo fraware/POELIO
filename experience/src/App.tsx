@@ -240,7 +240,7 @@ export function App(): ReactNode {
           <p>{selectedRealization
             ?tr('Une réalisation littéraire rédigée existe pour cette configuration.',
                 'An authored literary realization exists for this configuration.')
-            :tr('Aucun texte littéraire n’a été rédigé pour cette configuration.',
+            :tr('Aucun texte n’a été rédigé pour cette configuration.',
                 'No literary realization has been written for this configuration.')}</p>
         </section>
         <label htmlFor="schedule-choice" className="field-label">{tr(
