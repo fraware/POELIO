@@ -90,7 +90,7 @@ export function FirstReadingPacket({work}: {work:ReviewWork}): ReactNode {
       </header>
       <h1 className="review-head">Une lecture, avant tout commentaire</h1>
       <p className="review-intro">
-        Lisez sans consulter d’explication sur la fabrication du texte.
+        Lisez ce texte comme vous liriez une courte fiction.
         Consignez votre impression initiale, même si elle vous paraît incertaine.
       </p>
       <PlainReading packet={packet}/>
@@ -114,9 +114,9 @@ export function FirstReadingPacket({work}: {work:ReviewWork}): ReactNode {
           </div>
         : <section className="review-second" aria-labelledby="editorial-review-heading">
             <h2 id="editorial-review-heading" tabIndex={-1} ref={stageRef}>Deuxième lecture — avis éditorial</h2>
-            <p>Relisez librement. Évaluez le texte <em>comme œuvre littéraire</em>, avant de juger
-              l’intérêt de son éventuel dispositif technique. Les désaccords argumentés ont autant
-              de valeur que les appréciations favorables.</p>
+            <p>Relisez librement. Évaluez le texte <em>comme œuvre littéraire</em>,
+              à partir de ses phrases, de ses images et de ses choix narratifs.
+              Les désaccords argumentés ont autant de valeur que les appréciations favorables.</p>
             <ol>
               <li>Où réside l’intérêt propre de la prose, de sa diction et de son rythme ?</li>
               <li>Quelles images, ambiguïtés ou décisions narratives portent réellement le texte ?</li>

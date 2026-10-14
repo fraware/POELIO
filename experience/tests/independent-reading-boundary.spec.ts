@@ -11,7 +11,7 @@ for(const [work,count] of [['register',3],['permutation',4]] as const){
     await expect(reader.locator('.review-explanation')).toHaveCount(0);
     await expect(reader.getByRole('link')).toHaveCount(0);
     const preReveal=await reader.innerText();
-    expect(preReveal).not.toMatch(/256|24 permutations|14 réparations|règle de précédence|modèle fini|contrainte de relais|alternances parfaites/iu);
+    expect(preReveal).not.toMatch(/256|24 permutations|14 réparations|règle de précédence|modèle fini|contrainte de relais|alternances parfaites|fabrication du texte|dispositif technique/iu);
     await expect(page.getByRole('button',{name:'Continuer vers la critique éditoriale'})).toBeVisible();
 
     const sentinel='NOTE_LOCALE_DE_LECTEUR_TEST_81C9';
@@ -24,6 +24,8 @@ for(const [work,count] of [['register',3],['permutation',4]] as const){
     await page.getByRole('button',{name:'Continuer vers la critique éditoriale'}).click();
     await expect(page.getByRole('heading',{name:'Deuxième lecture — avis éditorial'})).toBeFocused();
     await expect(reader.locator('.review-explanation')).toHaveCount(0);
+    const secondPhase=await reader.innerText();
+    expect(secondPhase).not.toMatch(/fabrication du texte|dispositif technique|14 réparations|24 permutations/iu);
     await page.locator('#review-second').fill('Une réserve sur le rythme.');
 
     const download=page.waitForEvent('download');
