@@ -9,6 +9,7 @@ Start with the [project README](../README.md) or the [application guide](../expe
 - [Impact and reuse roadmap](IMPACT_REUSE_ROADMAP.md) — gated delivery plan, reusable interactions, workshop assets, evaluation criteria and priority GitHub issues.
 - [Reusable ordering engine](INTERACTION_ENGINE.md) — immutable ID-based movement, bounded undo/redo, constraint rejection and synthetic tests.
 - [Eight-day workspace](REGISTER_WORKSPACE.md) — editable binary assignments, finite-model diagnostics, undo/redo and publication boundaries.
+- [Portable reader backups](PORTABLE_READER_BACKUPS.md) — strict JSON v1 export/import, local-only restoration, non-overwriting merge and source-revision checks.
 
 
 ## Reading and teaching

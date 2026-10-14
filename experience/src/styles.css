@@ -571,3 +571,26 @@ textarea,input,select {background:#fff;color:#171717;border-color:#8a8a8a;border
   .day-toggle {border-color:ButtonText}
   .day-card.repeated {border:2px solid Highlight;background:Canvas}
 }
+
+/* Reader-owned portable backups: a functional tool outside the literary page. */
+.backup-panel {
+  max-width:960px;margin:1rem auto 0;padding:1.5rem 1.65rem;
+  border:1px solid #cecece;background:#fff;color:#222;min-width:0;
+}
+.backup-header {display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.backup-header h2 {margin:0;font-size:1.35rem;letter-spacing:-.01em;font-weight:600}
+.backup-panel p {font-size:.91rem;line-height:1.7;max-width:760px;color:#383838;margin:.9rem 0}
+.backup-summary {color:#555!important;font-size:.82rem!important}
+.backup-actions {display:flex;flex-wrap:wrap;gap:.7rem;margin:.7rem 0}
+.backup-actions button {white-space:normal;text-align:center;min-height:44px}
+.backup-import {border-top:1px solid #dedede;margin-top:1.1rem;padding-top:.65rem}
+.backup-import .field-label {margin:.5rem 0}
+.backup-import input[type=file] {display:block;max-width:100%;height:auto;overflow-wrap:anywhere;padding:.65rem}
+.backup-confirm {margin-top:1rem;padding-top:.6rem;border-top:1px solid #dedede}
+.backup-status,.backup-error {font-weight:600;overflow-wrap:anywhere}
+.backup-error {color:#151515!important;border-left:3px solid #444;padding-left:.9rem}
+@media(max-width:600px){
+  .backup-panel {margin:1rem .9rem 0;padding:1.1rem}
+  .backup-header h2 {font-size:1.17rem}
+}
+@media(forced-colors:active){.backup-panel,.backup-confirm,.backup-import {border-color:CanvasText}}

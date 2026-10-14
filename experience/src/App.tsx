@@ -9,6 +9,8 @@ import {publicWorks} from './contentCatalog.js';
 import {type Realization} from './episode.js';
 import { PermutationExperience } from './PermutationExperience.js';
 import { ReaderHeader } from './ReaderHeader.js';
+import {PortableBackupPanel,type RestoreMode} from './PortableBackupPanel.js';
+import {mergeReaderDrafts,type ReaderBackupV1,type ReaderDrafts} from './readerBackup.js';
 
 const DAYS: Record<Language, string[]> = {
   fr: ['Lun₀','Mar','Mer','Jeu','Ven','Sam','Dim','Lun₁'],
@@ -88,6 +90,8 @@ export function App(): ReactNode {
   const [compareLeft,setCompareLeft] = useState(FIRST.id);
   const [compareRight,setCompareRight] = useState(SECOND.id);
   const [projector,setProjector] = useState(false);
+  const [backupOpen,setBackupOpen] = useState(false);
+  const drafts:ReaderDrafts={initial,revised,rule,writing};
   const tr = (fr: string,en: string): string => language === 'fr' ? fr : en;
   function toggleLanguage():void{
     const next=language==='fr'?'en':'fr';
@@ -149,7 +153,18 @@ export function App(): ReactNode {
     if (!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?'))) return;
     setInitial(''); setRevised(''); setWriting(''); setRule('');
     setScheduleState(createChoiceState<Person>(['A','B'],REPAIRS[0].schedule)); setScheduleFeedback(''); setCompareLeft(FIRST.id); setCompareRight(SECOND.id);
+    setBackupOpen(false);
     navigate('read');
+  }
+  function restoreReaderBackup(backup:ReaderBackupV1,mode:RestoreMode):void {
+    if(backup.work!=='register'||backup.configuration.kind!=='register')
+      throw new Error('Wrong backup work');
+    const next=mode==='merge'?mergeReaderDrafts(drafts,backup.drafts):backup.drafts;
+    setInitial(next.initial);setRevised(next.revised);setRule(next.rule);setWriting(next.writing);
+    if(mode==='replace'){
+      setScheduleState(createChoiceState<Person>(['A','B'],backup.configuration.values));
+      setScheduleFeedback('');
+    }
   }
   function exportWriting(): void {
     downloadText('poelio-ma-creation.txt',
@@ -170,8 +185,11 @@ export function App(): ReactNode {
       onSwitch={()=>switchWork('permutation')}
       onLanguage={toggleLanguage}
       projector={projector} onProjector={()=>setProjector(v=>!v)}
-      onReset={reset} onClear={clearForNextReader}/>
+      onReset={reset} onClear={clearForNextReader} onBackup={()=>setBackupOpen(true)}/>
     <JourneyNavigation language={language} stage={stage} onNavigate={navigate}/>
+    {backupOpen&&<PortableBackupPanel work="register" language={language}
+      drafts={drafts} configuration={{kind:'register',values:schedule}}
+      onRestore={restoreReaderBackup} onClose={()=>setBackupOpen(false)}/>}
     <main id="stage-main" className="main-content" tabIndex={-1} ref={mainRef}>
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / Lecture','01 / Reading')}</p>
