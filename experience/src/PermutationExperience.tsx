@@ -10,6 +10,7 @@ import {FragmentBoard} from './FragmentBoard.js';
 import {publicWorks} from './contentCatalog.js';
 import {ReaderHeader} from './ReaderHeader.js';
 import {PortableBackupPanel,type RestoreMode} from './PortableBackupPanel.js';
+import {ComparisonSpace} from './ComparisonSpace.js';
 import {mergeReaderDrafts,type ReaderBackupV1,type ReaderDrafts} from './readerBackup.js';
 const {orders:ALL,originalOrder:ORIGINAL_ORDER,comparisonOrder:COUNTER_ORDER,
   fragments:authoredFragments}=publicWorks.permutation;
@@ -144,10 +145,6 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
       {stage==='read' && <>
         <p className="eyebrow">{tr('01 / Lecture','01 / Reading')}</p>
         <h1 lang="fr">Les Quatre Témoins</h1>
-        <p className="lede">{tr(
-          'Lisez ces quatre fragments dans l’ordre présenté. Le parcours vous invitera ensuite à les déplacer.',
-          'Read these four fragments in the order presented. You will be able to rearrange them in the next steps.'
-        )}</p>
         <div className="reading-column"><Fragments order={ORIGINAL_ORDER}/></div>
 
       </>}
@@ -233,10 +230,10 @@ export function PermutationExperience({onReturn,language,onToggleLanguage}: {
           'À gauche, l’ordre initial. À droite, votre arrangement. Lisez les deux versions et comparez leurs effets.',
           'The original order is on the left, your arrangement on the right. Read both and compare their effects.'
         )}</p>
-        <div className="comparison">
+        <ComparisonSpace language={language}>
           <Fragments order={ORIGINAL_ORDER} comparedTo={current}/>
           <Fragments order={current} comparedTo={ORIGINAL_ORDER}/>
-        </div>
+        </ComparisonSpace>
 
       </>}
       {stage==='invent' && <>

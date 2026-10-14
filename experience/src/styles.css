@@ -198,7 +198,14 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
 .compare-controls {display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;max-width:900px}
 .compare-controls label {min-width:0;font-size:.83rem;font-weight:600;color:var(--ink)}
 .compare-controls select {display:block;margin-top:.55rem}
-.comparison {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.1rem;margin:1.8rem 0;align-items:start}
+/* A neutral desktop reading-balance control; on mobile the texts are stacked. */
+.comparison-adjust {width:min(100%,390px);margin:1.5rem 0 0}
+.comparison-adjust label {display:flex;justify-content:space-between;gap:1rem;
+  font-size:.82rem;font-weight:600;color:#383838}
+.comparison-adjust output {font-variant-numeric:tabular-nums;color:#555;white-space:nowrap}
+.comparison-adjust input[type=range] {display:block;width:100%;max-width:none;min-height:44px;
+  padding:0;border:0;background:transparent;accent-color:#222;cursor:pointer}
+.comparison {display:grid;grid-template-columns:minmax(0,var(--comparison-left,1fr)) minmax(0,var(--comparison-right,1fr));gap:1.1rem;margin:1.8rem 0;align-items:start}
 .comparison .manuscript {padding:1.6rem 1.75rem}
 .comparison .manuscript p:not(.module-note) {font-size:1rem;line-height:1.88}
 .changed-passage {background:#f1f1f1;padding:.55rem .7rem;margin-inline:-.7rem!important}
@@ -268,6 +275,7 @@ textarea:focus,input:focus,select:focus {border-color:var(--green)}
   .topline {min-height:75px}
   .main-content {padding-top:3.5rem}
   .comparison,.reflection {grid-template-columns:1fr}
+  .comparison-adjust {display:none}
   .days {grid-template-columns:repeat(4,minmax(0,1fr))}
   .day-card:nth-child(4) {border-right:0}
   .day-card:nth-child(-n+4) {border-bottom:1px solid var(--line)}
