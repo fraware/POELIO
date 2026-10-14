@@ -539,3 +539,35 @@ textarea,input,select {background:#fff;color:#171717;border-color:#8a8a8a;border
   .fragment-card,.fragment-grip,.fragment-move-buttons button {border-color:CanvasText}
   .fragment-card.fragment-target {outline:2px solid Highlight;background:Canvas}
 }
+
+/* Eight-day choice workspace: repeatable state changes, without draggable fiction. */
+.day-card {position:relative}
+.day-toggle {
+  display:flex;flex:1;flex-direction:column;align-items:center;justify-content:center;
+  gap:.15rem;width:100%;min-width:0;min-height:70px;
+  border:1px solid transparent;background:transparent;color:#181818;
+  padding:.4rem .12rem;cursor:pointer;
+}
+.day-toggle:hover {background:#e8e8e8;border-color:#a0a0a0}
+.day-toggle .day-change {font-size:.8rem;color:#515151;line-height:1.1}
+.day-card.repeated {background:#ebebeb}
+.day-card.repeated .day-toggle {background:transparent}
+.day-card small {font-size:.68rem;color:#383838;line-height:1.3}
+.schedule-actions {
+  display:flex;flex-wrap:wrap;gap:.7rem;margin:.7rem 0 0;
+  max-width:790px;align-items:center
+}
+.schedule-actions .outline-button {min-height:44px;white-space:normal}
+.schedule-feedback {font-size:.85rem;color:#3a3a3a;min-height:1.35rem;margin:.65rem 0 1.2rem}
+.schedule-diagnosis {max-width:790px;border-top:1px solid #ddd;padding:1rem 0;margin:1rem 0 0}
+.schedule-diagnosis h2 {font-size:1.15rem;margin:.2rem 0 1rem;font-weight:600}
+.schedule-diagnosis p {font-size:.91rem;color:#333;line-height:1.6;margin:.3rem 0}
+@media(max-width:600px){
+  .day-card {padding:.45rem .04rem;min-height:105px}
+  .day-toggle {padding:.35rem 0;min-height:72px}
+  .day-card small {font-size:.6rem}
+}
+@media(forced-colors:active){
+  .day-toggle {border-color:ButtonText}
+  .day-card.repeated {border:2px solid Highlight;background:Canvas}
+}

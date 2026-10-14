@@ -1,7 +1,10 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import {JourneyNavigation,JourneyFooter,useLiteraryJourney,type Language} from './JourneyControls.js';
 import { useSessionDraft, clearAllPublicDrafts } from './useSessionDraft.js';
-import { repeatedEdges, type Person, type Schedule } from '../../src/model.js';
+import { recurrence, repeatedEdges, scheduleKey, type Person, type Schedule } from '../../src/model.js';
+import {
+  createChoiceState,setChoice,setChoices,undoChoices,redoChoices,resetChoices
+} from './choiceEngine.js';
 import {publicWorks} from './contentCatalog.js';
 import {type Realization} from './episode.js';
 import { PermutationExperience } from './PermutationExperience.js';
@@ -43,18 +46,30 @@ function Manuscript({ realization, compareWith }: {
   </article>;
 }
 
-function ScheduleView({ schedule, faultEdge, language }: {
-  schedule: Schedule; faultEdge: number | null; language: Language
-}): ReactNode {
-  return <div className="days" role="list" aria-label={language==='fr'?'Répartition sur huit jours':'Eight-day assignments'}>
-    {schedule.map((person,index)=><div
-      key={index}
-      role="listitem"
-      className={'day-card' + (faultEdge !== null && (index === faultEdge || index===faultEdge+1) ? ' repeated' : '')}>
-      <span className="day-name">{DAYS[language][index]}</span>
-      <strong>{PEOPLE[person]}</strong>
-      {faultEdge !== null && index===faultEdge+1 && <small>{language==='fr'?'Répétition':'Repeated'}</small>}
-    </div>)}
+function ScheduleView({ schedule, edges, language, onToggle }: {
+  schedule: Schedule; edges:readonly number[]; language:Language;
+  onToggle:(index:number)=>void;
+}):ReactNode {
+  return <div className="days" role="list"
+    aria-label={language==='fr'?'Modifier les huit affectations':'Edit the eight assignments'}>
+    {schedule.map((person,index)=>{
+      const repeated=edges.includes(index-1);
+      const adjacent=edges.includes(index);
+      const changeTo:Person=person==='A'?'B':'A';
+      return <div key={index} role="listitem"
+        className={'day-card'+(repeated||adjacent?' repeated':'')}>
+        <button className="day-toggle" type="button" data-day-index={index}
+          aria-label={language==='fr'
+            ?'Modifier '+DAYS.fr[index]+' : '+PEOPLE[person]+'. Choisir '+PEOPLE[changeTo]
+            :'Change '+DAYS.en[index]+' : '+PEOPLE[person]+'. Choose '+PEOPLE[changeTo]}
+          onClick={()=>onToggle(index)}>
+          <span className="day-name">{DAYS[language][index]}</span>
+          <strong>{PEOPLE[person]}</strong>
+          <span className="day-change" aria-hidden="true">↔</span>
+        </button>
+        {repeated&&<small>{language==='fr'?'Répétition':'Repeated'}</small>}
+      </div>;
+    })}
   </div>;
 }
 
@@ -66,7 +81,10 @@ export function App(): ReactNode {
   const [revised,setRevised] = useSessionDraft('register','revised');
   const [writing,setWriting] = useSessionDraft('register','writing');
   const [rule,setRule] = useSessionDraft('register','rule');
-  const [selected,setSelected] = useState(REPAIRS[0].schedule.join(''));
+  const [scheduleState,setScheduleState]=useState(
+    ()=>createChoiceState<Person>(['A','B'],REPAIRS[0].schedule)
+  );
+  const [scheduleFeedback,setScheduleFeedback]=useState('');
   const [compareLeft,setCompareLeft] = useState(FIRST.id);
   const [compareRight,setCompareRight] = useState(SECOND.id);
   const [projector,setProjector] = useState(false);
@@ -92,8 +110,27 @@ export function App(): ReactNode {
     return ()=>window.removeEventListener('popstate',sync);
   },[]);
 
-  const selectedRepair = useMemo(() => REPAIRS.find(r => r.schedule.join('')===selected) ?? REPAIRS[0], [selected]);
-  const selectedRealization = publicWorks.register.authored(selectedRepair.schedule);
+  if(scheduleState.values.length!==8 || scheduleState.values.some(value=>value!=='A'&&value!=='B'))
+    throw new Error('Invalid controlled eight-day assignment');
+  const schedule=scheduleState.values as Schedule;
+  const selected=scheduleKey(schedule);
+  const edges=repeatedEdges(schedule);
+  const recurrent=recurrence(schedule);
+  const isMinimum=recurrent&&edges.length===1;
+  const selectedRealization=isMinimum?publicWorks.register.authored(schedule):null;
+  function updateSchedule(next:typeof scheduleState,description:string):void{
+    if(next===scheduleState){
+      setScheduleFeedback(tr('L’affectation est déjà identique.','The assignment is already unchanged.'));
+      return;
+    }
+    setScheduleState(next);
+    setScheduleFeedback(description);
+  }
+  function toggleDay(index:number):void{
+    const next:Person=schedule[index]==='A'?'B':'A';
+    updateSchedule(setChoice(scheduleState,index,next),
+      tr('Jour modifié : '+DAYS.fr[index]+'.','Day changed: '+DAYS.en[index]+'.'));
+  }
   const left = demoEpisode.realizations.find(r => r.id===compareLeft) ?? FIRST;
   const right = demoEpisode.realizations.find(r => r.id===compareRight) ?? SECOND;
 
@@ -111,7 +148,7 @@ export function App(): ReactNode {
   function reset(): void {
     if (!window.confirm(tr('Effacer les réponses de cette œuvre dans cet onglet et recommencer ?','Erase this work’s answers in this tab and restart?'))) return;
     setInitial(''); setRevised(''); setWriting(''); setRule('');
-    setSelected(REPAIRS[0].schedule.join('')); setCompareLeft(FIRST.id); setCompareRight(SECOND.id);
+    setScheduleState(createChoiceState<Person>(['A','B'],REPAIRS[0].schedule)); setScheduleFeedback(''); setCompareLeft(FIRST.id); setCompareRight(SECOND.id);
     navigate('read');
   }
   function exportWriting(): void {
@@ -164,19 +201,63 @@ export function App(): ReactNode {
         <p className="eyebrow">{tr('03 / La contrainte','03 / The constraint')}</p>
         <h1>{tr('L’alternance impossible','An impossible alternation')}</h1>
         <p className="lede">{tr(
-          'Le premier et le dernier lundi reviennent à la même personne. Pourtant, sept relais alternés aboutissent au résultat contraire. Déplacez l’unique exception pour voir ce qui change.',
-          'The first and last Mondays belong to the same person. Seven alternating handovers would contradict that rule. Move the single exception and observe the result.')}</p>
+          'Le premier et le dernier lundi doivent revenir à la même personne. Touchez chaque jour pour changer son affectation. Explorez les contradictions, puis les réparations minimales.',
+          'The first and last Mondays must belong to the same person. Select any day to change its assignment. Explore the contradictions, then the minimum repairs.')}</p>
         <div className="factline"><span>256 {tr('configurations','configurations')}</span><span>0 {tr('sans exception admissible','admissible without an exception')}</span><span>14 {tr('réparations minimales','minimum repairs')}</span></div>
-        <label htmlFor="schedule-choice" className="field-label">{tr('Placer la répétition','Place the repeated handover')}</label>
-        <select id="schedule-choice" value={selected} onChange={e=>setSelected(e.target.value)}>
-          {REPAIRS.map(r=><option key={r.schedule.join('')} value={r.schedule.join('')}>
+        <p className="discreet">{tr(
+          'Appuyez sur un jour pour choisir Mira ou Noor. Les passages répétés sont mis en évidence.',
+          'Select a day to assign Mira or Noor. Repeated handovers are highlighted.'
+        )}</p>
+        <ScheduleView schedule={schedule} edges={edges} language={language} onToggle={toggleDay}/>
+        <div className="schedule-actions" aria-label={tr('Historique des affectations','Assignment history')}>
+          <button type="button" className="outline-button" disabled={!scheduleState.past.length}
+            onClick={()=>updateSchedule(undoChoices(scheduleState),tr('Dernière modification annulée.','Last change undone.'))}>
+            {tr('Annuler','Undo')}
+          </button>
+          <button type="button" className="outline-button" disabled={!scheduleState.future.length}
+            onClick={()=>updateSchedule(redoChoices(scheduleState),tr('Modification rétablie.','Change redone.'))}>
+            {tr('Rétablir','Redo')}
+          </button>
+          <button type="button" className="outline-button"
+            onClick={()=>updateSchedule(resetChoices(scheduleState),tr('Configuration de départ rétablie.','Initial assignment restored.'))}>
+            {tr('Configuration initiale','Initial configuration')}
+          </button>
+        </div>
+        <p className="schedule-feedback" role="status" aria-live="polite">{scheduleFeedback}</p>
+        <section className="schedule-diagnosis" aria-label={tr('Diagnostic du modèle','Model diagnosis')}>
+          <h2>{tr('Résultat pour cet arrangement','Result for this assignment')}</h2>
+          <p>{recurrent
+            ?tr('Récurrence respectée : les deux lundis correspondent.','Recurrence satisfied: both Mondays match.')
+            :tr('Récurrence non respectée : les deux lundis diffèrent.','Recurrence violated: the two Mondays differ.')}</p>
+          <p>{edges.length===0
+            ?tr('Aucun relais répété.','No repeated handover.')
+            :tr(edges.length+' relais répété'+(edges.length>1?'s':'')+'.',
+                edges.length+' repeated handover'+(edges.length>1?'s':'')+'.')}</p>
+          <p>{isMinimum
+            ?tr('Réparation minimale : une répétition et la récurrence respectée.',
+                'Minimum repair: one repetition with recurrence satisfied.')
+            :tr('Hors des 14 réparations minimales.','Outside the 14 minimum repairs.')}</p>
+          <p>{selectedRealization
+            ?tr('Une réalisation littéraire rédigée existe pour cette configuration.',
+                'An authored literary realization exists for this configuration.')
+            :tr('Aucun texte littéraire n’a été rédigé pour cette configuration.',
+                'No literary realization has been written for this configuration.')}</p>
+        </section>
+        <label htmlFor="schedule-choice" className="field-label">{tr(
+          'Autre méthode : choisir parmi les 14 réparations minimales',
+          'Alternative: choose one of the 14 minimum repairs'
+        )}</label>
+        <select id="schedule-choice" value={selected} onChange={e=>{
+          const item=REPAIRS.find(r=>scheduleKey(r.schedule)===e.target.value);
+          if(!item)throw new Error('Unknown minimum repair');
+          updateSchedule(setChoices(scheduleState,item.schedule),
+            tr('Réparation minimale choisie.','Minimum repair selected.'));
+        }}>
+          {!isMinimum&&<option value={selected}>{tr('Configuration actuelle hors du minimum','Current non-minimum assignment')}</option>}
+          {REPAIRS.map(r=><option key={scheduleKey(r.schedule)} value={scheduleKey(r.schedule)}>
             {DAYS[language][r.faultEdge]} → {DAYS[language][r.faultEdge+1]} · {PEOPLE[r.repeatedCaregiver]}
           </option>)}
         </select>
-        <ScheduleView schedule={selectedRepair.schedule} faultEdge={selectedRepair.faultEdge} language={language}/>
-        <p className="model-result">{selectedRealization
-          ?tr('Cette configuration correspond à l’un des deux textes disponibles.','This arrangement corresponds to one of the two available texts.')
-          :tr('Cette configuration respecte les règles. Aucun texte n’a été rédigé pour cet arrangement.','This arrangement satisfies the rules. No literary passage was written for this arrangement.')}</p>
         <details className="details"><summary>{tr('Comprendre le calcul','Understand the calculation')}</summary>
           <p>{tr('Une répétition doit apparaître sur exactement l’un des sept relais ; chacun peut répéter Mira ou Noor. L’énumération vérifie les 256 attributions possibles. Elle ne vérifie ni le sens du récit ni sa valeur littéraire.',
             'Exactly one of seven transitions must repeat a participant; either Mira or Noor can be repeated. Exhaustive enumeration checks all 256 assignments. It does not verify narrative meaning or literary merit.')}</p>

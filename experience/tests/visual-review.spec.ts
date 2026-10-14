@@ -28,6 +28,11 @@ test('capture desktop and mobile literary reading, structure and writing',async(
   await page.getByRole('navigation',{name:'Étapes de l’expérience'})
     .getByRole('button',{name:/Explorer/}).click();
   await capture('register-explore-mobile',375,812);
+  await capture('register-explore-desktop',1440,900);
+  await capture('register-explore-320',320,720);
+  await page.locator('.day-toggle[data-day-index="0"]').click();
+  await capture('register-explore-invalid-mobile',375,812);
+  await page.getByRole('button',{name:'Annuler',exact:true}).click();
   await page.getByRole('navigation',{name:'Étapes de l’expérience'})
     .getByRole('button',{name:/Comparer/}).click();
   await capture('register-compare-desktop',1440,900);
