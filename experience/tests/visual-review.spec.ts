@@ -47,6 +47,22 @@ test('capture desktop and mobile literary reading, structure and writing',async(
   await page.getByRole('button',{name:'Descendre La question'}).click();
   await capture('permutation-board-moved-mobile',375,812);
   await page.goto('/?work=register');
+  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
+    .getByRole('button',{name:/Inventer/}).click();
+  await capture('register-writing-desktop',1440,900);
+  await capture('register-writing-mobile',375,812);
+  await capture('register-writing-320',320,720);
+  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
+    .getByRole('button',{name:/Revenir/}).click();
+  await capture('register-reflect-mobile',375,812);
+  await page.goto('/?work=permutation');
+  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
+    .getByRole('button',{name:/Inventer/}).click();
+  await capture('permutation-writing-mobile',375,812);
+  await page.getByRole('navigation',{name:'Étapes de l’expérience'})
+    .getByRole('button',{name:/Revenir/}).click();
+  await capture('permutation-reflect-mobile',375,812);
+  await page.goto('/?work=register');
   await page.locator('details.reader-options > summary').click();
   await page.getByRole('button',{name:'Sauvegarder ou restaurer'}).click();
   await capture('register-backup-desktop',1440,900);
