@@ -68,7 +68,7 @@ jobs:
           test -s experience/release-audit/subpath.json
           echo "public_manifest_b64=$(base64 -w0 experience/release-audit/subpath.json)" >> "$GITHUB_OUTPUT"
       - name: Upload GitHub Pages site without unrelated repository files
-        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: experience/dist
 
